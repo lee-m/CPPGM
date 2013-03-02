@@ -38,7 +38,7 @@ If an error occurs during string literal token concatenation (phase 5) because o
 
 If an error occurs while converting a `preprocessing-token` to a `token` than you should output an `invalid` token (see below) and continue.
 
-Preprocessing-tokens `#`, `##`, `%:`, `%:%:`, `non-whitespace-characters`, and `header-nams`, should be output as `invalids`.
+Preprocessing-tokens `#`, `##`, `%:`, `%:%:`, `non-whitespace-characters`, and `header-names`, should be output as `invalids`.
 
 If a `preprocessing-token` contains a pre-defined macro names or the pragma operator you may treat them as identifiers.
 
@@ -60,7 +60,7 @@ The first element is the _Token Type_, one of:
     user-defined-literal
     invalid
 
-The second is the UTF-8 encoded _Token Data_ from PA1 (the tokens "source code").  In the case of string literal token concatenation, multiple preprocessing tokens are used to form a single token.  The Token Data for such a token is a space-seperated list of the `preprocessing-token` Token Datas.
+The second element is the UTF-8 encoded _Token Data_ from PA1.  In the case of string literal token concatenation, multiple preprocessing tokens are used to form a single token.  The Token Data for such a token is a space-seperated list of the `preprocessing-token` Token Datas.
 
 Depending on the Token Type the remaining elements are as follows:
 
@@ -111,7 +111,7 @@ For example:
     long long int
     array of 42 char16_t
 
-And `<hexdump>` is the hexadecimal representation of the data in memory in the x86-64 ABI (defined below.
+And `<hexdump>` is the hexadecimal representation of the data in memory in the x86-64 ABI (defined below).
 
 For example, for an input of:
 
@@ -137,7 +137,7 @@ Where `<ud-suffix>` is the `ud-suffix`
 
 In the case of `integer` and `floating`, `<prefix>` is the source without the `ud-suffix`
 
-In the case of `string` and `character`, `<type> <hexdump>` have the same meaning as `literal`.
+In the case of `string` and `character`, `<type> <hexdump>` have the same meaning as in `literal` (above).
 
 For example:
 
@@ -191,9 +191,9 @@ If it is a member of the keyword list, output it as a keyword, otherwise output 
 
 #### preprocessing-op-or-punc
 
-If you encounter the operators `#`, `##`, `%:`, `%:%:` output them as `invalid.
+If you encounter the operators `#`, `##`, `%:`, `%:%:` output them as `invalid`.
 
-For the remaining `operators` and `punctuation` you should map them to the appropriate `simple-tokens` given in the table below, or output them as `invalid` if not found.
+For the remaining `operators` and `punctuation` you should map them to the appropriate `simples` given in the table below, or output them as `invalid` if not found.
 
 #### pp-number
 

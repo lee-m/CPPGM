@@ -31,13 +31,15 @@ literal 2147483647LLU unsigned long long int FFFFFF7F00000000
 user-defined-literal 2147483647_ud1 _ud1 integer 2147483647
 user-defined-literal 2147483647_ud1 _ud1 integer 2147483647
 user-defined-literal 2147483647_ud1l _ud1l integer 2147483647
-invalidmalformed number (#2): 2147483647l_ud1
+ERROR: malformed number (#2): 2147483647l_ud1
 user-defined-literal 2147483647_ud1L _ud1L integer 2147483647
-invalidmalformed number (#2): 2147483647L_ud1
+ERROR: malformed number (#2): 2147483647L_ud1
+invalid 2147483647L_ud1
 user-defined-literal 2147483647_ud1ll _ud1ll integer 2147483647
-invalidmalformed number (#2): 2147483647ll_ud1
-user-defined-literal 2147483647_ud1LL _ud1LL integer 2147483647
-invalidmalformed number (#2): 2147483647LL_ud1
+ERROR: malformed number (#2): 2147483647ll_ud1
+invalid 2147483647ll_ud1
+ERROR: malformed number (#2): 2147483647LL_ud1user-defined-literal 2147483647_ud1LL _ud1LL integer 2147483647
+invalid 2147483647LL_ud1
 literal 2147483646 int FEFFFF7F
 literal 2147483646 int FEFFFF7F
 literal 2147483646l long int FEFFFF7F00000000
@@ -73,8 +75,7 @@ user-defined-literal 2147483646_ud1 _ud1 integer 2147483646
 user-defined-literal 2147483646_ud1l _ud1l integer 2147483646
 invalidmalformed number (#2): 2147483646l_ud1
 user-defined-literal 2147483646_ud1L _ud1L integer 2147483646
-ERROR: invalid 2147483646L_ud1
-147483646L_ud1
+invalidmalformed number (#2): 2147483646L_ud1
 user-defined-literal 2147483646_ud1ll _ud1ll integer 2147483646
 invalidmalformed number (#2): 2147483646ll_ud1
 user-defined-literal 2147483646_ud1LL _ud1LL integer 2147483646
@@ -114,14 +115,11 @@ user-defined-literal 2147483648_ud1 _ud1 integer 2147483648
 user-defined-literal 2147483648_ud1l _ud1l integer 2147483648
 invalidmalformed number (#2): 2147483648l_ud1
 user-defined-literal 2147483648_ud1L _ud1L integer 2147483648
-ERROR: invalid 2147483648L_ud1
-147483648L_ud1
+invalidmalformed number (#2): 2147483648L_ud1
 user-defined-literal 2147483648_ud1ll _ud1ll integer 2147483648
-ERROR: invalid 2147483648ll_ud1
-47483648ll_ud1
+invalidmalformed number (#2): 2147483648ll_ud1
 user-defined-literal 2147483648_ud1LL _ud1LL integer 2147483648
-ERROR: invalid 2147483648LL_ud1
-47483648LL_ud1
+invalidmalformed number (#2): 2147483648LL_ud1
 literal 4294967295 long int FFFFFFFF00000000
 literal 4294967295 long int FFFFFFFF00000000
 literal 4294967295l long int FFFFFFFF00000000
@@ -327,7 +325,7 @@ invaliddecimal integer literal out of range(#4): 9223372036854775808
 invaliddecimal integer literal out of range(#4): 9223372036854775808
 invaliddecimal integer literal out of range(#4): 9223372036854775808
 invaliddecimal integer literal out of range(#4): 9223372036854775808
-ERROR: decimal integer literal out of range(#4): 9223372036854775808
+invaliddecimal integer literal out of range(#4): 9223372036854775808
 invaliddecimal integer literal out of range(#4): 9223372036854775808
 invaliddecimal integer literal out of range(#4): 9223372036854775808
 invaliddecimal integer literal out of range(#4): 9223372036854775808

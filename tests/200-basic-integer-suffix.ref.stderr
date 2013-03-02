@@ -203,7 +203,7 @@ literal 00LLU unsigned long long int 0000000000000000
 invalidmalformed number (#4): 00UX
 invalidmalformed number (#4): 00XU
 invalidinvalid integer suffix UlL
-ERROR: invalid integer suffix lLUinvalid 00lLU
+invalidinvalid integer suffix lLU
 invalidmalformed number (#2): 00U_ud2
 user-defined-literal 00_ud2U _ud2U integer 00
 invalidmalformed number (#4): 00W
