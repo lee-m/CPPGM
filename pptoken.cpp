@@ -15,13 +15,6 @@ using namespace std;
 // - utf8 decoder
 // - utf8 encoder
 // - universal-character-name decoder
-// - trigraphs
-// - line splicing
-// - newline at eof
-// - comment striping (can be part of whitespace-sequence)
-
-// EndOfFile: synthetic "character" to represent the end of source file
-constexpr int EndOfFile = -1;
 
 // given hex digit character c, return its value
 int HexCharToValue(int c)
@@ -489,7 +482,31 @@ struct PPTokeniser
 		//characters otherwise we could end up in an infinite loop
 		++mSuppressTransformations;
 
-		//Check for, and fold, trigraphs
+		//Skip any comemnts
+		if(ch == '/' && peek_char() == '/')
+			{
+				skip_cpp_comment();
+				ch = ' ';
+			}
+		else if(ch == '/' && peek_char() == '*')
+			{
+				skip_c_comment();
+				ch = ' ';
+			}
+
+		apply_phase_one_transformations(ch);
+		apply_phase_two_transformations(ch);
+		
+		--mSuppressTransformations;
+		return ch;
+	}
+
+	/** 
+   * Applies the transformations listed in phase 1 in section 2.2.
+   */
+	void apply_phase_one_transformations(int &ch)
+	{
+		//2.2.1 - Trigraph sequences are replaced by corresponding single-character internal representations.
     if(ch == '?')
 			{
 				if(!end_of_input() 
@@ -515,21 +532,26 @@ struct PPTokeniser
 							}						
 					}
 			}
-		//Check for comemnts
-		else if(ch == '/' && peek_char() == '/')
-			{
-				skip_cpp_comment();
-				ch = ' ';
-			}
-		else if(ch == '/' && peek_char() == '*')
-			{
-				skip_c_comment();
-				ch = ' ';
-			}
 
-    //TODO: line splicing, UCNs, encode char to UTF8
-		--mSuppressTransformations;
-		return ch;
+		//TODO: UCN decoding
+	}
+
+	/** 
+   * Applies the transformations listed in phase 2 in section 2.2.
+   */
+	void apply_phase_two_transformations(int &ch)
+	{
+		//2.2.1 - Each instance of a backslash character (\) immediately followed by a new-line 
+    //character is deleted.
+		if(ch == '\\')
+			{
+				if(!end_of_input() && peek_char() == '\n')
+					{
+						//Skip over the \ and new-line
+						skip_chars(2);
+						ch = curr_char();
+					}
+			}
 	}
 
 	/*
