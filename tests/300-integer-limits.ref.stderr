@@ -31,15 +31,13 @@ literal 2147483647LLU unsigned long long int FFFFFF7F00000000
 user-defined-literal 2147483647_ud1 _ud1 integer 2147483647
 user-defined-literal 2147483647_ud1 _ud1 integer 2147483647
 user-defined-literal 2147483647_ud1l _ud1l integer 2147483647
-ERROR: malformed number (#2): 2147483647l_ud1
+invalidmalformed number (#2): 2147483647l_ud1
 user-defined-literal 2147483647_ud1L _ud1L integer 2147483647
-ERROR: malformed number (#2): 2147483647L_ud1
-invalid 2147483647L_ud1
+invalidmalformed number (#2): 2147483647L_ud1
 user-defined-literal 2147483647_ud1ll _ud1ll integer 2147483647
-ERROR: malformed number (#2): 2147483647ll_ud1
-invalid 2147483647ll_ud1
-ERROR: malformed number (#2): 2147483647LL_ud1user-defined-literal 2147483647_ud1LL _ud1LL integer 2147483647
-invalid 2147483647LL_ud1
+invalidmalformed number (#2): 2147483647ll_ud1
+user-defined-literal 2147483647_ud1LL _ud1LL integer 2147483647
+invalidmalformed number (#2): 2147483647LL_ud1
 literal 2147483646 int FEFFFF7F
 literal 2147483646 int FEFFFF7F
 literal 2147483646l long int FEFFFF7F00000000
@@ -279,7 +277,7 @@ invalidmalformed number (#2): 9223372036854775807L_ud1
 user-defined-literal 9223372036854775807_ud1ll _ud1ll integer 9223372036854775807
 invalidmalformed number (#2): 9223372036854775807ll_ud1
 user-defined-literal 9223372036854775807_ud1LL _ud1LL integer 9223372036854775807
-invalidmalformed number (#2): 9223372036854775807LL_ud1
+ERROR: malformed number (#2): 9223372036854775807LL_ud1
 literal 9223372036854775806 long int FEFFFFFFFFFFFF7F
 literal 9223372036854775806 long int FEFFFFFFFFFFFF7F
 literal 9223372036854775806l long int FEFFFFFFFFFFFF7F

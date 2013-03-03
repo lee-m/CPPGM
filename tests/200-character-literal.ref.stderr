@@ -19,7 +19,7 @@ literal '\x1D11E' int 1ED10100
 literal '\101' char 41
 literal u'a' char16_t 6100
 literal u'π' char16_t C003
-ERROR: UTF-16 char literal out of range: u'𝄞' 119070
+invalidUTF-16 char literal out of range: u'𝄞' 119070
 literal u'\'' char16_t 2700
 literal u'\"' char16_t 2200
 literal u'\?' char16_t 3F00
@@ -32,9 +32,9 @@ literal u'\r' char16_t 0D00
 literal u'\t' char16_t 0900
 literal u'\v' char16_t 0B00
 literal u'π' char16_t C003
-ERROR: UTF-16 char literal out of range: u'𝄞' 119070
+invalidUTF-16 char literal out of range: u'𝄞' 119070
 literal u'\x3C0' char16_t C003
-ERROR: UTF-16 char literal out of range: u'\x1D11E' 119070
+invalidUTF-16 char literal out of range: u'\x1D11E' 119070
 literal u'\101' char16_t 4100
 literal U'a' char32_t 61000000
 literal U'π' char32_t C0030000
@@ -74,5 +74,5 @@ literal L'𝄞' wchar_t 1ED10100
 literal L'\x3C0' wchar_t C0030000
 literal L'\x1D11E' wchar_t 1ED10100
 literal L'\101' wchar_t 41000000
-ERROR: multi code point character literals not supported: 'abc'
+invalidmulti code point character literals not supported: 'abc'
 eof
