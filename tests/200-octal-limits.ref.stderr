@@ -313,7 +313,8 @@ user-defined-literal 0777777777777777777776_ud1 _ud1 integer 0777777777777777777
 user-defined-literal 0777777777777777777776_ud1l _ud1l integer 0777777777777777777776
 invalidmalformed number (#2): 0777777777777777777776l_ud1
 user-defined-literal 0777777777777777777776_ud1L _ud1L integer 0777777777777777777776
-invalidmalformed number (#2): 0777777777777777777776L_ud1
+ERROR: malformed number (#2): 0777777777777777777776L_ud1
+invalid 0777777777777777777776L_ud1
 user-defined-literal 0777777777777777777776_ud1ll _ud1ll integer 0777777777777777777776
 invalidmalformed number (#2): 0777777777777777777776ll_ud1
 user-defined-literal 0777777777777777777776_ud1LL _ud1LL integer 0777777777777777777776
@@ -458,7 +459,7 @@ invalidoctal integer literal out of range (#2): 2000000000000000000000
 invalidoctal integer literal out of range (#2): 2000000000000000000000
 invalidoctal integer literal out of range (#2): 2000000000000000000000
 invalidoctal integer literal out of range (#2): 2000000000000000000000
-invalidoctal integer literal out of range (#2): 2000000000000000000000
+ERROR: octal integer literal out of range (#2): 2000000000000000000000
 invalidoctal integer literal out of range (#2): 2000000000000000000000
 invalidoctal integer literal out of range (#2): 2000000000000000000000
 invalidoctal integer literal out of range (#2): 2000000000000000000000

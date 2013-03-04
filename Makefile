@@ -1,11 +1,11 @@
 all: posttoken
 
 # build posttoken application
-# posttoken: posttoken.cpp IPPTokenStream.h DebugPPTokenStream.h
-#	g++ -g -std=gnu++11 -Wall -o pptoken pptoken.cpp
+posttoken: posttoken.cpp
+	g++ -g -std=gnu++11 -Wall -o posttoken posttoken.cpp
 
 # test posttoken application
-test: build
+test: all
 	scripts/run_all_tests.pl posttoken my
 	scripts/compare_results.pl ref my
 

@@ -438,19 +438,15 @@ user-defined-literal 0xFFFFFFFFFFFFFFFE_ud1ll _ud1ll integer 0xFFFFFFFFFFFFFFFE
 invalidmalformed number (#2): 0xFFFFFFFFFFFFFFFEll_ud1
 user-defined-literal 0xFFFFFFFFFFFFFFFE_ud1LL _ud1LL integer 0xFFFFFFFFFFFFFFFE
 invalidmalformed number (#2): 0xFFFFFFFFFFFFFFFELL_ud1
-ERROR: invalid 0x10000000000000000
-ange (#1): 10000000000000000
-ERROR: hex integer literal out of range (#1): 10000000000000000
-ERROR: hex integer literal out of range (#1): 10000000000000000
-ERROR: hex integer literal out of range (#1): 10000000000000000
 invalidhex integer literal out of range (#1): 10000000000000000
 invalidhex integer literal out of range (#1): 10000000000000000
-ERROR: hex integer literal out of range (#1): 10000000000000000
-invalid 0x10000000000000000ll
-ERROR: invalid 0x10000000000000000ll
-ge (#1): 10000000000000000
-ERROR: hex integer literal out of range (#1): 10000000000000000
-invalid 0x10000000000000000LL
+invalidhex integer literal out of range (#1): 10000000000000000
+invalidhex integer literal out of range (#1): 10000000000000000
+invalidhex integer literal out of range (#1): 10000000000000000
+invalidhex integer literal out of range (#1): 10000000000000000
+invalidhex integer literal out of range (#1): 10000000000000000
+invalidhex integer literal out of range (#1): 10000000000000000
+invalidhex integer literal out of range (#1): 10000000000000000
 ERROR: hex integer literal out of range (#1): 10000000000000000
 invalid 0x10000000000000000LL
 ERROR: hex integer literal out of range (#1): 10000000000000000
@@ -459,8 +455,7 @@ ERROR: hex integer literal out of range (#1): 10000000000000000
 invalid 0x10000000000000000u
 ERROR: hex integer literal out of range (#1): 10000000000000000
 invalid 0x10000000000000000ul
-ERROR: hex integer literal out of range (#1): 10000000000000000
-invalid 0x10000000000000000lu
+invalidhex integer literal out of range (#1): 10000000000000000
 invalidhex integer literal out of range (#1): 10000000000000000
 invalidhex integer literal out of range (#1): 10000000000000000
 invalidhex integer literal out of range (#1): 10000000000000000
