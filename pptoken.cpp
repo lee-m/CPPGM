@@ -166,44 +166,215 @@ struct PPTokeniser
 
 				switch(curr_ch)
 					{
-					case '|':
+					case '#':
 						{
-							//Maybe a bitwise or logical or
+							//TODO: handle includes
 							string tok;
 							tok.append(1, curr_ch);
 
 							int peeked_ch = peek_char();
-							
-							if(peeked_ch == '|')
+
+							if(peeked_ch == '#')
 								{
-									//Consume the || characters
 									skip_chars(2);
 									tok.append(1, peeked_ch);
 								}
 							else
+								next_char();
+
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+
+					case '<':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							//May be <, <<, <<=, <=, <: or <%
+							if(curr_char() == ':')
 								{
-									//Consume the |
-									next_char();
+									//<::: is tokenised as '<:' and '::'
+									//<::> is tokenised as '<:' and ':>'
+									//<::! is tokenised as '<', '::' and '!'
+									//<:   is tokenised as '<:'
+									if(peek_char() != ':')
+										{
+											append_curr_char_to_token_and_advance(tok);
+											mOutput.emit_preprocessing_op_or_punc(tok);
+										}
+									else
+										{
+											//We have <:: 
+											//2.5.3 - Otherwise, if the next three characters are <:: and the subsequent character is 
+											//neither : nor >, the < is treated as a preprocessor token by itself and not as the first 
+											//character of the alternative token <:
+											if(nth_char(2) != ':' && nth_char(2) != '>')
+												{
+													//The < needs to be treated as a separate pre-processing token
+													//and not the start of a <: alternate token
+													mOutput.emit_preprocessing_op_or_punc(tok);
+												}
+											else
+												{
+													//Append the : to form a <: token
+													append_curr_char_to_token_and_advance(tok);
+													mOutput.emit_preprocessing_op_or_punc(tok);		
+												}
+
+											//Consume and output the ::
+											tok = "";
+											append_curr_char_to_token_and_advance(tok);
+											append_curr_char_to_token_and_advance(tok);
+											mOutput.emit_preprocessing_op_or_punc(tok);
+										}
+
+									break;
+
+								}
+							else if(curr_char() == '%'
+											|| curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+							else if(curr_char() == '<')
+								{
+									append_curr_char_to_token_and_advance(tok);
+
+									if(curr_char() == '=')
+										append_curr_char_to_token_and_advance(tok);
+								}
+
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+						
+					case '>':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							//May have >, >>, >>=, or >=
+							if(curr_char() == '>')
+								{
+									append_curr_char_to_token_and_advance(tok);
+
+									if(curr_char() == '=')
+										append_curr_char_to_token_and_advance(tok);
+								}
+							else if(curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+
+					case '%':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							if(curr_char() == ':')
+								{
+									append_curr_char_to_token_and_advance(tok);
+
+									if(curr_char() == '%' && peek_char() == ':')
+										{
+											//Append the second '%'
+											append_curr_char_to_token_and_advance(tok);
+											
+											//Append the second ':'
+											append_curr_char_to_token_and_advance(tok);
+										}
+								}
+							else if(curr_char() == '>' 
+											|| curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+
+					case ':':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							if(curr_char() == '>' || curr_char() == ':')
+								append_curr_char_to_token_and_advance(tok);
+
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+
+					case '|': case '&':
+						{
+							//Maybe a op, op op,  or op=
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							if(curr_char() == curr_ch
+								 || curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+							
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+
+					case '{': case '}': case '[': case ']': case '(': case ')': case ';': case '?':
+					case '~': case ',':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+							
+					case '^': case '/': case '*':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+							
+							//May have op or op=
+							if(curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+							
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;	
+						}
+
+					case '+':
+						 {
+							 string tok;
+							 append_curr_char_to_token_and_advance(tok);
+
+							 //May have +, ++ or +=
+							 if(curr_char() == '+' || curr_char() == '=')
+								 append_curr_char_to_token_and_advance(tok);
+
+							 mOutput.emit_preprocessing_op_or_punc(tok);
+							 break;
+						 }
+
+					case '-':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							//May have -, --, -=, -> or ->*
+							if(curr_char() == '-' 
+								 || curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+							else if(curr_char() == '>')
+								{
+									append_curr_char_to_token_and_advance(tok);
+
+									if(curr_char() == '*')
+										append_curr_char_to_token_and_advance(tok);
 								}
 
 							mOutput.emit_preprocessing_op_or_punc(tok);
 							break;
 						}
 
-						//TODO: disambiguate . as a number or an operator
-					case '{': case '}': case '[': case ']': case '#': case '(': case ')': case ';': case ':': case '?':
-					case '+': case '-': case '*': case '%': case '^': case '&': case '~': case ',': case '/':
-						{
-							//Consume the character
-							next_char();
-							
-							//Output what the character represents
-							string tok;
-							tok.append(1, curr_ch);
-							mOutput.emit_preprocessing_op_or_punc(tok);
-							break;
-						}
-							
 					case ' ': case '\t': case '\v': case '\f': case '\r':
 						{
 							skip_whitespace();
@@ -229,9 +400,66 @@ struct PPTokeniser
 							break;
 						}
 
-					case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': case '.':
+					case '.':
 						{
-							lex_pp_number();
+							if(nth_char(1) == '.' && nth_char(2) == '.')
+								{
+									//We have ...
+									string tok;
+									
+									append_curr_char_to_token_and_advance(tok);
+									append_curr_char_to_token_and_advance(tok);
+									append_curr_char_to_token_and_advance(tok);
+
+									mOutput.emit_preprocessing_op_or_punc(tok);
+									break;
+								}
+
+								//Fallthru for single '.' case
+						}
+					 														
+					case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': 
+						{
+							int peeked_ch = peek_char();
+							string tok;
+
+							if(curr_ch == '.'
+								 && !isdigit(peeked_ch))
+								{
+									append_curr_char_to_token_and_advance(tok);
+
+									if(curr_char() == '*')
+										append_curr_char_to_token_and_advance(tok);
+
+									mOutput.emit_preprocessing_op_or_punc(tok);
+								}
+							else
+								lex_pp_number();
+
+							break;
+						}
+
+					case '!':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							if(curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+
+							mOutput.emit_preprocessing_op_or_punc(tok);
+							break;
+						}
+
+					case '=':
+						{
+							string tok;
+							append_curr_char_to_token_and_advance(tok);
+
+							if(curr_char() == '=')
+								append_curr_char_to_token_and_advance(tok);
+
+							mOutput.emit_preprocessing_op_or_punc(tok);
 							break;
 						}
 
@@ -265,6 +493,16 @@ struct PPTokeniser
 			mOutput.emit_new_line();
 
 		mOutput.emit_eof();
+	}
+	
+	/**
+   * Appends the character at the current position to the passed in token data
+   * and advances forward one character.
+   */
+	void append_curr_char_to_token_and_advance(string &tok)
+	{
+		tok.append(1, (char)curr_char());
+		next_char();
 	}
 
   /* identifier:
