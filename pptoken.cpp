@@ -388,13 +388,30 @@ struct PPTokeniser
 							mOutput.emit_new_line();
 							break;
 						}
+						
+					case '\'':
+						{
+							lex_char_literal(/*wide_literal=*/false);
+							break;
+						}
+
+					case 'U': case 'u': case 'L':
+						{
+							if(peek_char() == '\'')
+								{
+									lex_char_literal(/*wide_literal=*/true);
+									break;
+								}
+						
+							//Fallthru and treat the U, u or L as an identifier
+						}
 
 					case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
 					case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-					case 's': case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+					case 's': case 't': case 'v': case 'w': case 'x': case 'y': case 'z':
 					case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
-					case 'J': case 'K': case 'L': case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
-					case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
+					case 'J': case 'K': case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
+					case 'S': case 'T': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
 						{
 							lex_identifier();
 							break;
@@ -535,6 +552,40 @@ struct PPTokeniser
 			mOutput.emit_identifier(identifier);
 		else
 			mOutput.emit_preprocessing_op_or_punc(identifier);
+	}
+
+	/**
+   * character-literal:
+	 *   ’ c-char-sequence ’
+	 *   u’ c-char-sequence ’
+	 *   U’ c-char-sequence ’
+	 *   L’ c-char-sequence ’
+	 */
+	void lex_char_literal(bool wide_literal)
+	{
+		string char_lit;
+		append_curr_char_to_token_and_advance(char_lit);
+
+		if(wide_literal)
+			append_curr_char_to_token_and_advance(char_lit);
+
+		while(curr_char() != '\'')
+			{
+				if(end_of_input())
+					throw PPTokeniserException("Unterminated character literal");
+				else
+					{
+						append_curr_char_to_token_and_advance(char_lit);
+
+						if(curr_char() == '\'')
+							{
+								append_curr_char_to_token_and_advance(char_lit);
+								break;
+							}
+					}
+			}
+
+		mOutput.emit_character_literal(char_lit);
 	}
 
 	/*
