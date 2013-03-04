@@ -637,7 +637,10 @@ struct PPTokeniser
 					|| *mCurrPosition == '\v'
 					|| *mCurrPosition == '\f'
 					|| *mCurrPosition == '\r')
-			++mCurrPosition;
+			{
+				//next_char() will handle skipping over adjacent comments
+				next_char();
+			}
 	}
 
 	/*
