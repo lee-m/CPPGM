@@ -405,7 +405,6 @@ The course mapping for simple tokens is given below, and this has also been tran
 	simple decltype KW_DECLTYPE
 	simple default KW_DEFAULT
 	simple delete KW_DELETE
-	simple delete KW_DELETE
 	simple do KW_DO
 	simple double KW_DOUBLE
 	simple dynamic_cast KW_DYNAMIC_CAST
@@ -425,7 +424,6 @@ The course mapping for simple tokens is given below, and this has also been tran
 	simple long KW_LONG
 	simple mutable KW_MUTABLE
 	simple namespace KW_NAMESPACE
-	simple new KW_NEW
 	simple new KW_NEW
 	simple noexcept KW_NOEXCEPT
 	simple not_eq OP_NE
