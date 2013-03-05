@@ -8,9 +8,9 @@ literal 0ll long long int 0000000000000000
 literal 0ll long long int 0000000000000000
 literal 0LL long long int 0000000000000000
 literal 0LL long long int 0000000000000000
-invalidmalformed number (#4): 0X
-invalidmalformed number (#4): 0X
-invalidinvalid integer suffix lL
+ERROR: malformed number (#4): 0X
+ERROR: malformed number (#4): 0X
+ERROR: invalid integer suffix lL
 invalidinvalid integer suffix lL
 user-defined-literal 0_ud2 _ud2 integer 0
 user-defined-literal 0_ud2 _ud2 integer 0
@@ -26,9 +26,9 @@ literal 0uLL unsigned long long int 0000000000000000
 literal 0LLu unsigned long long int 0000000000000000
 invalidmalformed number (#4): 0uX
 invalidmalformed number (#4): 0Xu
-invalidinvalid integer suffix ulL
+ERROR: invalid integer suffix ulL
 invalidinvalid integer suffix lLu
-invalidmalformed number (#2): 0u_ud2
+ERROR: malformed number (#2): 0u_ud2
 user-defined-literal 0_ud2u _ud2u integer 0
 literal 0U unsigned int 00000000
 literal 0U unsigned int 00000000
@@ -40,7 +40,7 @@ literal 0Ull unsigned long long int 0000000000000000
 literal 0llU unsigned long long int 0000000000000000
 literal 0ULL unsigned long long int 0000000000000000
 literal 0LLU unsigned long long int 0000000000000000
-invalidmalformed number (#4): 0UX
+ERROR: malformed number (#4): 0UXinvalid 0UX
 invalidmalformed number (#4): 0XU
 invalidinvalid integer suffix UlL
 invalidinvalid integer suffix lLU
@@ -185,10 +185,11 @@ literal 00llu unsigned long long int 0000000000000000
 literal 00uLL unsigned long long int 0000000000000000
 literal 00LLu unsigned long long int 0000000000000000
 invalidmalformed number (#4): 00uX
-invalidmalformed number (#4): 00Xu
-invalidinvalid integer suffix ulL
-invalidinvalid integer suffix lLu
-invalidmalformed number (#2): 00u_ud2
+ERROR: malformed number (#4): 00Xu
+ERROR: invalid integer suffix ulL
+ERROR: invalid integer suffix lLu
+ERROR: invalid 00u_ud2
+ (#2): 00u_ud2
 user-defined-literal 00_ud2u _ud2u integer 00
 literal 00U unsigned int 00000000
 literal 00U unsigned int 00000000
@@ -203,8 +204,9 @@ literal 00LLU unsigned long long int 0000000000000000
 invalidmalformed number (#4): 00UX
 invalidmalformed number (#4): 00XU
 invalidinvalid integer suffix UlL
-invalidinvalid integer suffix lLU
-invalidmalformed number (#2): 00U_ud2
+ERROR: invalid integer suffix lLU
+ERROR: invalid 00U_ud2
+ (#2): 00U_ud2
 user-defined-literal 00_ud2U _ud2U integer 00
 invalidmalformed number (#4): 00W
 invalidmalformed number (#4): 00W
@@ -279,56 +281,43 @@ literal 123LU unsigned long int 7B00000000000000
 literal 123Ull unsigned long long int 7B00000000000000
 literal 123llU unsigned long long int 7B00000000000000
 literal 123ULL unsigned long long int 7B00000000000000
-ERROR: malformed number (#5): 123UX
 literal 123LLU unsigned long long int 7B00000000000000
-invalid 123UX
+invalidmalformed number (#5): 123UX
 invalidmalformed number (#5): 123XU
-ERROR: invalid integer suffix UlL
-ERROR: invalid integer suffix lLU
-invalid 123UlL
-invalid 123lLU
+invalidinvalid integer suffix UlL
+invalidinvalid integer suffix lLU
 invalidmalformed number (#2): 123U_ud2
-ERROR: malformed number (#5): 123W
 user-defined-literal 123_ud2U _ud2U integer 123
-invalid 123W
 invalidmalformed number (#5): 123W
-ERROR: malformed number (#5): 123Wl
-ERROR: invalid 123Wl
-invalid 123lW
-ERROR: malformed number (#5): 123WL
-ERROR: malformed number (#5): 123LW
-invalid 123WL
-invalid 123LW
-ERROR: malformed number (#5): 123Wll
-ERROR: malformed number (#5): 123llW
-ERROR: malformed number (#5): 123WLL
-invalid 123llW
-invalid 123WLL
-ERROR: malformed number (#5): 123LLW
-ERROR: invalid 123LLW
-invalid 123WX
-ERROR: malformed number (#5): 123XW
-ERROR: invalid integer suffix lL
-invalid 123XW
-invalid 123WlL
+invalidmalformed number (#5): 123W
+invalidmalformed number (#5): 123Wl
+invalidmalformed number (#5): 123lW
+invalidmalformed number (#5): 123WL
+invalidmalformed number (#5): 123LW
+invalidmalformed number (#5): 123Wll
+invalidmalformed number (#5): 123llW
+invalidmalformed number (#5): 123WLL
+invalidmalformed number (#5): 123LLW
+invalidmalformed number (#5): 123WX
+invalidmalformed number (#5): 123XW
+invalidinvalid integer suffix lL
 invalidmalformed number (#5): 123lLW
-ERROR: malformed number (#5): 123W_ud2
-invalid 123W_ud2
+invalidmalformed number (#5): 123W_ud2
 user-defined-literal 123_ud2W _ud2W integer 123
 user-defined-literal 123_ud1 _ud1 integer 123
 user-defined-literal 123_ud1 _ud1 integer 123
 user-defined-literal 123_ud1l _ud1l integer 123
-invalidmalformed number (#2): 123l_ud1
+ERROR: malformed number (#2): 123l_ud1
 user-defined-literal 123_ud1L _ud1L integer 123
-invalidmalformed number (#2): 123L_ud1
+ERROR: malformed number (#2): 123L_ud1
 user-defined-literal 123_ud1ll _ud1ll integer 123
 invalidmalformed number (#2): 123ll_ud1
 user-defined-literal 123_ud1LL _ud1LL integer 123
-ERROR: malformed number (#2): 123LL_ud1invalid 123LL_ud1
+invalidmalformed number (#2): 123LL_ud1
 user-defined-literal 123_ud1X _ud1X integer 123
-invalidmalformed number (#5): 123X_ud1
+ERROR: malformed number (#5): 123X_ud1
 user-defined-literal 123_ud1lL _ud1lL integer 123
-invalidinvalid integer suffix lL
+ERROR: invalid integer suffix lL
 user-defined-literal 123_ud1_ud2 _ud1_ud2 integer 123
 user-defined-literal 123_ud2_ud1 _ud2_ud1 integer 123
 literal 0x123 int 23010000
@@ -373,26 +362,26 @@ literal 0x123Ull unsigned long long int 2301000000000000
 literal 0x123llU unsigned long long int 2301000000000000
 literal 0x123ULL unsigned long long int 2301000000000000
 literal 0x123LLU unsigned long long int 2301000000000000
-invalidmalformed number (#3): 0x123UX
-invalidmalformed number (#3): 0x123XU
+ERROR: malformed number (#3): 0x123UX
+ERROR: malformed number (#3): 0x123XU
 invalidinvalid integer suffix UlL
-invalidinvalid integer suffix lLU
+ERROR: invalid integer suffix lLU
 invalidmalformed number (#2): 0x123U_ud2
 user-defined-literal 0x123_ud2U _ud2U integer 0x123
-invalidmalformed number (#3): 0x123W
+ERROR: malformed number (#3): 0x123W
 invalidmalformed number (#3): 0x123W
 invalidmalformed number (#3): 0x123Wl
-invalidmalformed number (#3): 0x123lW
+ERROR: malformed number (#3): 0x123lW
 invalidmalformed number (#3): 0x123WL
-invalidmalformed number (#3): 0x123LW
+ERROR: malformed number (#3): 0x123LW
 invalidmalformed number (#3): 0x123Wll
 invalidmalformed number (#3): 0x123llW
-invalidmalformed number (#3): 0x123WLL
-invalidmalformed number (#3): 0x123LLW
+ERROR: malformed number (#3): 0x123WLL
+ERROR: malformed number (#3): 0x123LLW
 invalidmalformed number (#3): 0x123WX
-invalidmalformed number (#3): 0x123XW
+ERROR: malformed number (#3): 0x123XW
 invalidinvalid integer suffix lL
-invalidmalformed number (#3): 0x123lLW
+ERROR: malformed number (#3): 0x123lLW
 invalidmalformed number (#3): 0x123W_ud2
 user-defined-literal 0x123_ud2W _ud2W integer 0x123
 user-defined-literal 0x123_ud1 _ud1 integer 0x123
@@ -400,11 +389,11 @@ user-defined-literal 0x123_ud1 _ud1 integer 0x123
 user-defined-literal 0x123_ud1l _ud1l integer 0x123
 invalidmalformed number (#2): 0x123l_ud1
 user-defined-literal 0x123_ud1L _ud1L integer 0x123
-invalidmalformed number (#2): 0x123L_ud1
+ERROR: malformed number (#2): 0x123L_ud1
 user-defined-literal 0x123_ud1ll _ud1ll integer 0x123
-invalidmalformed number (#2): 0x123ll_ud1
+ERROR: malformed number (#2): 0x123ll_ud1
 user-defined-literal 0x123_ud1LL _ud1LL integer 0x123
-invalidmalformed number (#2): 0x123LL_ud1
+ERROR: malformed number (#2): 0x123LL_ud1
 user-defined-literal 0x123_ud1X _ud1X integer 0x123
 invalidmalformed number (#3): 0x123X_ud1
 user-defined-literal 0x123_ud1lL _ud1lL integer 0x123
@@ -482,7 +471,7 @@ invalidmalformed number (#2): 0123l_ud1
 user-defined-literal 0123_ud1L _ud1L integer 0123
 invalidmalformed number (#2): 0123L_ud1
 user-defined-literal 0123_ud1ll _ud1ll integer 0123
-invalidmalformed number (#2): 0123ll_ud1
+ERROR: malformed number (#2): 0123ll_ud1
 user-defined-literal 0123_ud1LL _ud1LL integer 0123
 invalidmalformed number (#2): 0123LL_ud1
 user-defined-literal 0123_ud1X _ud1X integer 0123

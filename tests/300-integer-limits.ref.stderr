@@ -31,7 +31,7 @@ literal 2147483647LLU unsigned long long int FFFFFF7F00000000
 user-defined-literal 2147483647_ud1 _ud1 integer 2147483647
 user-defined-literal 2147483647_ud1 _ud1 integer 2147483647
 user-defined-literal 2147483647_ud1l _ud1l integer 2147483647
-invalidmalformed number (#2): 2147483647l_ud1
+ERROR: malformed number (#2): 2147483647l_ud1
 user-defined-literal 2147483647_ud1L _ud1L integer 2147483647
 invalidmalformed number (#2): 2147483647L_ud1
 user-defined-literal 2147483647_ud1ll _ud1ll integer 2147483647
@@ -77,7 +77,8 @@ invalidmalformed number (#2): 2147483646L_ud1
 user-defined-literal 2147483646_ud1ll _ud1ll integer 2147483646
 invalidmalformed number (#2): 2147483646ll_ud1
 user-defined-literal 2147483646_ud1LL _ud1LL integer 2147483646
-invalidmalformed number (#2): 2147483646LL_ud1
+ERROR: malformed number (#2): 2147483646LL_ud1
+invalid 2147483646LL_ud1
 literal 2147483648 long int 0000008000000000
 literal 2147483648 long int 0000008000000000
 literal 2147483648l long int 0000008000000000
@@ -443,15 +444,6 @@ invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
-ERROR: decimal integer literal out of range(#2): 18446744073709551616
-invalid 18446744073709551616L
-ERROR: decimal integer literal out of range(#2): 18446744073709551616
-invalid 18446744073709551616ll
-invaliddecimal integer literal out of range(#2): 18446744073709551616
-invaliddecimal integer literal out of range(#2): 18446744073709551616
-invaliddecimal integer literal out of range(#2): 18446744073709551616
-ERROR: invalid 18446744073709551616u
- range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
@@ -464,14 +456,19 @@ invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
-ERROR: decimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
 invaliddecimal integer literal out of range(#2): 18446744073709551616
-ERROR: invalid 18446744073709551616LLU
-ange(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
+invaliddecimal integer literal out of range(#2): 18446744073709551616
 user-defined-literal 18446744073709551616_ud1 _ud1 integer 18446744073709551616
 user-defined-literal 18446744073709551616_ud1 _ud1 integer 18446744073709551616
 user-defined-literal 18446744073709551616_ud1l _ud1l integer 18446744073709551616

@@ -6,8 +6,7 @@ user-defined-literal "abc" "def" "ghi"_ud1 _ud1 string array of 10 char 61626364
 simple ; OP_SEMICOLON
 user-defined-literal "abc" "def" "ghi"_ud2 _ud2 string array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "ghi"yyy
-invalid "abc" "def" "ghi"yyy
+invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 literal "abc" "def" u8"ghi" array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
@@ -193,34 +192,25 @@ invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy u"ghi"_ud1
+invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 ERROR: ud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy u"ghi"yyy
+invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy U"ghi"
-simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy U"ghi"_ud1
-simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy U"ghi"_ud2
-simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy U"ghi"yyy
-simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy L"ghi"
-simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy L"ghi"_ud1
-simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid "abc" "def"yyy L"ghi"_ud2
+invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
@@ -296,7 +286,7 @@ user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
 literal "abc" u8"def" array of 7 char 61626364656600
 identifier X
-invalidud_suffix does not start with _: "ghi"yyy
+ERROR: ud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc" u8"def"_ud1 _ud1 string array of 7 char 61626364656600
 simple ; OP_SEMICOLON
@@ -324,8 +314,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
-ERROR: invalid "abc" u8"def"_ud1 U"ghi"
-ing literal sequence
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -431,33 +420,41 @@ invalidud_suffix does not start with _: u8"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u8"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy u8"ghi"yyy
+def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: ud_suffix does not start with _: u8"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: ud_suffix does not start with _: u8"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy u"ghi"_ud2
+def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy u"ghi"yyy
+"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy U"ghi"
+ u8"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: ud_suffix does not start with _: u8"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy U"ghi"_ud2
+def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy U"ghi"yyy
+"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: ud_suffix does not start with _: u8"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy L"ghi"_ud1
+def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: invalid "abc" u8"def"yyy L"ghi"_ud2
+def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: ud_suffix does not start with _: u8"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"def"yyy
+ERROR: ud_suffix does not start with _: u8"def"yyy
 identifier X
 literal "ghi" array of 4 char 67686900
 simple ; OP_SEMICOLON
@@ -471,7 +468,7 @@ user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u8"def"yyy
 identifier X
-invalidud_suffix does not start with _: "ghi"yyy
+ERROR: ud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 literal "abc" u"def" array of 7 char16_t 6100620063006400650066000000
 simple ; OP_SEMICOLON
@@ -483,13 +480,15 @@ user-defined-literal "abc" u"def" "ghi"_ud2 _ud2 string array of 10 char16_t 610
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def" u8"ghi"
+ string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"ghi"yyy
+ERROR: invalid "abc" u"def" u8"ghi"yyy
+ u8"ghi"yyy
 simple ; OP_SEMICOLON
 literal "abc" u"def" u"ghi" array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
@@ -499,21 +498,26 @@ user-defined-literal "abc" u"def" u"ghi"_ud2 _ud2 string array of 10 char16_t 61
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: U"ghi"yyy
+ERROR: invalid "abc" u"def" U"ghi"yyy
+: U"ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def" L"ghi"
+n string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def" L"ghi"_ud1
+ring literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def" L"ghi"_ud2
+ring literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: L"ghi"yyy
+ERROR: invalid "abc" u"def" L"ghi"yyy
+: L"ghi"yyy
 simple ; OP_SEMICOLON
 literal "abc" u"def" array of 7 char16_t 6100620063006400650066000000
 identifier X
@@ -541,13 +545,16 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud1 u8"ghi"
+ing literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud1 u8"ghi"_ud2
+literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"ghi"yyy
+ERROR: invalid "abc" u"def"_ud1 u8"ghi"yyy
+ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc" u"def"_ud1 u"ghi" _ud1 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
@@ -557,21 +564,27 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud1 U"ghi"
+ring literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud1 U"ghi"_ud1
+ literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud1 U"ghi"_ud2
+ literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: U"ghi"yyy
+ERROR: invalid "abc" u"def"_ud1 U"ghi"yyy
+ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud1 L"ghi"
+ring literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud1 L"ghi"_ud2
+ literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: L"ghi"yyy
+ERROR: ud_suffix does not start with _: L"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc" u"def"_ud1 _ud1 string array of 7 char16_t 6100620063006400650066000000
 identifier X
@@ -593,7 +606,8 @@ user-defined-literal "abc" u"def"_ud2 _ud2 string array of 7 char16_t 6100620063
 simple ; OP_SEMICOLON
 user-defined-literal "abc" u"def"_ud2 "ghi" _ud2 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: invalid "abc" u"def"_ud2 "ghi"_ud1
+ral sequence
 simple ; OP_SEMICOLON
 user-defined-literal "abc" u"def"_ud2 "ghi"_ud2 _ud2 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
@@ -601,11 +615,12 @@ invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid "abc" u"def"_ud2 u8"ghi"_ud1
+literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequenceinvalid "abc" u"def"_ud2 u8"ghi"_ud2
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"ghi"yyy
+ERROR: invalid "abc" u"def"_ud2 u8"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc" u"def"_ud2 u"ghi" _ud2 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
@@ -743,11 +758,9 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: mismatched encoding prefix in string literal sequence
-invalid "abc" U"def" L"ghi"_ud2
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: L"ghi"yyy
-invalid "abc" U"def" L"ghi"yyy
+invalidud_suffix does not start with _: L"ghi"yyy
 simple ; OP_SEMICOLON
 literal "abc" U"def" array of 7 char32_t 61000000620000006300000064000000650000006600000000000000
 identifier X
@@ -761,10 +774,9 @@ literal "abc" U"def" array of 7 char32_t 610000006200000063000000640000006500000
 identifier X
 user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "ghi"yyy
 literal "abc" U"def" array of 7 char32_t 61000000620000006300000064000000650000006600000000000000
 identifier X
-invalid "ghi"yyy
+invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc" U"def"_ud1 _ud1 string array of 7 char32_t 61000000620000006300000064000000650000006600000000000000
 simple ; OP_SEMICOLON
@@ -842,17 +854,13 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u8"ghi"yyy
 simple ; OP_SEMICOLON
-ERROR: mismatched encoding prefix in string literal sequence
-invalid "abc" U"def"_ud2 u"ghi"
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: mismatched encoding prefix in string literal sequence
-invalid "abc" U"def"_ud2 u"ghi"_ud1
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: mismatched encoding prefix in string literal sequence
-invalid "abc" U"def"_ud2 u"ghi"_ud2
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: u"ghi"yyy
-invalid "abc" U"def"_ud2 u"ghi"yyy
+invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc" U"def"_ud2 U"ghi" _ud2 string array of 10 char32_t 61000000620000006300000064000000650000006600000067000000680000006900000000000000
 simple ; OP_SEMICOLON
@@ -1402,8 +1410,7 @@ user-defined-literal "def"_ud2 "ghi" _ud2 string array of 7 char 64656667686900
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
-ERROR: mismatched ud_suffix in string literal sequence
-invalid "def"_ud2 "ghi"_ud1
+invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
@@ -1411,8 +1418,7 @@ user-defined-literal "def"_ud2 "ghi"_ud2 _ud2 string array of 7 char 64656667686
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
-ERROR: ud_suffix does not start with _: "ghi"yyy
-invalid "def"_ud2 "ghi"yyy
+invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
@@ -1420,8 +1426,7 @@ user-defined-literal "def"_ud2 u8"ghi" _ud2 string array of 7 char 6465666768690
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
-ERROR: mismatched ud_suffix in string literal sequence
-invalid "def"_ud2 u8"ghi"_ud1
+invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
@@ -1429,8 +1434,7 @@ user-defined-literal "def"_ud2 u8"ghi"_ud2 _ud2 string array of 7 char 646566676
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
-ERROR: ud_suffix does not start with _: u8"ghi"yyy
-invalid "def"_ud2 u8"ghi"yyy
+invalidud_suffix does not start with _: u8"ghi"yyy
 simple ; OP_SEMICOLON
 literal "abc" array of 4 char 61626300
 identifier X
@@ -1850,21 +1854,27 @@ user-defined-literal "abc"_ud1 u8"def" "ghi" _ud1 string array of 10 char 616263
 simple ; OP_SEMICOLON
 user-defined-literal "abc"_ud1 u8"def" "ghi"_ud1 _ud1 string array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud1 u8"def" "ghi"_ud2
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "ghi"yyy
+ERROR: ud_suffix does not start with _: "ghi"yyy
+invalid "abc"_ud1 u8"def" "ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc"_ud1 u8"def" u8"ghi" _ud1 string array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
 user-defined-literal "abc"_ud1 u8"def" u8"ghi"_ud1 _ud1 string array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud1 u8"def" u8"ghi"_ud2
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"ghi"yyy
+ERROR: ud_suffix does not start with _: u8"ghi"yyy
+invalid "abc"_ud1 u8"def" u8"ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid "abc"_ud1 u8"def" u"ghi"
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid "abc"_ud1 u8"def" u"ghi"_ud1
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -1998,8 +2008,7 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: invalid "abc"_ud1 u8"def"_ud2 L"ghi"_ud2
-quence
+invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
@@ -2167,8 +2176,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: U"ghi"yyy
-invalid "abc"_ud1 u"def"_ud1 U"ghi"yyy
+invalidud_suffix does not start with _: U"ghi"yyy
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -2292,7 +2300,7 @@ invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u"def"yyy
+ERROR: ud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"def"yyy
 identifier X
@@ -2486,7 +2494,8 @@ invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: U"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: U"def"yyy
+ERROR: invalid "abc"_ud1 U"def"yyy "ghi"
+"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: U"def"yyy
 simple ; OP_SEMICOLON
@@ -4508,7 +4517,7 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
 identifier X
-invalidud_suffix does not start with _: u8"ghi"yyy
+ERROR: ud_suffix does not start with _: u8"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
 identifier X
@@ -4990,283 +4999,6 @@ invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-literal "ghi" array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-invalidud_suffix does not start with _: "ghi"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-literal "ghi" array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-invalidud_suffix does not start with _: "ghi"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-literal "ghi" array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-invalidud_suffix does not start with _: "ghi"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-literal "ghi" array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-invalidud_suffix does not start with _: "ghi"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-literal "ghi" array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-invalidud_suffix does not start with _: "ghi"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalid "abc"yyy u"def" "ghi"_ud1
 ERROR: ud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
@@ -5292,20 +5024,6 @@ simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
 identifier X
 literal "ghi" array of 4 char 67686900
 simple ; OP_SEMICOLON
@@ -5900,6 +5618,72 @@ simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 identifier X
 invalidud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+literal "ghi" array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+invalidud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
@@ -5920,7 +5704,235 @@ simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 ERROR: ud_suffix does not start with _: "abc"yyy
-invalid "abc"yyy L"def"yyy u"ghi"
+invalid "abc"yyy U"def"yyy U"ghi"
+simple ; OP_SEMICOLON
+ERROR: ud_suffix does not start with _: "abc"yyy
+invalid "abc"yyy U"def"yyy U"ghi"_ud1
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+ERROR: ud_suffix does not start with _: "abc"yyy
+invalid "abc"yyy U"def"yyy U"ghi"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+ERROR: ud_suffix does not start with _: "abc"yyy
+invalid "abc"yyy U"def"yyy L"ghi"_ud1
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+literal "ghi" array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+ERROR: ud_suffix does not start with _: "abc"yyy
+invalid "abc"yyy U"def"yyy
+identifier X
+invalidud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+literal "ghi" array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+invalidud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+literal "ghi" array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+invalidud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+literal "ghi" array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+invalidud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
@@ -5980,7 +5992,8 @@ invalidud_suffix does not start with _: "abc"yyy
 identifier X
 invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "abc"yyy
+invalid "abc"yyy
+does not start with _: "abc"yyy
 identifier X
 literal "def" u8"ghi" array of 7 char 64656667686900
 simple ; OP_SEMICOLON
@@ -6064,10 +6077,9 @@ user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 identifier X
-ERROR: ud_suffix does not start with _: "ghi"yyy
 literal "def" array of 4 char 64656600
 identifier X
-invalid "ghi"yyy
+invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "abc"yyy
 identifier X
@@ -7169,7 +7181,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -8637,17 +8649,13 @@ invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: u"def"yyy
-invalid u8"abc"_ud1 u"def"yyy u8"ghi"_ud2
+invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: u"def"yyy
-invalid u8"abc"_ud1 u"def"yyy u8"ghi"yyy
+invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: u"def"yyy
-invalid u8"abc"_ud1 u"def"yyy u"ghi"
+invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: u"def"yyy
-invalid u8"abc"_ud1 u"def"yyy u"ghi"_ud1
+invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"def"yyy
 simple ; OP_SEMICOLON
@@ -9487,7 +9495,7 @@ invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal u8"abc"_ud1 _ud1 string array of 4 char 61626300
 identifier X
-invalidud_suffix does not start with _: "def"yyy
+ERROR: ud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal u8"abc"_ud1 _ud1 string array of 4 char 61626300
 identifier X
@@ -9689,7 +9697,7 @@ invalidmismatched ud_suffix in string literal sequence
 identifier X
 user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
 identifier X
 user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
@@ -9701,7 +9709,7 @@ user-defined-literal u8"abc"_ud2 "def"_ud2 _ud2 string array of 7 char 616263646
 simple ; OP_SEMICOLON
 user-defined-literal u8"abc"_ud2 "def"_ud2 "ghi" _ud2 string array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 user-defined-literal u8"abc"_ud2 "def"_ud2 "ghi"_ud2 _ud2 string array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
@@ -9877,9 +9885,10 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequenceinvalid u8"abc"_ud2 u8"def"_ud1 "ghi"_ud2
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: invalid u8"abc"_ud2 u8"def"_ud1 "ghi"yyy
+quence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
@@ -10643,7 +10652,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -10653,7 +10662,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -10661,7 +10670,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -10671,11 +10680,11 @@ invalidmismatched encoding prefix in string literal sequence
 identifier X
 literal "ghi" array of 4 char 67686900
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 identifier X
 user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 identifier X
 user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
@@ -10701,11 +10710,11 @@ invalidud_suffix does not start with _: L"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: L"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: L"def"yyy
+ERROR: ud_suffix does not start with _: L"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: L"def"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: L"def"yyy
+ERROR: ud_suffix does not start with _: L"def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: L"def"yyy
 simple ; OP_SEMICOLON
@@ -13531,7 +13540,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: mismatched encoding prefix in string literal sequence
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -14111,7 +14120,8 @@ user-defined-literal "def"_ud1 L"ghi"_ud1 _ud1 string array of 7 wchar_t 6400000
 simple ; OP_SEMICOLON
 literal u"abc" array of 4 char16_t 6100620063000000
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: invalid "def"_ud1 L"ghi"_ud2
+g literal sequence
 simple ; OP_SEMICOLON
 literal u"abc" array of 4 char16_t 6100620063000000
 identifier X
@@ -14371,7 +14381,8 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+invalid u"abc"_ud1 "def" u8"ghi"_ud2
+mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u8"ghi"yyy
 simple ; OP_SEMICOLON
@@ -14389,7 +14400,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: U"ghi"yyy
+ERROR: ud_suffix does not start with _: U"ghi"yyy
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -14421,23 +14432,24 @@ user-defined-literal u"abc"_ud1 "def"_ud1 "ghi" _ud1 string array of 10 char16_t
 simple ; OP_SEMICOLON
 user-defined-literal u"abc"_ud1 "def"_ud1 "ghi"_ud1 _ud1 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u8"ghi"yyy
+ERROR: ud_suffix does not start with _: u8"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal u"abc"_ud1 "def"_ud1 u"ghi" _ud1 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
 user-defined-literal u"abc"_ud1 "def"_ud1 u"ghi"_ud1 _ud1 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+invalid u"abc"_ud1 "def"_ud1 u"ghi"_ud2
+mismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
@@ -14453,7 +14465,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: L"ghi"yyy
 simple ; OP_SEMICOLON
@@ -14471,7 +14483,17 @@ user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
 user-defined-literal u"abc"_ud1 "def"_ud1 _ud1 string array of 7 char16_t 6100620063006400650066000000
 identifier X
-invalidud_suffix does not start with _: "ghi"yyy
+ERROR: ud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+invalidmismatched ud_suffix in string literal sequence
+simple ; OP_SEMICOLON
+invalidmismatched ud_suffix in string literal sequence
+simple ; OP_SEMICOLON
+invalidmismatched ud_suffix in string literal sequence
+simple ; OP_SEMICOLON
+invalidmismatched ud_suffix in string literal sequence
+simple ; OP_SEMICOLON
+ERROR: mismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
@@ -14483,7 +14505,7 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
@@ -14493,17 +14515,7 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
-simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
-simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
-simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
-simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
-simple ; OP_SEMICOLON
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
@@ -14741,7 +14753,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-ERROR: mismatched encoding prefix in string literal sequence
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -17343,7 +17355,7 @@ user-defined-literal "def"_ud2 "ghi"_ud2 _ud2 string array of 7 char 64656667686
 simple ; OP_SEMICOLON
 user-defined-literal u"abc"_ud2 _ud2 string array of 4 char16_t 6100620063000000
 identifier X
-invalidud_suffix does not start with _: "ghi"yyy
+ERROR: ud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal u"abc"_ud2 _ud2 string array of 4 char16_t 6100620063000000
 identifier X
@@ -18671,7 +18683,8 @@ invalidud_suffix does not start with _: u"abc"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"abc"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u"abc"yyy
+ERROR: ud_suffix does not start with _: u"abc"yyy
+invalid u"abc"yyy L"def"yyy U"ghi"_ud1
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"abc"yyy
 simple ; OP_SEMICOLON
@@ -18679,9 +18692,11 @@ invalidud_suffix does not start with _: u"abc"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"abc"yyy
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u"abc"yyy
+ERROR: ud_suffix does not start with _: u"abc"yyy
+invalid u"abc"yyy L"def"yyy L"ghi"_ud1
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u"abc"yyy
+ERROR: invalid u"abc"yyy L"def"yyy L"ghi"_ud2
+yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"abc"yyy
 simple ; OP_SEMICOLON
@@ -18749,7 +18764,7 @@ invalidud_suffix does not start with _: u"abc"yyy
 identifier X
 user-defined-literal "def" u"ghi"_ud2 _ud2 string array of 7 char16_t 6400650066006700680069000000
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u"abc"yyy
+ERROR: ud_suffix does not start with _: u"abc"yyy
 identifier X
 invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
@@ -18859,7 +18874,8 @@ invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"abc"yyy
 identifier X
-invalidud_suffix does not start with _: u"ghi"yyy
+ERROR: ud_suffix does not start with _: u"ghi"yyy
+invalid "def"_ud1 u"ghi"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u"abc"yyy
 identifier X
@@ -20233,7 +20249,7 @@ user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 identifier X
-invalidud_suffix does not start with _: "ghi"yyy
+ERROR: ud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: L"def"yyy
 simple ; OP_SEMICOLON
@@ -23615,13 +23631,11 @@ user-defined-literal "def"_ud1 u8"ghi"_ud1 _ud1 string array of 7 char 646566676
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-ERROR: mismatched ud_suffix in string literal sequence
-invalid "def"_ud1 u8"ghi"_ud2
+invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-ERROR: ud_suffix does not start with _: u8"ghi"yyy
-invalid "def"_ud1 u8"ghi"yyy
+invalidud_suffix does not start with _: u8"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
@@ -23633,13 +23647,11 @@ user-defined-literal "def"_ud1 u"ghi"_ud1 _ud1 string array of 7 char16_t 640065
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-ERROR: mismatched ud_suffix in string literal sequence
-invalid "def"_ud1 u"ghi"_ud2
+invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-ERROR: ud_suffix does not start with _: u"ghi"yyy
-invalid "def"_ud1 u"ghi"yyy
+invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
@@ -23779,7 +23791,7 @@ user-defined-literal "def"_ud2 L"ghi"_ud2 _ud2 string array of 7 wchar_t 6400000
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-invalidud_suffix does not start with _: L"ghi"yyy
+ERROR: ud_suffix does not start with _: L"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
@@ -23827,7 +23839,15 @@ invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
+ERROR: ud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
+identifier X
 invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
+identifier X
+ERROR: ud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
@@ -23839,7 +23859,7 @@ invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-invalidud_suffix does not start with _: "def"yyy
+ERROR: ud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
@@ -23851,7 +23871,7 @@ invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-invalidud_suffix does not start with _: "def"yyy
+ERROR: ud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
@@ -23859,15 +23879,7 @@ invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
-invalidud_suffix does not start with _: "def"yyy
-simple ; OP_SEMICOLON
-user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
-identifier X
-invalidud_suffix does not start with _: "def"yyy
-simple ; OP_SEMICOLON
-user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
-identifier X
-invalidud_suffix does not start with _: "def"yyy
+ERROR: ud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 user-defined-literal U"abc"_ud2 _ud2 string array of 4 char32_t 61000000620000006300000000000000
 identifier X
@@ -25713,50 +25725,47 @@ invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid L"abc" "def"yyy L"ghi"
-simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid L"abc" "def"yyy L"ghi"_ud1
+invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid L"abc" "def"yyy L"ghi"yyy
+invalidud_suffix does not start with _: "def"yyy
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid L"abc" "def"yyy
+invalidud_suffix does not start with _: "def"yyy
+simple ; OP_SEMICOLON
+invalidud_suffix does not start with _: "def"yyy
 identifier X
 literal "ghi" array of 4 char 67686900
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid L"abc" "def"yyy
+invalidud_suffix does not start with _: "def"yyy
 identifier X
 user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-invalid L"abc" "def"yyy
+invalidud_suffix does not start with _: "def"yyy
 identifier X
 user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
-ERROR: ud_suffix does not start with _: "def"yyy
-ERROR: ud_suffix does not start with _: "ghi"yyyinvalid L"abc" "def"yyy
+invalidud_suffix does not start with _: "def"yyy
 identifier X
-invalid "ghi"yyy
+invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid L"abc" u8"def" "ghi"_ud1
+simple ; OP_SEMICOLON
+ERROR: invalid L"abc" u8"def" "ghi"_ud2
+ing literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid L"abc" u8"def" u8"ghi"
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
-simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: invalid L"abc" u8"def" u8"ghi"_ud1
+g literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -27890,7 +27899,7 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -28108,21 +28117,28 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: u8"ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+invalid L"abc"_ud1 L"def"_ud1 u"ghi"
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid L"abc"_ud1 L"def"_ud1 u"ghi"_ud1
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid L"abc"_ud1 L"def"_ud1 u"ghi"_ud2
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: u"ghi"yyy
+ERROR: ud_suffix does not start with _: u"ghi"yyy
+invalid L"abc"_ud1 L"def"_ud1 u"ghi"yyy
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid L"abc"_ud1 L"def"_ud1 U"ghi"
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid L"abc"_ud1 L"def"_ud1 U"ghi"_ud1
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid L"abc"_ud1 L"def"_ud1 U"ghi"_ud2
 simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: U"ghi"yyy
+ERROR: ud_suffix does not start with _: U"ghi"yyy
+invalid L"abc"_ud1 L"def"_ud1 U"ghi"yyy
 simple ; OP_SEMICOLON
 user-defined-literal L"abc"_ud1 L"def"_ud1 L"ghi" _ud1 string array of 10 wchar_t 61000000620000006300000064000000650000006600000067000000680000006900000000000000
 simple ; OP_SEMICOLON
@@ -29228,7 +29244,8 @@ invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
-invalidmismatched encoding prefix in string literal sequence
+invalid L"abc"_ud2 u"def"_ud1 u8"ghi"
+tring literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -29634,7 +29651,7 @@ user-defined-literal L"abc"_ud2 L"def" "ghi"_ud2 _ud2 string array of 10 wchar_t
 simple ; OP_SEMICOLON
 invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
-ERROR: mismatched encoding prefix in string literal sequence
+invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
@@ -31917,8 +31934,7 @@ identifier X
 user-defined-literal "abc" "def" u"ghi"_ud2 _ud2 string array of 10 char16_t 6100620063006400650066006700680069000000
 simple ; OP_SEMICOLON
 identifier X
-invalid "abc" "def" u"ghi"yyy
-ud_suffix does not start with _: u"ghi"yyy
+invalidud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
 literal "abc" "def" U"ghi" array of 10 char32_t 61000000620000006300000064000000650000006600000067000000680000006900000000000000
@@ -32022,10 +32038,12 @@ identifier X
 user-defined-literal "abc" "def"_ud1 L"ghi"_ud1 _ud1 string array of 10 wchar_t 61000000620000006300000064000000650000006600000067000000680000006900000000000000
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc" "def"_ud1 L"ghi"_ud2
 simple ; OP_SEMICOLON
 identifier X
-invalidud_suffix does not start with _: L"ghi"yyy
+ERROR: ud_suffix does not start with _: L"ghi"yyy
+invalid "abc" "def"_ud1 L"ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc" "def"_ud1 _ud1 string array of 7 char 61626364656600
@@ -32043,9 +32061,8 @@ identifier X
 user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
 simple ; OP_SEMICOLON
 identifier X
-user-defined-literal "abc" "def"_ud1 _ud1 string array of 7 char 61626364656600
-identifier X
-invalidud_suffix does not start with _: "ghi"yyy
+user-deud_suffix does not start with _: "ghi"yyy
+invalid "ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc" "def"_ud2 _ud2 string array of 7 char 61626364656600
@@ -34095,7 +34112,7 @@ identifier X
 user-defined-literal "abc"_ud1 "def" u8"ghi"_ud1 _ud1 string array of 10 char 61626364656667686900
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 identifier X
 invalidud_suffix does not start with _: u8"ghi"yyy
@@ -36367,28 +36384,36 @@ identifier X
 invalidmismatched ud_suffix in string literal sequence
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 u8"ghi"_ud1
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 u8"ghi"_ud2
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 u8"ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 u"ghi"
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 u"ghi"_ud1
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 u"ghi"_ud2
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 u"ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "abc"_ud2 "def"_ud1 U"ghi"
 simple ; OP_SEMICOLON
 identifier X
 invalidmismatched ud_suffix in string literal sequence
@@ -37476,13 +37501,14 @@ identifier X
 user-defined-literal "abc"_ud2 U"def"_ud2 U"ghi"_ud2 _ud2 string array of 10 char32_t 61000000620000006300000064000000650000006600000067000000680000006900000000000000
 simple ; OP_SEMICOLON
 identifier X
-invalidud_suffix does not start with _: U"ghi"yyy
+ERROR: invalid "abc"_ud2 U"def"_ud2 U"ghi"yyy
+yyy
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 identifier X
 invalidmismatched encoding prefix in string literal sequence
@@ -37612,7 +37638,8 @@ identifier X
 invalidmismatched encoding prefix in string literal sequence
 simple ; OP_SEMICOLON
 identifier X
-invalidmismatched encoding prefix in string literal sequence
+ERROR: mismatched encoding prefix in string literal sequence
+invalid "abc"_ud2 L"def" u8"ghi"_ud1
 simple ; OP_SEMICOLON
 identifier X
 invalidmismatched encoding prefix in string literal sequence
@@ -38224,7 +38251,8 @@ simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "def"_ud2 u8"ghi"_ud1
 simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
@@ -38234,7 +38262,8 @@ simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
 identifier X
-invalidud_suffix does not start with _: u8"ghi"yyy
+ERROR: ud_suffix does not start with _: u8"ghi"yyy
+invalid "def"_ud2 u8"ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
@@ -38244,7 +38273,8 @@ simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
 identifier X
-invalidmismatched ud_suffix in string literal sequence
+ERROR: mismatched ud_suffix in string literal sequence
+invalid "def"_ud2 u"ghi"_ud1
 simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
@@ -38254,7 +38284,8 @@ simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
 identifier X
-invalidud_suffix does not start with _: u"ghi"yyy
+ERROR: ud_suffix does not start with _: u"ghi"yyy
+invalid "def"_ud2 u"ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
 user-defined-literal "abc"_ud2 _ud2 string array of 4 char 61626300
@@ -38541,93 +38572,11 @@ identifier X
 invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
-invalidud_suffix does not start with _: "abc"yyy
+ERROR: invalid "abc"yyy "def"_ud1
+th _: "abc"yyy
 simple ; OP_SEMICOLON
 identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-literal "ghi" array of 4 char 67686900
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-identifier X
-invalidud_suffix does not start with _: "ghi"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
-simple ; OP_SEMICOLON
-identifier X
-invalidud_suffix does not start with _: "abc"yyy
+ERROR: ud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 identifier X
 invalidud_suffix does not start with _: "abc"yyy
@@ -40063,6 +40012,90 @@ invalidud_suffix does not start with _: "abc"yyy
 simple ; OP_SEMICOLON
 identifier X
 invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+literal "ghi" array of 4 char 67686900
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud1 _ud1 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+user-defined-literal "ghi"_ud2 _ud2 string array of 4 char 67686900
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+identifier X
+invalidud_suffix does not start with _: "ghi"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+identifier X
+invalidud_suffix does not start with _: "abc"yyy
+simple ; OP_SEMICOLON
+ERROR: ud_suffix does not start with _: "abc"yyy
+identifier X
+invalid "abc"yyy L"def"yyy u"ghi"
 simple ; OP_SEMICOLON
 identifier X
 invalidud_suffix does not start with _: "abc"yyy
@@ -40138,7 +40171,8 @@ identifier X
 user-defined-literal "def" "ghi"_ud2 _ud2 string array of 7 char 64656667686900
 simple ; OP_SEMICOLON
 identifier X
-invalidud_suffix does not start with _: "abc"yyy
+ERROR: invalid "abc"yyy
+t start with _: "abc"yyy
 identifier X
 invalidud_suffix does not start with _: "ghi"yyy
 simple ; OP_SEMICOLON
@@ -40301,7 +40335,7 @@ identifier X
 user-defined-literal "def"_ud1 u"ghi" _ud1 string array of 7 char16_t 6400650066006700680069000000
 simple ; OP_SEMICOLON
 identifier X
-invalidud_suffix does not start with _: "abc"yyy
+ERROR: ud_suffix does not start with _: "abc"yyy
 identifier X
 user-defined-literal "def"_ud1 u"ghi"_ud1 _ud1 string array of 7 char16_t 6400650066006700680069000000
 simple ; OP_SEMICOLON
@@ -40313,7 +40347,7 @@ simple ; OP_SEMICOLON
 identifier X
 invalidud_suffix does not start with _: "abc"yyy
 identifier X
-invalidud_suffix does not start with _: u"ghi"yyy
+ERROR: ud_suffix does not start with _: u"ghi"yyy
 simple ; OP_SEMICOLON
 identifier X
 invalidud_suffix does not start with _: "abc"yyy
