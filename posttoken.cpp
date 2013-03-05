@@ -633,7 +633,6 @@ long double PA2Decode_long_double(const string& s)
 {
 	istringstream iss(s);
 	long double x;
-	memset(&x, 0, sizeof(x));
 	iss >> x;
 	return x;
 }

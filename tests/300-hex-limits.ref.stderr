@@ -233,13 +233,11 @@ user-defined-literal 0x100000000_ud1 _ud1 integer 0x100000000
 user-defined-literal 0x100000000_ud1l _ud1l integer 0x100000000
 invalidmalformed number (#2): 0x100000000l_ud1
 user-defined-literal 0x100000000_ud1L _ud1L integer 0x100000000
-ERROR: malformed number (#2): 0x100000000L_ud1
+invalidmalformed number (#2): 0x100000000L_ud1
 user-defined-literal 0x100000000_ud1ll _ud1ll integer 0x100000000
-ERROR: invalid 0x100000000ll_ud1
-00000000ll_ud1
+invalidmalformed number (#2): 0x100000000ll_ud1
 user-defined-literal 0x100000000_ud1LL _ud1LL integer 0x100000000
-ERROR: invalid 0x100000000LL_ud1
-00000000LL_ud1
+invalidmalformed number (#2): 0x100000000LL_ud1
 literal 0x7FFFFFFFFFFFFFFF long int FFFFFFFFFFFFFF7F
 literal 0x7FFFFFFFFFFFFFFF long int FFFFFFFFFFFFFF7F
 literal 0x7FFFFFFFFFFFFFFFl long int FFFFFFFFFFFFFF7F
@@ -273,7 +271,7 @@ literal 0x7FFFFFFFFFFFFFFFLLU unsigned long long int FFFFFFFFFFFFFF7F
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1 _ud1 integer 0x7FFFFFFFFFFFFFFF
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1 _ud1 integer 0x7FFFFFFFFFFFFFFF
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1l _ud1l integer 0x7FFFFFFFFFFFFFFF
-invalidmalformed number (#2): 0x7FFFFFFFFFFFFFFFl_ud1
+ERROR: malformed number (#2): 0x7FFFFFFFFFFFFFFFl_ud1
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1L _ud1L integer 0x7FFFFFFFFFFFFFFF
 invalidmalformed number (#2): 0x7FFFFFFFFFFFFFFFL_ud1
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1ll _ud1ll integer 0x7FFFFFFFFFFFFFFF
