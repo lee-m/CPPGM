@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <unordered_set>
-
+#include <cstring>
 using namespace std;
 
 #include "IPPTokenStream.h"
@@ -132,31 +132,43 @@ public:
 };
 
 // Tokenizer
-struct PPTokeniser
+class PPTokeniser
 {
+private:
 	IPPTokenStream& mOutput;
 
 	//Pointers to the current input buffer, the end of the input buffer and the current position within the buffer
-	const char *mBuffer;
-	const char *mBufferEnd;
-	const char *mCurrPosition;
+	char *mBuffer;
+	char *mBufferEnd;
+	char *mCurrPosition;
 	char mLastChar;
 
 	//Whether to suppress the standard transformations to apply when lexing each char
 	int mSuppressTransformations;
 
-	PPTokeniser(IPPTokenStream& output)
+public:
+	PPTokeniser(IPPTokenStream& output, const string &input)
 		: mOutput(output)
 	{
-	}
-    
-	void process(const string &input)
-	{  
-		mBuffer = input.c_str();
+		//Copy the input into a writable buffer so that trigraphs and UCNs can be folded in-place
+		mBuffer = new char[input.length() + 1];
+		memcpy(mBuffer, input.c_str(), input.length());
+
 		mBufferEnd = mBuffer + input.length();
 		mCurrPosition = mBuffer;
     mSuppressTransformations = 0;
+	}
+   
+	~PPTokeniser()
+	{
+		delete [] mBuffer;
+		mBuffer = 0;
+		mBufferEnd = 0;
+		mCurrPosition = 0;
+	}
 
+	void process()
+	{  
 		skip_whitespace();
 
 		while(!end_of_input())
@@ -384,7 +396,8 @@ struct PPTokeniser
 
 					case '\n':
 						{
-							next_char();
+							//Only want to skip over the new-line char
+							++mCurrPosition;
 							mOutput.emit_new_line();
 							break;
 						}
@@ -500,13 +513,15 @@ struct PPTokeniser
 						}
 
 					default:
-						next_char();
+
+						if(!end_of_input())
+							next_char();
 					}
 			}
 
 		//If the input is not empty and does not end in a new-line, insert one
 		if(mBuffer != mBufferEnd 
-			 && mLastChar != '\n')
+			 && *(mBufferEnd - 1) != '\n')
 			mOutput.emit_new_line();
 
 		mOutput.emit_eof();
@@ -821,6 +836,9 @@ struct PPTokeniser
 								//Skip the '??' and fold the trigraph to its corresponding character
 								skip_chars(2);
 								ch = fold_trigraph(curr_char());
+
+								//Replace the final trigraph char with its folded equivalent
+								*mCurrPosition = ch;
 							}						
 					}
 			}
@@ -839,9 +857,14 @@ struct PPTokeniser
 			{
 				if(!end_of_input() && peek_char() == '\n')
 					{
-						//Skip over the \ and new-line
+						//Skip over the \ and new-line. If we hit the end of the input then clamp
+						//the current char to the final new line
 						skip_chars(2);
-						ch = curr_char();
+						
+						if(end_of_input())
+							ch = *mBufferEnd;
+						else
+							ch = curr_char();
 					}
 			}
 	}
@@ -895,9 +918,9 @@ int main()
 		string input = oss.str();
 
 		DebugPPTokenStream output;
-		PPTokeniser tokenizer(output);
+		PPTokeniser tokenizer(output, input);
 
-		tokenizer.process(input);
+		tokenizer.process();
 	}
 	catch (exception& e)
 	{
