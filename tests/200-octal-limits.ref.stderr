@@ -73,13 +73,11 @@ user-defined-literal 017777777776_ud1 _ud1 integer 017777777776
 user-defined-literal 017777777776_ud1l _ud1l integer 017777777776
 invalidmalformed number (#2): 017777777776l_ud1
 user-defined-literal 017777777776_ud1L _ud1L integer 017777777776
-ERROR: invalid 017777777776L_ud1
-777777776L_ud1
+invalidmalformed number (#2): 017777777776L_ud1
 user-defined-literal 017777777776_ud1ll _ud1ll integer 017777777776
-ERROR: invalid 017777777776ll_ud1
-77777776ll_ud1
+invalidmalformed number (#2): 017777777776ll_ud1
 user-defined-literal 017777777776_ud1LL _ud1LL integer 017777777776
-ERROR: malformed number (#2): 017777777776LL_ud1
+invalidmalformed number (#2): 017777777776LL_ud1
 literal 020000000000 unsigned int 00000080
 literal 020000000000 unsigned int 00000080
 literal 020000000000l long int 0000008000000000
@@ -113,17 +111,13 @@ literal 020000000000LLU unsigned long long int 0000008000000000
 user-defined-literal 020000000000_ud1 _ud1 integer 020000000000
 user-defined-literal 020000000000_ud1 _ud1 integer 020000000000
 user-defined-literal 020000000000_ud1l _ud1l integer 020000000000
-ERROR: invalid 020000000000l_ud1
-000000000l_ud1
+invalidmalformed number (#2): 020000000000l_ud1
 user-defined-literal 020000000000_ud1L _ud1L integer 020000000000
-ERROR: invalid 020000000000L_ud1
-000000000L_ud1
+invalidmalformed number (#2): 020000000000L_ud1
 user-defined-literal 020000000000_ud1ll _ud1ll integer 020000000000
-ERROR: invalid 020000000000ll_ud1
-00000000ll_ud1
+invalidmalformed number (#2): 020000000000ll_ud1
 user-defined-literal 020000000000_ud1LL _ud1LL integer 020000000000
-ERROR: invalid 020000000000LL_ud1
-00000000LL_ud1
+invalidmalformed number (#2): 020000000000LL_ud1
 literal 037777777777 unsigned int FFFFFFFF
 literal 037777777777 unsigned int FFFFFFFF
 literal 037777777777l long int FFFFFFFF00000000
@@ -241,7 +235,8 @@ invalidmalformed number (#2): 040000000000l_ud1
 user-defined-literal 040000000000_ud1L _ud1L integer 040000000000
 invalidmalformed number (#2): 040000000000L_ud1
 user-defined-literal 040000000000_ud1ll _ud1ll integer 040000000000
-invalidmalformed number (#2): 040000000000ll_ud1
+ERROR: invalid 040000000000ll_ud1
+00000000ll_ud1
 user-defined-literal 040000000000_ud1LL _ud1LL integer 040000000000
 invalidmalformed number (#2): 040000000000LL_ud1
 literal 0000000000777777777777777777777 long int FFFFFFFFFFFFFF7F
@@ -279,11 +274,14 @@ user-defined-literal 0000000000777777777777777777777_ud1 _ud1 integer 0000000000
 user-defined-literal 0000000000777777777777777777777_ud1l _ud1l integer 0000000000777777777777777777777
 invalidmalformed number (#2): 0000000000777777777777777777777l_ud1
 user-defined-literal 0000000000777777777777777777777_ud1L _ud1L integer 0000000000777777777777777777777
-invalidmalformed number (#2): 0000000000777777777777777777777L_ud1
+ERROR: invalid 0000000000777777777777777777777L_ud1
+777777777L_ud1
 user-defined-literal 0000000000777777777777777777777_ud1ll _ud1ll integer 0000000000777777777777777777777
-invalidmalformed number (#2): 0000000000777777777777777777777ll_ud1
+ERROR: invalid 0000000000777777777777777777777ll_ud1
+77777777ll_ud1
 user-defined-literal 0000000000777777777777777777777_ud1LL _ud1LL integer 0000000000777777777777777777777
-invalidmalformed number (#2): 0000000000777777777777777777777LL_ud1
+ERROR: invalid 0000000000777777777777777777777LL_ud1
+77777777LL_ud1
 literal 0777777777777777777776 long int FEFFFFFFFFFFFF7F
 literal 0777777777777777777776 long int FEFFFFFFFFFFFF7F
 literal 0777777777777777777776l long int FEFFFFFFFFFFFF7F

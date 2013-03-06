@@ -8,10 +8,13 @@ literal 0ll long long int 0000000000000000
 literal 0ll long long int 0000000000000000
 literal 0LL long long int 0000000000000000
 literal 0LL long long int 0000000000000000
-invalidmalformed number (#4): 0X
-invalidmalformed number (#4): 0X
-invalidinvalid integer suffix lL
-invalidinvalid integer suffix lL
+ERROR: malformed number (#4): 0X
+ERROR: invalid 0X
+umber (#4): 0X
+ERROR: invalid integer suffix lL
+ERROR: invalid integer suffix lL
+invalid 0lL
+invalid 0lL
 user-defined-literal 0_ud2 _ud2 integer 0
 user-defined-literal 0_ud2 _ud2 integer 0
 literal 0u unsigned int 00000000
@@ -229,9 +232,11 @@ invalidmalformed number (#2): 00l_ud1
 user-defined-literal 00_ud1L _ud1L integer 00
 invalidmalformed number (#2): 00L_ud1
 user-defined-literal 00_ud1ll _ud1ll integer 00
-invalidmalformed number (#2): 00ll_ud1
+ERROR: malformed number (#2): 00ll_ud1
+invalid 00ll_ud1
 user-defined-literal 00_ud1LL _ud1LL integer 00
-invalidmalformed number (#2): 00LL_ud1
+ERROR: invalid 00LL_ud1
+(#2): 00LL_ud1
 user-defined-literal 00_ud1X _ud1X integer 00
 invalidmalformed number (#4): 00X_ud1
 user-defined-literal 00_ud1lL _ud1lL integer 00
@@ -338,83 +343,17 @@ literal 0x123u unsigned int 23010000
 literal 0x123u unsigned int 23010000
 literal 0x123ul unsigned long int 2301000000000000
 literal 0x123lu unsigned long int 2301000000000000
-ERROR: malformed number (#3): 0x123uX
-ERROR: malformed number (#3): 0x123Xu
-ERROR: invalid integer suffix ulL
-ERROR: invalid integer suffix lLu
-ERROR: malformed number (#2): 0x123u_ud2
-ERROR: malformed number (#3): 0x123UX
-ERROR: malformed number (#3): 0x123XU
-ERROR: invalid integer suffix UlL
-ERROR: invalid integer suffix lLU
-ERROR: malformed number (#2): 0x123U_ud2
-ERROR: malformed number (#3): 0x123W
-ERROR: malformed number (#3): 0x123W
-ERROR: malformed number (#3): 0x123Wl
-ERROR: malformed number (#3): 0x123lW
-ERROR: malformed number (#3): 0x123WL
-ERROR: malformed number (#3): 0x123LW
-ERROR: malformed number (#3): 0x123Wll
-ERROR: malformed number (#3): 0x123llW
-ERROR: malformed number (#3): 0x123WLL
-ERROR: malformed number (#3): 0x123LLW
-ERROR: malformed number (#3): 0x123WX
-ERROR: malformed number (#3): 0x123XW
-ERROR: invalid integer suffix lL
-ERROR: malformed number (#3): 0x123lLW
-ERROR: malformed number (#3): 0x123W_ud2
-ERROR: malformed number (#2): 0x123l_ud1
-ERROR: malformed number (#2): 0x123L_ud1
-ERROR: malformed number (#2): 0x123ll_ud1
-ERROR: malformed number (#2): 0x123LL_ud1
-ERROR: malformed number (#3): 0x123X_ud1
-ERROR: invalid integer suffix lL
-ERROR: malformed number (#4): 0123X
-ERROR: malformed number (#4): 0123X
-ERROR: invalid integer suffix lL
-ERROR: invalid integer suffix lL
-ERROR: malformed number (#4): 0123uX
-ERROR: malformed number (#4): 0123Xu
-ERROR: invalid integer suffix ulL
-ERROR: invalid integer suffix lLu
-ERROR: malformed number (#2): 0123u_ud2
-ERROR: malformed number (#4): 0123UX
-ERROR: malformed number (#4): 0123XU
-ERROR: invalid integer suffix UlL
-ERROR: invalid integer suffix lLU
-ERROR: malformed number (#2): 0123U_ud2
-ERROR: malformed number (#4): 0123W
-ERROR: malformed number (#4): 0123W
-ERROR: malformed number (#4): 0123Wl
-ERROR: malformed number (#4): 0123lW
-ERROR: malformed number (#4): 0123WL
-ERROR: malformed number (#4): 0123LW
-ERROR: malformed number (#4): 0123Wll
-ERROR: malformed number (#4): 0123llW
-ERROR: malformed number (#4): 0123WLL
-ERROR: malformed number (#4): 0123LLW
-ERROR: malformed number (#4): 0123WX
-ERROR: malformed number (#4): 0123XW
-ERROR: invalid integer suffix lL
-ERROR: malformed number (#4): 0123lLW
-ERROR: malformed number (#4): 0123W_ud2
-ERROR: malformed number (#2): 0123l_ud1
-ERROR: malformed number (#2): 0123L_ud1
-ERROR: malformed number (#2): 0123ll_ud1
-ERROR: malformed number (#2): 0123LL_ud1
-ERROR: malformed number (#4): 0123X_ud1
-ERROR: invalid integer suffix lL
 literal 0x123uL unsigned long int 2301000000000000
 literal 0x123Lu unsigned long int 2301000000000000
 literal 0x123ull unsigned long long int 2301000000000000
 literal 0x123llu unsigned long long int 2301000000000000
 literal 0x123uLL unsigned long long int 2301000000000000
 literal 0x123LLu unsigned long long int 2301000000000000
-invalid 0x123uX
-invalid 0x123Xu
-invalid 0x123ulL
-invalid 0x123lLu
-invalid 0x123u_ud2
+invalidmalformed number (#3): 0x123uX
+invalidmalformed number (#3): 0x123Xu
+invalidinvalid integer suffix ulL
+invalidinvalid integer suffix lLu
+invalidmalformed number (#2): 0x123u_ud2
 user-defined-literal 0x123_ud2u _ud2u integer 0x123
 literal 0x123U unsigned int 23010000
 literal 0x123U unsigned int 23010000
@@ -426,42 +365,42 @@ literal 0x123Ull unsigned long long int 2301000000000000
 literal 0x123llU unsigned long long int 2301000000000000
 literal 0x123ULL unsigned long long int 2301000000000000
 literal 0x123LLU unsigned long long int 2301000000000000
-invalid 0x123UX
-invalid 0x123XU
-invalid 0x123UlL
-invalid 0x123lLU
-invalid 0x123U_ud2
+invalidmalformed number (#3): 0x123UX
+invalidmalformed number (#3): 0x123XU
+invalidinvalid integer suffix UlL
+invalidinvalid integer suffix lLU
+invalidmalformed number (#2): 0x123U_ud2
 user-defined-literal 0x123_ud2U _ud2U integer 0x123
-invalid 0x123W
-invalid 0x123W
-invalid 0x123Wl
-invalid 0x123lW
-invalid 0x123WL
-invalid 0x123LW
-invalid 0x123Wll
-invalid 0x123llW
-invalid 0x123WLL
-invalid 0x123LLW
-invalid 0x123WX
-invalid 0x123XW
-invalid 0x123WlL
-invalid 0x123lLW
-invalid 0x123W_ud2
+invalidmalformed number (#3): 0x123W
+invalidmalformed number (#3): 0x123W
+invalidmalformed number (#3): 0x123Wl
+invalidmalformed number (#3): 0x123lW
+invalidmalformed number (#3): 0x123WL
+invalidmalformed number (#3): 0x123LW
+invalidmalformed number (#3): 0x123Wll
+invalidmalformed number (#3): 0x123llW
+invalidmalformed number (#3): 0x123WLL
+invalidmalformed number (#3): 0x123LLW
+invalidmalformed number (#3): 0x123WX
+invalidmalformed number (#3): 0x123XW
+invalidinvalid integer suffix lL
+invalidmalformed number (#3): 0x123lLW
+invalidmalformed number (#3): 0x123W_ud2
 user-defined-literal 0x123_ud2W _ud2W integer 0x123
 user-defined-literal 0x123_ud1 _ud1 integer 0x123
 user-defined-literal 0x123_ud1 _ud1 integer 0x123
 user-defined-literal 0x123_ud1l _ud1l integer 0x123
-invalid 0x123l_ud1
+invalidmalformed number (#2): 0x123l_ud1
 user-defined-literal 0x123_ud1L _ud1L integer 0x123
-invalid 0x123L_ud1
+invalidmalformed number (#2): 0x123L_ud1
 user-defined-literal 0x123_ud1ll _ud1ll integer 0x123
-invalid 0x123ll_ud1
+invalidmalformed number (#2): 0x123ll_ud1
 user-defined-literal 0x123_ud1LL _ud1LL integer 0x123
-invalid 0x123LL_ud1
+invalidmalformed number (#2): 0x123LL_ud1
 user-defined-literal 0x123_ud1X _ud1X integer 0x123
-invalid 0x123X_ud1
+invalidmalformed number (#3): 0x123X_ud1
 user-defined-literal 0x123_ud1lL _ud1lL integer 0x123
-invalid 0x123lL_ud1
+invalidinvalid integer suffix lL
 user-defined-literal 0x123_ud1_ud2 _ud1_ud2 integer 0x123
 user-defined-literal 0x123_ud2_ud1 _ud2_ud1 integer 0x123
 literal 0123 int 53000000
@@ -474,10 +413,10 @@ literal 0123ll long long int 5300000000000000
 literal 0123ll long long int 5300000000000000
 literal 0123LL long long int 5300000000000000
 literal 0123LL long long int 5300000000000000
-invalid 0123X
-invalid 0123X
-invalid 0123lL
-invalid 0123lL
+invalidmalformed number (#4): 0123X
+invalidmalformed number (#4): 0123X
+invalidinvalid integer suffix lL
+invalidinvalid integer suffix lL
 user-defined-literal 0123_ud2 _ud2 integer 0123
 user-defined-literal 0123_ud2 _ud2 integer 0123
 literal 0123u unsigned int 53000000
@@ -490,11 +429,11 @@ literal 0123ull unsigned long long int 5300000000000000
 literal 0123llu unsigned long long int 5300000000000000
 literal 0123uLL unsigned long long int 5300000000000000
 literal 0123LLu unsigned long long int 5300000000000000
-invalid 0123uX
-invalid 0123Xu
-invalid 0123ulL
-invalid 0123lLu
-invalid 0123u_ud2
+invalidmalformed number (#4): 0123uX
+invalidmalformed number (#4): 0123Xu
+invalidinvalid integer suffix ulL
+invalidinvalid integer suffix lLu
+invalidmalformed number (#2): 0123u_ud2
 user-defined-literal 0123_ud2u _ud2u integer 0123
 literal 0123U unsigned int 53000000
 literal 0123U unsigned int 53000000
@@ -506,42 +445,42 @@ literal 0123Ull unsigned long long int 5300000000000000
 literal 0123llU unsigned long long int 5300000000000000
 literal 0123ULL unsigned long long int 5300000000000000
 literal 0123LLU unsigned long long int 5300000000000000
-invalid 0123UX
-invalid 0123XU
-invalid 0123UlL
-invalid 0123lLU
-invalid 0123U_ud2
+invalidmalformed number (#4): 0123UX
+invalidmalformed number (#4): 0123XU
+invalidinvalid integer suffix UlL
+invalidinvalid integer suffix lLU
+invalidmalformed number (#2): 0123U_ud2
 user-defined-literal 0123_ud2U _ud2U integer 0123
-invalid 0123W
-invalid 0123W
-invalid 0123Wl
-invalid 0123lW
-invalid 0123WL
-invalid 0123LW
-invalid 0123Wll
-invalid 0123llW
-invalid 0123WLL
-invalid 0123LLW
-invalid 0123WX
-invalid 0123XW
-invalid 0123WlL
-invalid 0123lLW
-invalid 0123W_ud2
+invalidmalformed number (#4): 0123W
+invalidmalformed number (#4): 0123W
+invalidmalformed number (#4): 0123Wl
+invalidmalformed number (#4): 0123lW
+invalidmalformed number (#4): 0123WL
+invalidmalformed number (#4): 0123LW
+invalidmalformed number (#4): 0123Wll
+invalidmalformed number (#4): 0123llW
+invalidmalformed number (#4): 0123WLL
+invalidmalformed number (#4): 0123LLW
+invalidmalformed number (#4): 0123WX
+invalidmalformed number (#4): 0123XW
+invalidinvalid integer suffix lL
+invalidmalformed number (#4): 0123lLW
+invalidmalformed number (#4): 0123W_ud2
 user-defined-literal 0123_ud2W _ud2W integer 0123
 user-defined-literal 0123_ud1 _ud1 integer 0123
 user-defined-literal 0123_ud1 _ud1 integer 0123
 user-defined-literal 0123_ud1l _ud1l integer 0123
-invalid 0123l_ud1
+invalidmalformed number (#2): 0123l_ud1
 user-defined-literal 0123_ud1L _ud1L integer 0123
-invalid 0123L_ud1
+invalidmalformed number (#2): 0123L_ud1
 user-defined-literal 0123_ud1ll _ud1ll integer 0123
-invalid 0123ll_ud1
+invalidmalformed number (#2): 0123ll_ud1
 user-defined-literal 0123_ud1LL _ud1LL integer 0123
-invalid 0123LL_ud1
+invalidmalformed number (#2): 0123LL_ud1
 user-defined-literal 0123_ud1X _ud1X integer 0123
-invalid 0123X_ud1
+invalidmalformed number (#4): 0123X_ud1
 user-defined-literal 0123_ud1lL _ud1lL integer 0123
-invalid 0123lL_ud1
+invalidinvalid integer suffix lL
 user-defined-literal 0123_ud1_ud2 _ud1_ud2 integer 0123
 user-defined-literal 0123_ud2_ud1 _ud2_ud1 integer 0123
 eof

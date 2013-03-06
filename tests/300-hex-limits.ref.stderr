@@ -271,7 +271,7 @@ literal 0x7FFFFFFFFFFFFFFFLLU unsigned long long int FFFFFFFFFFFFFF7F
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1 _ud1 integer 0x7FFFFFFFFFFFFFFF
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1 _ud1 integer 0x7FFFFFFFFFFFFFFF
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1l _ud1l integer 0x7FFFFFFFFFFFFFFF
-ERROR: malformed number (#2): 0x7FFFFFFFFFFFFFFFl_ud1
+invalidmalformed number (#2): 0x7FFFFFFFFFFFFFFFl_ud1
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1L _ud1L integer 0x7FFFFFFFFFFFFFFF
 invalidmalformed number (#2): 0x7FFFFFFFFFFFFFFFL_ud1
 user-defined-literal 0x7FFFFFFFFFFFFFFF_ud1ll _ud1ll integer 0x7FFFFFFFFFFFFFFF

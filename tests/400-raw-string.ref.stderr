@@ -13,9 +13,11 @@ literal R"a(
 a"
 )a" array of 8 char 0A295C0A61220A00
 simple ; OP_SEMICOLON
-literal R"(??)" R"#(
+literal R"(??)" array of 3 char 3F3F00
+simple ; OP_SEMICOLON
+literal R"#(
 )??="
-)#" array of 10 char 3F3F0A293F3F3D220A00
+)#" array of 8 char 0A293F3F3D220A00
 simple ; OP_SEMICOLON
 literal R"woah(ouch(aπ𝄞\'\"\?\\\a\b\f\n\r\t\v\u03C0\U0001D11E\x3C0\x1D11E\101)ouch)woah" array of 72 char 6F7563682861CF80F09D849E5C275C225C3F5C5C5C615C625C665C6E5C725C745C765C75303343305C5530303031443131455C783343305C7831443131455C313031296F75636800
 simple ; OP_SEMICOLON

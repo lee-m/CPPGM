@@ -1,6 +1,7 @@
 user-defined-literal 'u'_da _da character char 75
-invalidud_suffix does not start with _: 'u'da
+ERROR: ud_suffix does not start with _: 'u'da
+invalid 'u'da
 user-defined-literal "fsaf"_da _da string array of 5 char 6673616600
-simple ; OP_SEMICOLON
-invalidud_suffix does not start with _: "dafa"da
+ERROR: invalid "dafa"da
+t start with _: "dafa"da
 eof
