@@ -1,0 +1,3 @@
+string-literal 42 R"zzzzzzzzzzzzzzzzz(abc)zzzzzzzzzzzzzzzzz"
+new-line 0 
+eof
