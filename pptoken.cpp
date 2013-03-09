@@ -402,6 +402,33 @@ public:
               break;
             }
             
+          case '\"':
+            {
+              string lit;
+              bool user_defined_literal = false;
+
+              append_curr_char_to_token_and_advance(lit);
+              lex_string_literal_contents(lit);
+           
+              //If we have the start of an identifier adjacent to the end ", we have a user defined 
+              //string literal
+              if(is_identifier_non_digit(curr_char()))
+                {
+                  user_defined_literal = true;
+                  append_curr_char_to_token_and_advance(lit);
+
+                  while(!end_of_input()
+                        && valid_identifier_char(curr_char()))
+                    append_curr_char_to_token_and_advance(lit);
+                }
+
+              if(user_defined_literal)
+                mOutput.emit_user_defined_string_literal(lit);
+              else
+                mOutput.emit_string_literal(lit);
+              break;
+            }
+
           case '\'':
             {
               lex_char_literal(/*wide_literal=*/false);
@@ -410,11 +437,31 @@ public:
 
           case 'U': case 'u': case 'L':
             {
-              if(peek_char() == '\'')
+              int peeked_ch = peek_char();
+
+              if(peeked_ch == '\'')
                 {
                   lex_char_literal(/*wide_literal=*/true);
                   break;
                 }
+              else if(peeked_ch == '8' 
+                      || peeked_ch == '\"')
+                {
+                  string lit;
+                  
+                  //Add the u
+                  append_curr_char_to_token_and_advance(lit);
+
+                  //If we have u8 then add the 8
+                  if(peeked_ch == '8')
+                    append_curr_char_to_token_and_advance(lit);
+
+                  //Add the opening quote and the contents of the literal
+                  append_curr_char_to_token_and_advance(lit);
+                  lex_string_literal_contents(lit);
+                  mOutput.emit_string_literal(lit);
+                  break;
+                }                  
             
               //Fallthru and treat the U, u or L as an identifier
             }
@@ -527,6 +574,25 @@ public:
     mOutput.emit_eof();
   }
   
+  /**
+   * Lex's the contents of a string literal. Assumes that the leading prefix or " has
+   * already been processed.
+   */
+  void lex_string_literal_contents(string &literal)
+  {
+    while(true)
+      {
+        if(end_of_input())
+          throw PPTokeniserException("Unterminated string literal");
+
+        int ch = curr_char();
+        append_curr_char_to_token_and_advance(literal);
+
+        if(ch == '\"')
+          break;
+      }
+  }
+
   /**
    * Appends the character at the current position to the passed in token data
    * and advances forward one character.
@@ -676,6 +742,14 @@ public:
    */
   bool valid_identifier_char(int ch)
   {
+    return is_identifier_non_digit(ch) || isdigit(ch);
+  }
+  
+  /**
+   * Determines whether the specified character is a character in the range a-z or A-Z.
+   */
+  bool is_identifier_non_digit(int ch)
+  {
     switch(ch)
       {
       case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
@@ -684,10 +758,15 @@ public:
       case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
       case 'J': case 'K': case 'L': case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
       case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
-      case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
         return true;
             
       default:
+
+        //TODO: UCNs are valid identifier-non-digit. 
+        //Each universal-character-name in an identifier shall designate a character whose encoding in 
+        //ISO 10646 falls into one of the ranges specified in E.1. The initial element shall not be a 
+        //universal-character-name designating a character whose encoding
+        //falls into one of the ranges specified in E.2.
         return false;
       }
   }
