@@ -1,0 +1,7 @@
+string-literal 28 R"delimiter((a|b))delimiter"
+new-line 0 
+string-literal 29 R"delimiter((a|b)))delimiter"
+new-line 0 
+string-literal 28 R"delimiter(a|b)))delimiter"
+new-line 0 
+eof
