@@ -1,0 +1,5 @@
+identifier 1 r
+string-literal 5 "abc"
+non-whitespace-character 2 ̀
+new-line 0 
+eof
