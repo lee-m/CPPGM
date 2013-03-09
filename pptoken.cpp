@@ -511,7 +511,13 @@ public:
                   mOutput.emit_preprocessing_op_or_punc(tok);
                 }
               else
-                lex_pp_number();
+                {
+                  string num;
+                  append_curr_char_to_token_and_advance(num);
+
+                  lex_pp_number(num);
+                  mOutput.emit_pp_number(num);
+                }
 
               break;
             }
@@ -560,6 +566,10 @@ public:
             }
 
           default:
+
+            string tok;
+            tok.append(1, curr_ch);
+            mOutput.emit_non_whitespace_char(tok);
 
             if(!end_of_input())
               next_char();
@@ -699,30 +709,30 @@ public:
    *   pp-number E sign
    *   pp-number .
    */
-  void lex_pp_number()
-  {
-    string num;
+  void lex_pp_number(string &num)
+  {  
+    int curr_ch = curr_char();
 
-    if(*mCurrPosition == '.')
+    if(isdigit(curr_ch))
       {
-        num += *mCurrPosition;
-        next_char();
-        lex_digit_sequence(num);
-      }
-    else if(isdigit(*mCurrPosition))
-      {
-        //Handle the digit grammar production
-        lex_digit_sequence(num);
-        mOutput.emit_pp_number(num);
-      }
-  }
+        while(isdigit(curr_char()))
+          append_curr_char_to_token_and_advance(num);
 
-  void lex_digit_sequence(string &result)
-  {
-    while(isdigit(*mCurrPosition))
+        lex_pp_number(num);
+      }
+    else if(curr_ch == 'e' || curr_ch == 'E')
       {
-        result += *mCurrPosition;
-        next_char();
+        append_curr_char_to_token_and_advance(num);
+
+        if(curr_char() == '+' || curr_char() == '-')
+          append_curr_char_to_token_and_advance(num);
+
+        lex_pp_number(num);
+      }
+    else if(curr_ch == '.' || is_identifier_non_digit(curr_ch))
+      {
+        append_curr_char_to_token_and_advance(num);
+        lex_pp_number(num);
       }
   }
 
