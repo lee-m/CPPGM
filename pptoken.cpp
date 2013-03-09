@@ -641,6 +641,9 @@ public:
    *   u’ c-char-sequence ’
    *   U’ c-char-sequence ’
    *   L’ c-char-sequence ’
+   *
+   * user-defined-character-literal:
+   *   character-literal ud-suffix
    */
   void lex_char_literal(bool wide_literal)
   {
