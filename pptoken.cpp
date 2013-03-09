@@ -666,7 +666,24 @@ public:
           }
       }
 
-    mOutput.emit_character_literal(char_lit);
+    //If we have the start of an identifier adjacent to the end ", we have a user defined 
+    //string literal
+    bool user_defined_literal = false;
+
+    if(is_identifier_non_digit(curr_char()))
+      {
+        user_defined_literal = true;
+        append_curr_char_to_token_and_advance(char_lit);
+
+        while(!end_of_input()
+              && valid_identifier_char(curr_char()))
+          append_curr_char_to_token_and_advance(char_lit);
+      }
+
+    if(user_defined_literal)
+      mOutput.emit_user_defined_character_literal(char_lit);
+    else
+      mOutput.emit_character_literal(char_lit);
   }
 
   /*
