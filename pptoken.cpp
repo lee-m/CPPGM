@@ -435,42 +435,58 @@ public:
               break;
             }
 
+          case 'R':
+            {
+              if(peek_char() == '\"')
+                {
+                  //Raw string
+                  string lit;
+                 
+                  //Add the R"
+                  append_curr_char_to_token_and_advance(lit);
+                  append_curr_char_to_token_and_advance(lit);
+                  lex_raw_string_literal_contents(lit);
+
+                  mOutput.emit_string_literal(lit);
+                }
+              else
+                lex_identifier();
+                  
+              break;
+            }
+
           case 'U': case 'u': case 'L':
             {
-              int peeked_ch = peek_char();
-
-              if(peeked_ch == '\'')
+              if(peek_char() == '\'')
                 {
                   lex_char_literal(/*wide_literal=*/true);
                   break;
                 }
-              else if(peeked_ch == '8' 
-                      || peeked_ch == '\"')
+              else if(start_of_encoding_prefix())
                 {
-                  string lit;
-                  
-                  //Add the u
-                  append_curr_char_to_token_and_advance(lit);
+                  string prefix = "";
+                  lex_encoding_prefix(prefix);
 
-                  //If we have u8 then add the 8
-                  if(peeked_ch == '8')
-                    append_curr_char_to_token_and_advance(lit);
+                  //Add the opening " and the string contents
+                  append_curr_char_to_token_and_advance(prefix);
 
-                  //Add the opening quote and the contents of the literal
-                  append_curr_char_to_token_and_advance(lit);
-                  lex_string_literal_contents(lit);
-                  mOutput.emit_string_literal(lit);
+                  if(prefix[prefix.length() -2] == 'R')
+                    lex_raw_string_literal_contents(prefix);
+                  else
+                    lex_string_literal_contents(prefix);
+
+                  mOutput.emit_string_literal(prefix);
                   break;
-                }                  
-            
-              //Fallthru and treat the U, u or L as an identifier
+                }
+                             
+              //Fallthru and treat the U, u, L or R as an identifier
             }
 
           case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
           case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
           case 's': case 't': case 'v': case 'w': case 'x': case 'y': case 'z':
           case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
-          case 'J': case 'K': case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
+          case 'J': case 'K': case 'M': case 'N': case 'O': case 'P': case 'Q':
           case 'S': case 'T': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
             {
               lex_identifier();
@@ -493,8 +509,7 @@ public:
                 }
 
                 //Fallthru for single '.' case
-            }
-                                      
+            }                                      
           case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': 
             {
               int peeked_ch = peek_char();
@@ -582,6 +597,234 @@ public:
       mOutput.emit_new_line();
 
     mOutput.emit_eof();
+  }
+
+  /**
+   * Determines if the current character marks the start of an encoding prefix for a
+   * string literal.
+   */
+  bool start_of_encoding_prefix()
+  {
+    bool ret = false;
+    int curr_ch = curr_char();
+
+    ++mSuppressTransformations;
+   
+    switch(curr_ch)
+      {
+      case 'u':
+        {
+          //u, uR, u8, u8R
+          if(peek_char() == '\"')
+            ret = true;
+          else if(peek_char() == '8')
+            {
+              //Have u8, check for u8R" and u8"
+              if(nth_char(2) == '\"' 
+                 || (nth_char(2) == 'R'
+                     && nth_char(3) == '\"'))
+                 ret =true;
+
+              break;
+            }
+          else if(peek_char() == 'R'
+                  && nth_char(2) == '\"')
+            ret = true;
+
+        case 'U': case 'L':
+            {
+              //Check for (L|U)" and (L|U)R"
+              if(peek_char() == '\"')
+                ret = true;
+              else if(nth_char(1) == 'R'
+                      && nth_char(2) == '\"')
+                ret = true;
+
+              break;
+            }
+        }
+      }
+
+    --mSuppressTransformations;
+    return ret;
+  }
+
+  /**
+   * encoding-prefix:
+   *  u8
+   *  u8R
+   *  u
+   *  uR
+   *  U
+   *  UR
+   *  L
+   *  LR
+   */
+  void lex_encoding_prefix(string &prefix)
+  {
+    int curr_ch = curr_char();
+
+    ++mSuppressTransformations;
+   
+    switch(curr_ch)
+      {
+      case 'u':
+        {
+          //u, uR, u8, u8R
+          if(peek_char() == '\"')
+            append_curr_char_to_token_and_advance(prefix);
+          else if(peek_char() == 'R'
+                  && nth_char(2) == '\"')
+            {
+              //Append the uR
+              append_chars_to_token_and_advance(prefix, 2);
+            }
+          else if(peek_char() == '8')
+            {
+              //Have u8, check for u8R" and u8"
+              if(nth_char(2) == '\"')
+                {
+                  //Append the u8
+                  append_chars_to_token_and_advance(prefix, 2);
+                }
+              else if(nth_char(2) == 'R'
+                     && nth_char(3) == '\"') 
+                {
+                  //Append the u8R
+                  append_chars_to_token_and_advance(prefix, 3);
+                }
+            }
+
+          break;
+
+        case 'U': case 'L':
+            {
+              //U, UR, L, LR
+              if(peek_char() == '\"')
+                {
+                  //Append the U or L
+                  append_curr_char_to_token_and_advance(prefix);
+                }
+              else if(peek_char() == 'R'
+                      && nth_char(2) == '\"')
+                {
+                  //UR or LR
+                  append_curr_char_to_token_and_advance(prefix);
+                  append_curr_char_to_token_and_advance(prefix);
+                }
+            }
+        }
+      }
+
+    --mSuppressTransformations;
+  }
+
+  /**
+   * Appends a variable number of characters to the specified token.
+   */
+  void append_chars_to_token_and_advance(string &tok, int count)
+  {
+    for(int i = 0; i < count; i++)
+      append_curr_char_to_token_and_advance(tok);
+  }
+
+  /**
+   * raw-string:
+   *  " d-char-sequenceopt ( r-char-sequenceopt ) d-char-sequenceopt "
+   *
+   * r-char-sequence:
+   *  r-char
+   *  r-char-sequence r-char
+   *  r-char:
+   *    any member of the source character set, except
+   *    a right parenthesis ) followed by the initial d-char-sequence
+   *    (which may be empty) followed by a double quote ".
+   *
+   *  d-char-sequence:
+   *    d-char
+   *    d-char-sequence d-char
+   *
+   *  d-char:
+   *    any member of the basic source character set except:
+   *    space, the left parenthesis (, the right parenthesis ), the backslash \,
+   *    and the control characters representing horizontal tab,
+   *    vertical tab, form feed, and newline.
+   */
+  void lex_raw_string_literal_contents(string &literal)
+  {
+    ++mSuppressTransformations;
+
+    //See if the string has a delimiter
+    string delimiter;
+   
+    while(curr_char() != '(')
+      {
+        //Check for invalid delimiter characters
+        int curr_ch = curr_char();
+
+        if(curr_ch == ' '
+           || curr_ch == ')'
+           || curr_ch == '\\'
+           || curr_ch == '\t'
+           || curr_ch == '\v'
+           || curr_ch == '\f'
+           || curr_ch == '\n')
+          throw PPTokeniserException("invalid characters in raw string delimiter");
+        else
+          append_curr_char_to_token_and_advance(delimiter);
+      }
+
+    //Delimiters are limited to 16 chars
+    if(delimiter.length() > 16)
+      throw PPTokeniserException("raw string delimiters cannot exceed 16 characters");
+
+    //Add the delimiter and opening ( to the literal
+    literal += delimiter;
+    append_curr_char_to_token_and_advance(literal);
+
+    //add the contents
+    while(true)
+      {
+        //See if this is the terminating d-char-sequence
+        if(curr_char() == ')')
+          {
+            append_curr_char_to_token_and_advance(literal);
+
+            if(delimiter.length() == 0 && curr_char() == '\"')
+              {
+                append_curr_char_to_token_and_advance(literal);
+                break;
+              }
+            else if(delimiter.length() > 0
+                    && match_raw_string_delimiter(delimiter)
+                    && nth_char(delimiter.length()) == '\"')
+              {
+                while(curr_char() != '\"')
+                  append_curr_char_to_token_and_advance(literal);
+                
+                append_curr_char_to_token_and_advance(literal);
+                break;
+              }
+          }
+        else
+          append_curr_char_to_token_and_advance(literal);
+      }
+    
+    --mSuppressTransformations;
+  }
+
+  /**
+   * Determines whether the sequence of chars starting at the current position
+   * matches the specified raw string delimiter.
+   */
+  bool match_raw_string_delimiter(const string &delimiter)
+  {
+    unsigned int remaining_char_count = mBufferEnd - mCurrPosition;
+
+    if(remaining_char_count < delimiter.length())
+      return false;
+
+    return strncmp(mCurrPosition, delimiter.c_str(), delimiter.length()) == 0;
   }
   
   /**

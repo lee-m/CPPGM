@@ -1,0 +1,3 @@
+string-literal 18 R"foo(abc)foo)foo"
+new-line 0 
+eof
