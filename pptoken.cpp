@@ -1066,12 +1066,7 @@ public:
    */
   int peek_char()
   {
-    //TODO: encode char to UTF8
-
-    if(mCurrPosition == mBufferEnd)
-      throw PPTokeniserException("Unexpected end of file found.");
-      
-    return apply_transformations(*(mCurrPosition + 1));
+    return nth_char(1);
   }
 
   /*
@@ -1097,7 +1092,7 @@ public:
   /**
    * Accesses the character at the specified distance from the current position.
    */
-  int nth_char(int pos)
+  int nth_char(unsigned int pos)
   {
     if(mCurrPosition + pos > mBufferEnd)
       throw PPTokeniserException("Attempt to access past end of input");
@@ -1108,7 +1103,7 @@ public:
   /** 
    * Advances the current buffer position by the specified number of characters.
    */
-  void skip_chars(int count)
+  void skip_chars(unsigned int count)
   {
     if(mCurrPosition + count > mBufferEnd)
       throw PPTokeniserException("Attempt to skip past end of input");
