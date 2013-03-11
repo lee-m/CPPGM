@@ -818,24 +818,27 @@ public:
 
     return strncmp(mCurrPosition, delimiter.c_str(), delimiter.length()) == 0;
   }
-  
+
   /**
    * Lex's the contents of a string literal. Assumes that the leading prefix or " has
    * already been processed.
    */
   void lex_string_literal_contents(string &literal)
   {
-    while(true)
+    while(curr_char() != '\"')
       {
         if(end_of_input())
           throw PPTokeniserException("Unterminated string literal");
 
-        int ch = curr_char();
-        append_curr_char_to_token_and_advance(literal);
-
-        if(ch == '\"')
-          break;
+        if(curr_char() == '\\')
+          append_chars_to_token_and_advance(literal, 2);
+        else
+          append_curr_char_to_token_and_advance(literal);
       }
+    
+
+    //add the closing "
+    append_curr_char_to_token_and_advance(literal);
   }
 
   /**
@@ -898,24 +901,24 @@ public:
     if(wide_literal)
       append_curr_char_to_token_and_advance(char_lit);
 
-    while(curr_char() != '\'')
+    while(true)
       {
-        if(end_of_input())
-          throw PPTokeniserException("Unterminated character literal");
-        else
+        //If this character is a \, skip over the escape character
+        if(curr_char() == '\\')
           {
-            append_curr_char_to_token_and_advance(char_lit);
-
-            if(curr_char() == '\'')
-              {
-                append_curr_char_to_token_and_advance(char_lit);
-                break;
-              }
+            append_chars_to_token_and_advance(char_lit, 2);
+            continue;
           }
-      }
+        else
+          append_curr_char_to_token_and_advance(char_lit);
 
+        //See if we've hit the terminating '
+        if(*char_lit.rbegin() == '\'')
+          break;
+      }
+        
     //If we have the start of an identifier adjacent to the end ", we have a user defined 
-    //string literal
+    //character literal
     bool user_defined_literal = false;
 
     if(is_identifier_non_digit(curr_char()))
