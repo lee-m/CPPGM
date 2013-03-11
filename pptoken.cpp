@@ -236,8 +236,7 @@ public:
 
                       //Consume and output the ::
                       tok = "";
-                      append_curr_char_to_token_and_advance(tok);
-                      append_curr_char_to_token_and_advance(tok);
+                      append_chars_to_token_and_advance(tok, 2);
                       mOutput.emit_preprocessing_op_or_punc(tok);
                     }
 
@@ -288,14 +287,9 @@ public:
                 {
                   append_curr_char_to_token_and_advance(tok);
 
-                  if(curr_char() == '%' && peek_char() == ':')
-                    {
-                      //Append the second '%'
-                      append_curr_char_to_token_and_advance(tok);
-                      
-                      //Append the second ':'
-                      append_curr_char_to_token_and_advance(tok);
-                    }
+                  if(curr_char() == '%' 
+                     && peek_char() == ':')
+                    append_chars_to_token_and_advance(tok, 2);
                 }
               else if(curr_char() == '>' 
                       || curr_char() == '=')
@@ -310,7 +304,8 @@ public:
               string tok;
               append_curr_char_to_token_and_advance(tok);
 
-              if(curr_char() == '>' || curr_char() == ':')
+              if(curr_char() == '>' 
+                 || curr_char() == ':')
                 append_curr_char_to_token_and_advance(tok);
 
               mOutput.emit_preprocessing_op_or_punc(tok);
@@ -359,7 +354,8 @@ public:
                append_curr_char_to_token_and_advance(tok);
 
                //May have +, ++ or +=
-               if(curr_char() == '+' || curr_char() == '=')
+               if(curr_char() == '+' 
+                  || curr_char() == '=')
                  append_curr_char_to_token_and_advance(tok);
 
                mOutput.emit_preprocessing_op_or_punc(tok);
@@ -441,10 +437,8 @@ public:
                 {
                   //Raw string
                   string lit;
-                 
-                  //Add the R"
-                  append_curr_char_to_token_and_advance(lit);
-                  append_curr_char_to_token_and_advance(lit);
+
+                  append_chars_to_token_and_advance(lit, 2);
                   lex_raw_string_literal_contents(lit);
 
                   mOutput.emit_string_literal(lit);
@@ -495,15 +489,13 @@ public:
 
           case '.':
             {
-              if(nth_char(1) == '.' && nth_char(2) == '.')
+              if(nth_char(1) == '.' 
+                 && nth_char(2) == '.')
                 {
                   //We have ...
                   string tok;
-                  
-                  append_curr_char_to_token_and_advance(tok);
-                  append_curr_char_to_token_and_advance(tok);
-                  append_curr_char_to_token_and_advance(tok);
 
+                  append_chars_to_token_and_advance(tok, 3);
                   mOutput.emit_preprocessing_op_or_punc(tok);
                   break;
                 }
@@ -567,7 +559,8 @@ public:
               next_char();
 
               //If the next character is a new-line, consume the newline and carry on with the next character
-              if(!end_of_input() && curr_char() == '\n')
+              if(!end_of_input() 
+                 && curr_char() == '\n')
                 next_char();
               else
                 {
@@ -709,8 +702,7 @@ public:
                       && nth_char(2) == '\"')
                 {
                   //UR or LR
-                  append_curr_char_to_token_and_advance(prefix);
-                  append_curr_char_to_token_and_advance(prefix);
+                  append_chars_to_token_and_advance(prefix, 2);
                 }
             }
         }
@@ -1207,7 +1199,8 @@ public:
     //character is deleted.
     if(ch == '\\')
       {
-        if(!end_of_input() && peek_char() == '\n')
+        if(!end_of_input() 
+           && peek_char() == '\n')
           {
             //Skip over the \ and new-line. If we hit the end of the input then clamp
             //the current char to the final new line
