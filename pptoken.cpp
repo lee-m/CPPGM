@@ -221,7 +221,8 @@ public:
                       //2.5.3 - Otherwise, if the next three characters are <:: and the subsequent character is 
                       //neither : nor >, the < is treated as a preprocessor token by itself and not as the first 
                       //character of the alternative token <:
-                      if(nth_char(2) != ':' && nth_char(2) != '>')
+                      if(nth_char(2) != ':' 
+                         && nth_char(2) != '>')
                         {
                           //The < needs to be treated as a separate pre-processing token
                           //and not the start of a <: alternate token
@@ -681,7 +682,7 @@ public:
                   append_chars_to_token_and_advance(prefix, 2);
                 }
               else if(nth_char(2) == 'R'
-                     && nth_char(3) == '\"') 
+                      && nth_char(3) == '\"') 
                 {
                   //Append the u8R
                   append_chars_to_token_and_advance(prefix, 3);
@@ -958,16 +959,19 @@ public:
 
         lex_pp_number(num);
       }
-    else if(curr_ch == 'e' || curr_ch == 'E')
+    else if(curr_ch == 'e' 
+            || curr_ch == 'E')
       {
         append_curr_char_to_token_and_advance(num);
 
-        if(curr_char() == '+' || curr_char() == '-')
+        if(curr_char() == '+' 
+           || curr_char() == '-')
           append_curr_char_to_token_and_advance(num);
 
         lex_pp_number(num);
       }
-    else if(curr_ch == '.' || is_identifier_non_digit(curr_ch))
+    else if(curr_ch == '.' 
+            || is_identifier_non_digit(curr_ch))
       {
         append_curr_char_to_token_and_advance(num);
         lex_pp_number(num);
