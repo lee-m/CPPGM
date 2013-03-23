@@ -16,8 +16,6 @@ using namespace std;
 
 // Translation features you need to implement:
 // - utf8 decoder
-// - utf8 encoder
-// - universal-character-name decoder
 
 // See C++ standard 2.11 Identifiers and Appendix/Annex E.1
 const vector<pair<int, int>> AnnexE1_Allowed_RangesSorted =
@@ -554,8 +552,9 @@ public:
               tok.append(1, curr_ch);
             else
               {
-                //UCNs may start an identifier
-                if(valid_identifier_char(curr_ch))
+                //UCNs may start an identifier.
+                if(valid_identifier_char(curr_ch)
+                   && valid_initial_identifier_char(curr_ch))
                   {
                     lex_identifier();
                     break;
@@ -1016,6 +1015,18 @@ public:
   }
   
   /**
+   * Determines whether the specified character is allowed to start an
+   * identifier.
+   */
+  bool valid_initial_identifier_char(int ch)
+  {
+    //The initial element shall not be a 
+    //universal-character-name designating a character whose encoding
+    //falls into one of the ranges specified in E.2.
+    return true;
+  }
+
+  /**
    * Determines whether the specified character is a character in the range a-z or A-Z.
    */
   bool is_identifier_non_digit(int ch)
@@ -1037,9 +1048,7 @@ public:
         if(ch < 0)
           {
             //Each universal-character-name in an identifier shall designate a character whose encoding in 
-            //ISO 10646 falls into one of the ranges specified in E.1. The initial element shall not be a 
-            //universal-character-name designating a character whose encoding
-            //falls into one of the ranges specified in E.2.
+            //ISO 10646 falls into one of the ranges specified in E.1.
             //TODO: implement the above
             return true;
           }
