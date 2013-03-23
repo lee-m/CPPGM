@@ -6,46 +6,18 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <cstring>
+#include <deque>
+#include <vector>
 using namespace std;
 
 #include "IPPTokenStream.h"
 #include "DebugPPTokenStream.h"
+#include "utf8.h"
 
 // Translation features you need to implement:
 // - utf8 decoder
 // - utf8 encoder
 // - universal-character-name decoder
-
-// given hex digit character c, return its value
-int HexCharToValue(int c)
-{
-  switch (c)
-  {
-  case '0': return 0;
-  case '1': return 1;
-  case '2': return 2;
-  case '3': return 3;
-  case '4': return 4;
-  case '5': return 5;
-  case '6': return 6;
-  case '7': return 7;
-  case '8': return 8;
-  case '9': return 9;
-  case 'A': return 10;
-  case 'a': return 10;
-  case 'B': return 11;
-  case 'b': return 11;
-  case 'C': return 12;
-  case 'c': return 12;
-  case 'D': return 13;
-  case 'd': return 13;
-  case 'E': return 14;
-  case 'e': return 14;
-  case 'F': return 15;
-  case 'f': return 15;
-  default: throw logic_error("HexCharToValue of nonhex char");
-  }
-}
 
 // See C++ standard 2.11 Identifiers and Appendix/Annex E.1
 const vector<pair<int, int>> AnnexE1_Allowed_RangesSorted =
@@ -138,30 +110,30 @@ private:
   IPPTokenStream& mOutput;
 
   //Pointers to the current input buffer, the end of the input buffer and the current position within the buffer
-  char *mBuffer;
-  char *mBufferEnd;
-  char *mCurrPosition;
-  char mLastChar;
+  const char *mBuffer;
+  const char *mBufferEnd;
+  const char *mCurrPosition;
+  int mLastChar;
 
   //Whether to suppress the standard transformations to apply when lexing each char
   int mSuppressTransformations;
+
+  deque<int> mTransformedChars;
 
 public:
   PPTokeniser(IPPTokenStream& output, const string &input)
     : mOutput(output)
   {
-    //Copy the input into a writable buffer so that trigraphs and UCNs can be folded in-place
-    mBuffer = new char[input.length() + 1];
-    memcpy(mBuffer, input.c_str(), input.length());
-
+    mBuffer = input.c_str();
     mBufferEnd = mBuffer + input.length();
     mCurrPosition = mBuffer;
     mSuppressTransformations = 0;
+    mLastChar = 0;
   }
    
   ~PPTokeniser()
   {
-    delete [] mBuffer;
+    mBuffer = 0;
     mBuffer = 0;
     mBufferEnd = 0;
     mCurrPosition = 0;
@@ -577,7 +549,21 @@ public:
           default:
 
             string tok;
-            tok.append(1, curr_ch);
+
+            if(curr_ch >= 0)
+              tok.append(1, curr_ch);
+            else
+              {
+                //UCNs may start an identifier
+                if(valid_identifier_char(curr_ch))
+                  {
+                    lex_identifier();
+                    break;
+                  }
+                else
+                  append_curr_char_to_token_and_advance(tok);
+              }
+
             mOutput.emit_non_whitespace_char(tok);
 
             if(!end_of_input())
@@ -587,7 +573,7 @@ public:
 
     //If the input is not empty and does not end in a new-line, insert one
     if(mBuffer != mBufferEnd 
-       && *(mBufferEnd - 1) != '\n')
+       && mLastChar != '\n')
       mOutput.emit_new_line();
 
     mOutput.emit_eof();
@@ -783,7 +769,8 @@ public:
           {
             append_curr_char_to_token_and_advance(literal);
 
-            if(delimiter.length() == 0 && curr_char() == '\"')
+            if(delimiter.length() == 0 
+               && curr_char() == '\"')
               {
                 append_curr_char_to_token_and_advance(literal);
                 break;
@@ -837,7 +824,6 @@ public:
           append_curr_char_to_token_and_advance(literal);
       }
     
-
     //add the closing "
     append_curr_char_to_token_and_advance(literal);
   }
@@ -848,7 +834,21 @@ public:
    */
   void append_curr_char_to_token_and_advance(string &tok)
   {
-    tok.append(1, (char)curr_char());
+    int ch = curr_char();
+
+    if(ch < 0)
+      {
+        //UTF8 code points have the sign bit set to 1 so decode the code point into
+        //the corresponding code units
+        vector<unsigned char> code_units;
+        utf8_code_point_to_code_units(ch, code_units);
+                    
+        for(auto ch : code_units)
+          tok.append(1, (int)ch);
+      }
+    else
+      tok.append(1, ch);
+
     next_char();
   }
 
@@ -861,16 +861,14 @@ public:
    *   nondigit
    *   universal-character-name
    */
-  void lex_identifier()
+ void lex_identifier()
   {
     string identifier;
-    int ch = *mCurrPosition;
 
-    while(valid_identifier_char(ch))
+    while(valid_identifier_char(curr_char()))
       {
-        identifier += *mCurrPosition;
-        ch = next_char();
-
+        append_curr_char_to_token_and_advance(identifier);
+        
         if(end_of_input())
           break;
       }
@@ -994,11 +992,11 @@ public:
   {
     while(true)
       {
-        if(*mCurrPosition == '*' && peek_char() == '/')
+        if(*mCurrPosition == '*' 
+           && peek_char() == '/')
           {
             //Consume the '*/' sequence
-            next_char();
-            next_char();
+            skip_chars(2);
             break;
           }
         else
@@ -1034,12 +1032,19 @@ public:
             
       default:
 
-        //TODO: UCNs are valid identifier-non-digit. 
-        //Each universal-character-name in an identifier shall designate a character whose encoding in 
-        //ISO 10646 falls into one of the ranges specified in E.1. The initial element shall not be a 
-        //universal-character-name designating a character whose encoding
-        //falls into one of the ranges specified in E.2.
-        return false;
+        //UTF-8 encoded code points will be negative decimal numbers due to the upper bits being
+        //set to represent the number of bytes 
+        if(ch < 0)
+          {
+            //Each universal-character-name in an identifier shall designate a character whose encoding in 
+            //ISO 10646 falls into one of the ranges specified in E.1. The initial element shall not be a 
+            //universal-character-name designating a character whose encoding
+            //falls into one of the ranges specified in E.2.
+            //TODO: implement the above
+            return true;
+          }
+        else
+          return false;
       }
   }
 
@@ -1081,6 +1086,14 @@ public:
    */
   int next_char()
   {
+    //Remove any buffered char
+    if(!mTransformedChars.empty())
+      mTransformedChars.pop_front();
+        
+    //If we've still got something buffered, return the first one
+    if(!mTransformedChars.empty())
+      return mTransformedChars.front();
+
     if(mCurrPosition == mBufferEnd)
       throw PPTokeniserException("Unexpected end of file found.");
 
@@ -1093,17 +1106,31 @@ public:
    */
   int curr_char()
   {
-    return apply_transformations(*mCurrPosition);
+    if(!mTransformedChars.empty())
+      return mTransformedChars.front();
+    else
+      {
+        int ch = apply_transformations(*mCurrPosition);
+
+        if(!mTransformedChars.empty())
+          ch = mTransformedChars.front();
+
+        return ch;
+      }
   }
 
   /**
    * Accesses the character at the specified distance from the current position.
    */
   int nth_char(unsigned int pos)
-  {
+  { 
+    if(!mSuppressTransformations 
+       && mTransformedChars.size() > pos)
+      return mTransformedChars[pos];
+
     if(mCurrPosition + pos > mBufferEnd)
       throw PPTokeniserException("Attempt to access past end of input");
-
+    
     return *(mCurrPosition + pos);
   }
 
@@ -1112,10 +1139,22 @@ public:
    */
   void skip_chars(unsigned int count)
   {
-    if(mCurrPosition + count > mBufferEnd)
-      throw PPTokeniserException("Attempt to skip past end of input");
+    if(!mTransformedChars.empty())
+      {
+        for(unsigned int i = 0; i < min(count, (unsigned int)mTransformedChars.size()); i++)
+          {
+            mTransformedChars.pop_front();
+            count -= 1;
+          }
+      }
 
-    mCurrPosition += count;
+    for(unsigned int i = 0; i < count; i++)
+      {
+        if(end_of_input())
+          throw PPTokeniserException("Attempt to skip past end of input");
+        else
+          next_char();
+      }
   }
 
   /**
@@ -1136,12 +1175,14 @@ public:
     ++mSuppressTransformations;
 
     //Skip any comemnts
-    if(ch == '/' && peek_char() == '/')
+    if(ch == '/' 
+       && peek_char() == '/')
       {
         skip_cpp_comment();
         ch = ' ';
       }
-    else if(ch == '/' && peek_char() == '*')
+    else if(ch == '/' 
+            && peek_char() == '*')
       {
         skip_c_comment();
         ch = ' ';
@@ -1149,7 +1190,7 @@ public:
 
     apply_phase_one_transformations(ch);
     apply_phase_two_transformations(ch);
-    
+
     --mSuppressTransformations;
     return ch;
   }
@@ -1182,16 +1223,163 @@ public:
                 //Skip the '??' and fold the trigraph to its corresponding character
                 skip_chars(2);
                 ch = fold_trigraph(curr_char());
-
-                //Replace the final trigraph char with its folded equivalent
-                *mCurrPosition = ch;
+                mTransformedChars.push_back(ch);
               }           
           }
       }
+    else if(ch == '\\')
+      {
+        int peeked_ch = peek_char();
+        unsigned int code_unit = 0;
 
-    //TODO: UCN decoding
+        //Save the current position in case we find that this is not a UCN
+        const char *save_point = mCurrPosition;
+
+        if(peeked_ch == 'u')
+          {
+            skip_chars(2);
+
+            if(maybe_lex_utf8_code_units(4, code_unit))
+              {
+                ch = encode_to_utf8(code_unit);
+                mTransformedChars.push_back(ch);
+              }
+            else
+              mCurrPosition = save_point;
+          }
+        else if(peeked_ch == 'U')
+          {
+            skip_chars(2);
+
+            if(maybe_lex_utf8_code_units(8, code_unit))
+              {
+                ch = encode_to_utf8(code_unit);
+                mTransformedChars.push_back(ch);
+              }
+            else
+              mCurrPosition = save_point;
+          }
+      }
   }
 
+  /**
+   * Lexes a UTF16 code unit.
+   */
+  bool lex_utf16_code_unit(unsigned short &code_unit)
+  {
+    for(int i = 0; i < 4; i++)
+      {
+        if(end_of_input())
+          {
+            code_unit = 0;
+            return false;
+          }
+
+        int ch = curr_char();
+
+        if(isxdigit(ch))
+          {
+            switch(i % 4)
+              {
+              case 0:
+                {
+                  code_unit = hex_char_to_int_value(ch) << 12;
+                  break;
+                }
+
+              case 1:
+                {
+                  code_unit |= (hex_char_to_int_value(ch) << 8);
+                  break;
+                }
+
+              case 2:
+                {
+                  code_unit |= (hex_char_to_int_value(ch) << 4);
+                  break;
+                }
+              case 3:
+                {
+                  code_unit |= hex_char_to_int_value(ch);
+                  break;
+                }
+              }
+          }
+        else
+          {
+            code_unit = 0;
+            return false;
+          }
+
+        next_char();
+      }
+
+    return true;
+  }
+
+  /**
+   * Attempts to lex a specified number of UTF-8 code units represented as
+   * hexadecimal quads where a hex-quad is defined in 2.3.2 as:
+   *
+   * hex-quad:
+   *   hexadecimal-digit hexadecimal-digit hexadecimal-digit hexadecimal-digit
+   *
+   * Returns true if the required number of code units was lexed, otherwise false.
+   */
+  bool maybe_lex_utf8_code_units(unsigned int num_code_units, unsigned int &code_point)
+  {
+    for(unsigned int i = num_code_units / 4; i > 0; i--)
+    {
+      unsigned short utf16_unit = 0;
+
+      if(lex_utf16_code_unit(utf16_unit))
+        code_point |= utf16_unit << ((i - 1) * 16);
+      else
+        {
+          code_point = 0;
+          return false;
+        }
+
+    } 
+
+    //Rewind the current position by one character so that we're at the final character
+    //of the last code unit.
+    --mCurrPosition;
+    return true;
+  }
+
+  /**
+   * Returns the integer value of a hexadecimal digit.
+   */
+  int hex_char_to_int_value(int c)
+  {
+    switch (c)
+      {
+      case '0': return 0;
+      case '1': return 1;
+      case '2': return 2;
+      case '3': return 3;
+      case '4': return 4;
+      case '5': return 5;
+      case '6': return 6;
+      case '7': return 7;
+      case '8': return 8;
+      case '9': return 9;
+      case 'A': return 10;
+      case 'a': return 10;
+      case 'B': return 11;
+      case 'b': return 11;
+      case 'C': return 12;
+      case 'c': return 12;
+      case 'D': return 13;
+      case 'd': return 13;
+      case 'E': return 14;
+      case 'e': return 14;
+      case 'F': return 15;
+      case 'f': return 15;
+      default: throw logic_error("HexCharToValue of nonhex char");
+      }
+  }
   /** 
    * Applies the transformations listed in phase 2 in section 2.2.
    */
