@@ -1155,14 +1155,17 @@ public:
    */
   int nth_char(unsigned int pos)
   { 
-    if(!mSuppressTransformations 
-       && mTransformedChars.size() > pos)
+    if(mTransformedChars.size() > pos)
       return mTransformedChars[pos];
+    else
+      {
+        pos -= mTransformedChars.size();
 
-    if(mCurrPosition + pos > mBufferEnd)
-      throw PPTokeniserException("Attempt to access past end of input");
+        if(mCurrPosition + pos > mBufferEnd)
+          throw PPTokeniserException("Attempt to access past end of input");
     
-    return *(mCurrPosition + pos);
+        return *(mCurrPosition + pos);
+      }
   }
 
   /** 
@@ -1260,7 +1263,8 @@ public:
               }           
           }
       }
-    else if(ch == '\\')
+
+    if(ch == '\\')
       {
         int peeked_ch = peek_char();
         unsigned int code_unit = 0;
