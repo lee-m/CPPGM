@@ -139,8 +139,6 @@ public:
 
   void process()
   {  
-    skip_whitespace();
-
     while(!end_of_input())
       {
         int curr_ch = curr_char();
@@ -356,7 +354,10 @@ public:
 
           case ' ': case '\t': case '\v': case '\f': case '\r':
             {
+              ++mSuppressTransformations;
               skip_whitespace();
+              --mSuppressTransformations;
+
               mOutput.emit_whitespace_sequence();
               break;
             }
@@ -981,7 +982,12 @@ public:
   void skip_cpp_comment()
   {
     while(*mCurrPosition != '\n')
-      next_char();
+      {
+        if(end_of_input())
+          break;
+
+        next_char();
+      }
   }
 
   /*
@@ -1063,14 +1069,17 @@ public:
    */
   void skip_whitespace()
   {
-    while(*mCurrPosition == ' '
-          || *mCurrPosition == '\t'
-          || *mCurrPosition == '\v'
-          || *mCurrPosition == '\f'
-          || *mCurrPosition == '\r')
+    while(curr_char() == ' '
+          || curr_char() == '\t'
+          || curr_char() == '\v'
+          || curr_char() == '\f'
+          || curr_char() == '\r')
       {
+        if(end_of_input())
+          break;
+
         //next_char() will handle skipping over adjacent comments
-        next_char();
+       next_char();
       }
   }
 
@@ -1079,7 +1088,8 @@ public:
    */
   bool end_of_input()
   {
-    return mCurrPosition == mBufferEnd;
+    return mCurrPosition == mBufferEnd
+           && mTransformedChars.size() == 0;
   }
 
   /*
@@ -1097,17 +1107,29 @@ public:
   {
     //Remove any buffered char
     if(!mTransformedChars.empty())
-      mTransformedChars.pop_front();
+      {
+        mTransformedChars.pop_front();
         
-    //If we've still got something buffered, return the first one
-    if(!mTransformedChars.empty())
-      return mTransformedChars.front();
-
-    if(mCurrPosition == mBufferEnd)
-      throw PPTokeniserException("Unexpected end of file found.");
-
-    ++mCurrPosition;
-    return curr_char();
+        //If we've still got something buffered, return the first one
+        if(!mTransformedChars.empty())
+          return mTransformedChars.front();
+        else
+          { 
+            //In the case of buffered characters, the current position in the buffer
+            //will already be pointing at the first character of the next character
+            return curr_char();
+          }
+      }
+    else
+      {
+        if(mCurrPosition == mBufferEnd)
+          return *mBufferEnd;
+        else
+          { 
+            ++mCurrPosition;
+            return curr_char();
+          }
+      }
   }
 
   /**
@@ -1189,12 +1211,14 @@ public:
       {
         skip_cpp_comment();
         ch = ' ';
+        mTransformedChars.push_back(ch);
       }
     else if(ch == '/' 
             && peek_char() == '*')
       {
         skip_c_comment();
         ch = ' ';
+        mTransformedChars.push_back(ch);
       }
 
     apply_phase_one_transformations(ch);
@@ -1229,9 +1253,9 @@ public:
                || third_ch == '>' 
                || third_ch == '-')
               {
-                //Skip the '??' and fold the trigraph to its corresponding character
-                skip_chars(2);
-                ch = fold_trigraph(curr_char());
+                //Skip the trigraph sequence and fold it to its corresponding character
+                skip_chars(3);
+                ch = fold_trigraph(third_ch);
                 mTransformedChars.push_back(ch);
               }           
           }
@@ -1351,9 +1375,6 @@ public:
 
     } 
 
-    //Rewind the current position by one character so that we're at the final character
-    //of the last code unit.
-    --mCurrPosition;
     return true;
   }
 
