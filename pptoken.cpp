@@ -354,10 +354,7 @@ public:
 
           case ' ': case '\t': case '\v': case '\f': case '\r':
             {
-              ++mSuppressTransformations;
               skip_whitespace();
-              --mSuppressTransformations;
-
               mOutput.emit_whitespace_sequence();
               break;
             }
