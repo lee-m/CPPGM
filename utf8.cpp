@@ -15,7 +15,7 @@ int encode_to_utf8(unsigned int code_unit)
   unsigned char b4 = 0;
 
   if(code_unit < 0x80)
-    b1 = code_unit & 0x7F;
+    return code_unit & 0x7F;
   else if(code_unit < 0x0800)
     {
       b1 = (code_unit >> 6 & 0x1F) | 0xC0;
