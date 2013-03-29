@@ -12,10 +12,8 @@ using namespace std;
 
 #include "IPPTokenStream.h"
 #include "DebugPPTokenStream.h"
+#include "pptoken_exception.h"
 #include "utf8.h"
-
-// Translation features you need to implement:
-// - utf8 decoder
 
 // See C++ standard 2.11 Identifiers and Appendix/Annex E.1
 const vector<pair<int, int>> AnnexE1_Allowed_RangesSorted =
@@ -88,17 +86,6 @@ const unordered_set<string> Digraph_IdentifierLike_Operators =
 const unordered_set<int> SimpleEscapeSequence_CodePoints =
 {
   '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v'
-};
-
-class PPTokeniserException : public exception
-{
-private:
-  string mMessage;
-
-public:
-  PPTokeniserException(const string &message) : mMessage(message) {}
-  ~PPTokeniserException() throw() {}
-  const char* what() const throw() { return mMessage.c_str(); }
 };
 
 // Tokenizer
@@ -377,7 +364,8 @@ public:
            
               //If we have the start of an identifier adjacent to the end ", we have a user defined 
               //string literal
-              if(is_identifier_non_digit(curr_char()))
+              if(is_identifier_non_digit(curr_char())
+                 && valid_initial_identifier_char(curr_char()))
                 {
                   user_defined_literal = true;
                   append_curr_char_to_token_and_advance(lit);
@@ -546,8 +534,9 @@ public:
 
             string tok;
 
-            if(curr_ch >= 0)
-              tok.append(1, curr_ch);
+            if(curr_ch >= 0 
+               && curr_ch <= 127)
+              append_char_to_token(curr_ch, tok);
             else
               {
                 //UCNs may start an identifier.
@@ -745,14 +734,14 @@ public:
            || curr_ch == '\v'
            || curr_ch == '\f'
            || curr_ch == '\n')
-          throw PPTokeniserException("invalid characters in raw string delimiter");
+          throw pptoken_exception("invalid characters in raw string delimiter");
         else
           append_curr_char_to_token_and_advance(delimiter);
       }
 
     //Delimiters are limited to 16 chars
     if(delimiter.length() > 16)
-      throw PPTokeniserException("raw string delimiters cannot exceed 16 characters");
+      throw pptoken_exception("raw string delimiters cannot exceed 16 characters");
 
     //Add the delimiter and opening ( to the literal
     literal += delimiter;
@@ -813,7 +802,7 @@ public:
     while(curr_char() != '\"')
       {
         if(end_of_input())
-          throw PPTokeniserException("Unterminated string literal");
+          throw pptoken_exception("Unterminated string literal");
 
         if(curr_char() == '\\')
           append_chars_to_token_and_advance(literal, 2);
@@ -831,22 +820,40 @@ public:
    */
   void append_curr_char_to_token_and_advance(string &tok)
   {
-    int ch = curr_char();
+    append_char_to_token(curr_char(), tok);
+    next_char();
+  }
 
-    if(ch < 0)
+  /*
+   * Appends the specified character to the passed in token, performing
+   * any UTF8 encoding/decoding as required.
+   */
+  void append_char_to_token(int ch, string &tok)
+  {
+    if(ch < 0 || ch > 127)
       {
-        //UTF8 code points have the sign bit set to 1 so decode the code point into
-        //the corresponding code units
+        //Have a UTF8 decoded character (> 127) or a UTF8 encoded character
+        //that's come from a UCN
         vector<unsigned char> code_units;
-        utf8_code_point_to_code_units(ch, code_units);
+        unsigned int encoded_ch = ch < 0 ? ch : encode_to_utf8(ch);
+
+        //Convert the code point into it's code units for adding to the token
+        utf8_code_point_to_code_units(encoded_ch, code_units);
                     
+        for(auto ch : code_units)
+          tok.append(1, (int)ch);
+      }
+    else if(ch > 127)
+      {
+        //Decoded UTF8 character
+        vector<unsigned char> code_units;
+        utf8_code_point_to_code_units(encode_to_utf8(ch), code_units);
+
         for(auto ch : code_units)
           tok.append(1, (int)ch);
       }
     else
       tok.append(1, ch);
-
-    next_char();
   }
 
   /* identifier:
@@ -1005,7 +1012,7 @@ public:
           next_char();
 
         if(end_of_input())
-          throw PPTokeniserException("Unexpected end of file found in comment");
+          throw pptoken_exception("Unexpected end of file found in comment");
       }
   }
 
@@ -1026,6 +1033,13 @@ public:
     //The initial element shall not be a 
     //universal-character-name designating a character whose encoding
     //falls into one of the ranges specified in E.2.
+    for(auto elem : AnnexE2_DisallowedInitially_RangesSorted)
+      {
+        if(ch >= elem.first
+           && ch <= elem.second)
+          return false;
+      }
+
     return true;
   }
 
@@ -1046,17 +1060,16 @@ public:
             
       default:
 
-        //UTF-8 encoded code points will be negative decimal numbers due to the upper bits being
-        //set to represent the number of bytes 
-        if(ch < 0)
+        //Each universal-character-name in an identifier shall designate a character whose encoding in 
+        //ISO 10646 falls into one of the ranges specified in E.1.
+        for(auto elem : AnnexE1_Allowed_RangesSorted)
           {
-            //Each universal-character-name in an identifier shall designate a character whose encoding in 
-            //ISO 10646 falls into one of the ranges specified in E.1.
-            //TODO: implement the above
-            return true;
+            if(ch >= elem.first
+               && ch <= elem.second)
+              return true;
           }
-        else
-          return false;
+
+        return false;
       }
   }
 
@@ -1159,7 +1172,7 @@ public:
         pos -= mTransformedChars.size();
 
         if(mCurrPosition + pos > mBufferEnd)
-          throw PPTokeniserException("Attempt to access past end of input");
+          throw pptoken_exception("Attempt to access past end of input");
     
         return *(mCurrPosition + pos);
       }
@@ -1182,7 +1195,7 @@ public:
     for(unsigned int i = 0; i < count; i++)
       {
         if(end_of_input())
-          throw PPTokeniserException("Attempt to skip past end of input");
+          throw pptoken_exception("Attempt to skip past end of input");
         else
           next_char();
       }
@@ -1218,6 +1231,31 @@ public:
       {
         skip_c_comment();
         ch = ' ';
+        mTransformedChars.push_back(ch);
+      }
+    else if(ch < 0) 
+      {
+        //Decode any UTF8 code unit sequences        
+        vector<unsigned char> code_units;
+        unsigned int num_code_units;
+        unsigned char uch = (unsigned char)ch;
+
+        if(uch <= 0xDF)
+          num_code_units = 2;
+        else if(uch <= 0xEF)
+          num_code_units = 3;
+        else if(uch <= 0xF7)
+          num_code_units = 4;
+        else
+          throw new pptoken_exception("Invalid UTF8 character");
+
+        for(unsigned int i = 0; i < num_code_units; i++)
+          {
+            code_units.push_back(curr_char());
+            next_char();
+          }
+
+        ch = decode_from_utf8(code_units);
         mTransformedChars.push_back(ch);
       }
 
@@ -1275,7 +1313,7 @@ public:
 
             if(maybe_lex_utf8_code_units(4, code_unit))
               {
-                ch = encode_to_utf8(code_unit);
+                ch = code_unit;
                 mTransformedChars.push_back(ch);
               }
             else
@@ -1287,7 +1325,7 @@ public:
 
             if(maybe_lex_utf8_code_units(8, code_unit))
               {
-                ch = encode_to_utf8(code_unit);
+                ch = code_unit;
                 mTransformedChars.push_back(ch);
               }
             else
@@ -1470,7 +1508,7 @@ public:
         return '~';
       }
 
-    throw PPTokeniserException("Invalid trigraph character sequence.");
+    throw pptoken_exception("Invalid trigraph character sequence.");
   }
 };
 
