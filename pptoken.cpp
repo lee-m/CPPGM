@@ -98,14 +98,23 @@ private:
   const char *mBuffer;
   const char *mBufferEnd;
   const char *mCurrPosition;
+
+  //Last character that was processed.
   int mLastChar;
 
   //Whether to suppress the standard transformations to apply when lexing each char
   int mSuppressTransformations;
 
+  //Buffer containing any characters produced as a result of UCN/trigraph 
+  //transformations etc..
   deque<int> mTransformedChars;
 
 public:
+
+  /**
+   * Constructor. Allows the input string and output interface implementation
+   * to be passed in.
+   */
   PPTokeniser(IPPTokenStream& output, const string &input)
     : mOutput(output)
   {
@@ -116,6 +125,9 @@ public:
     mLastChar = 0;
   }
    
+  /**
+   * Destructor.
+   */
   ~PPTokeniser()
   {
     mBuffer = 0;
@@ -124,6 +136,9 @@ public:
     mCurrPosition = 0;
   }
 
+  /**
+   * Tokenises the input text into a series of pptokens.
+   */
   void process()
   {  
     while(!end_of_input())
@@ -421,7 +436,7 @@ public:
                   //Add the opening " and the string contents
                   append_curr_char_to_token_and_advance(prefix);
 
-                  if(prefix[prefix.length() -2] == 'R')
+                  if(prefix[prefix.length() - 2] == 'R')
                     lex_raw_string_literal_contents(prefix);
                   else
                     lex_string_literal_contents(prefix);
@@ -830,7 +845,8 @@ public:
    */
   void append_char_to_token(int ch, string &tok)
   {
-    if(ch < 0 || ch > 127)
+    if(ch < 0 
+       || ch > 127)
       {
         //Have a UTF8 decoded character (> 127) or a UTF8 encoded character
         //that's come from a UCN
@@ -1021,7 +1037,8 @@ public:
    */
   bool valid_identifier_char(int ch)
   {
-    return is_identifier_non_digit(ch) || isdigit(ch);
+    return is_identifier_non_digit(ch) 
+           || isdigit(ch);
   }
   
   /**
@@ -1446,7 +1463,7 @@ public:
       case 'e': return 14;
       case 'F': return 15;
       case 'f': return 15;
-      default: throw logic_error("HexCharToValue of nonhex char");
+      default: throw logic_error("hex_char_to_int_value of nonhex char");
       }
   }
   /** 
