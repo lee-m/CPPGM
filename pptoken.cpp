@@ -547,7 +547,7 @@ public:
                     break;
                   }
                 else
-                  append_curr_char_to_token_and_advance(tok);
+                  append_char_to_token(curr_ch, tok);
               }
 
             mOutput.emit_non_whitespace_char(tok);
