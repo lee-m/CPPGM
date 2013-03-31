@@ -1303,7 +1303,7 @@ public:
       else
       {
         ++mCurrPosition;
-        return curr_char();
+       return curr_char();
       }
     }
   }
@@ -1377,6 +1377,29 @@ public:
    */
   int apply_transformations(int ch)
   {
+    //Decode any UTF8 code unit sequences
+    if(ch < 0)
+    {
+      vector<unsigned char> code_units;
+      unsigned int num_code_units;
+      unsigned char uch = (unsigned char)ch;
+
+      if(uch <= 0xDF)
+        num_code_units = 2;
+      else if(uch <= 0xEF)
+        num_code_units = 3;
+      else if(uch <= 0xF7)
+        num_code_units = 4;
+      else
+        throw new pptoken_exception("Invalid UTF8 character");
+
+      for(unsigned int i = 0; i < num_code_units; i++)
+        code_units.push_back(*mCurrPosition++);
+
+      ch = decode_from_utf8(code_units);
+      mTransformedChars.push_back(ch);
+    }
+
     if(mSuppressTransformations)
       return ch;
 
@@ -1399,32 +1422,7 @@ public:
       ch = ' ';
       mTransformedChars.push_back(ch);
     }
-    else if(ch < 0)
-    {
-      //Decode any UTF8 code unit sequences
-      vector<unsigned char> code_units;
-      unsigned int num_code_units;
-      unsigned char uch = (unsigned char)ch;
-
-      if(uch <= 0xDF)
-        num_code_units = 2;
-      else if(uch <= 0xEF)
-        num_code_units = 3;
-      else if(uch <= 0xF7)
-        num_code_units = 4;
-      else
-        throw new pptoken_exception("Invalid UTF8 character");
-
-      for(unsigned int i = 0; i < num_code_units; i++)
-      {
-        code_units.push_back(curr_char());
-        next_char();
-      }
-
-      ch = decode_from_utf8(code_units);
-      mTransformedChars.push_back(ch);
-    }
-
+    else 
     apply_phase_one_transformations(ch);
     apply_phase_two_transformations(ch);
 
