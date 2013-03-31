@@ -105,7 +105,7 @@ private:
   //Whether to suppress the standard transformations to apply when lexing each char
   int mSuppressTransformations;
 
-  //Buffer containing any characters produced as a result of UCN/trigraph 
+  //Buffer containing any characters produced as a result of UCN/trigraph
   //transformations etc..
   deque<int> mTransformedChars;
 
@@ -129,7 +129,7 @@ public:
     mSuppressTransformations = 0;
     mLastChar = -1;
   }
-   
+
   /**
    * Destructor.
    */
@@ -145,461 +145,487 @@ public:
    * Tokenises the input text into a series of pptokens.
    */
   void process()
-  {  
+  {
     while(!end_of_input())
+    {
+      bool header_name_allowed = mLastChar == -1 || mLastChar == '\n';
+      int curr_ch = curr_char();
+      mLastChar = curr_ch;
+
+      switch(curr_ch)
       {
-        bool header_name_allowed = mLastChar == -1 || mLastChar == '\n';
-        int curr_ch = curr_char();
-        mLastChar = curr_ch;
+        case '#':
+        {
+          string tok;
+          tok.append(1, curr_ch);
 
-        switch(curr_ch)
+          int peeked_ch = peek_char();
+
+          if(peeked_ch == '#')
           {
-          case '#':
+            skip_chars(2);
+            tok.append(1, peeked_ch);
+            mOutput.emit_preprocessing_op_or_punc(tok);
+          }
+          else
+          {
+            //Emit the #
+            next_char();
+            mOutput.emit_preprocessing_op_or_punc(tok);
+
+            if(header_name_allowed)
+              maybe_lex_and_emit_header_name();
+          }
+
+          break;
+        }
+
+        case '<':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          //May be <, <<, <<=, <=, <: or <%
+          if(curr_char() == ':')
+          {
+            //<::: is tokenised as '<:' and '::'
+            //<::> is tokenised as '<:' and ':>'
+            //<::! is tokenised as '<', '::' and '!'
+            //<:   is tokenised as '<:'
+            if(peek_char() != ':')
             {
-              string tok;
-              tok.append(1, curr_ch);
-
-              int peeked_ch = peek_char();
-
-              if(peeked_ch == '#')
-                {
-                  skip_chars(2);
-                  tok.append(1, peeked_ch);
-                  mOutput.emit_preprocessing_op_or_punc(tok);
-                }
+              append_curr_char_to_token_and_advance(tok);
+              mOutput.emit_preprocessing_op_or_punc(tok);
+            }
+            else
+            {
+              //We have <::
+              //2.5.3 - Otherwise, if the next three characters are <:: and the subsequent character is
+              //neither : nor >, the < is treated as a preprocessor token by itself and not as the first
+              //character of the alternative token <:
+              if(nth_char(2) != ':'
+                  && nth_char(2) != '>')
+              {
+                //The < needs to be treated as a separate pre-processing token
+                //and not the start of a <: alternate token
+                mOutput.emit_preprocessing_op_or_punc(tok);
+              }
               else
-                {
-                  //Emit the #
-                  next_char();
-                  mOutput.emit_preprocessing_op_or_punc(tok);
-
-                  if(header_name_allowed)
-                    maybe_lex_and_emit_header_name();
-                }
-
-              break;
-            }
-
-          case '<':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-
-              //May be <, <<, <<=, <=, <: or <%
-              if(curr_char() == ':')
-                {
-                  //<::: is tokenised as '<:' and '::'
-                  //<::> is tokenised as '<:' and ':>'
-                  //<::! is tokenised as '<', '::' and '!'
-                  //<:   is tokenised as '<:'
-                  if(peek_char() != ':')
-                    {
-                      append_curr_char_to_token_and_advance(tok);
-                      mOutput.emit_preprocessing_op_or_punc(tok);
-                    }
-                  else
-                    {
-                      //We have <:: 
-                      //2.5.3 - Otherwise, if the next three characters are <:: and the subsequent character is 
-                      //neither : nor >, the < is treated as a preprocessor token by itself and not as the first 
-                      //character of the alternative token <:
-                      if(nth_char(2) != ':' 
-                         && nth_char(2) != '>')
-                        {
-                          //The < needs to be treated as a separate pre-processing token
-                          //and not the start of a <: alternate token
-                          mOutput.emit_preprocessing_op_or_punc(tok);
-                        }
-                      else
-                        {
-                          //Append the : to form a <: token
-                          append_curr_char_to_token_and_advance(tok);
-                          mOutput.emit_preprocessing_op_or_punc(tok);   
-                        }
-
-                      //Consume and output the ::
-                      tok = "";
-                      append_chars_to_token_and_advance(tok, 2);
-                      mOutput.emit_preprocessing_op_or_punc(tok);
-                    }
-
-                  break;
-
-                }
-              else if(curr_char() == '%'
-                      || curr_char() == '=')
+              {
+                //Append the : to form a <: token
                 append_curr_char_to_token_and_advance(tok);
-              else if(curr_char() == '<')
-                {
-                  append_curr_char_to_token_and_advance(tok);
+                mOutput.emit_preprocessing_op_or_punc(tok);
+              }
 
-                  if(curr_char() == '=')
-                    append_curr_char_to_token_and_advance(tok);
-                }
-
+              //Consume and output the ::
+              tok = "";
+              append_chars_to_token_and_advance(tok, 2);
               mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
-            
-          case '>':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-
-              //May have >, >>, >>=, or >=
-              if(curr_char() == '>')
-                {
-                  append_curr_char_to_token_and_advance(tok);
-
-                  if(curr_char() == '=')
-                    append_curr_char_to_token_and_advance(tok);
-                }
-              else if(curr_char() == '=')
-                append_curr_char_to_token_and_advance(tok);
-
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
             }
 
-          case '%':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
+            break;
 
-              if(curr_char() == ':')
-                {
-                  append_curr_char_to_token_and_advance(tok);
-
-                  if(curr_char() == '%' 
-                     && peek_char() == ':')
-                    append_chars_to_token_and_advance(tok, 2);
-                  else if(header_name_allowed)
-                    {
-                      mOutput.emit_preprocessing_op_or_punc(tok);
-                      maybe_lex_and_emit_header_name();
-                      break;
-                    }
-                }
-              else if(curr_char() == '>' 
-                      || curr_char() == '=')
-                append_curr_char_to_token_and_advance(tok);
-
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
-
-          case ':':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-
-              if(curr_char() == '>' 
-                 || curr_char() == ':')
-                append_curr_char_to_token_and_advance(tok);
-
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
-
-          case '|': case '&':
-            {
-              //Maybe a op, op op,  or op=
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-
-              if(curr_char() == curr_ch
-                 || curr_char() == '=')
-                append_curr_char_to_token_and_advance(tok);
-              
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
-
-          case '{': case '}': case '[': case ']': case '(': case ')': case ';': case '?':
-          case '~': case ',':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
-              
-          case '^': case '/': case '*':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-              
-              //May have op or op=
-              if(curr_char() == '=')
-                append_curr_char_to_token_and_advance(tok);
-              
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;  
-            }
-
-          case '+':
-             {
-               string tok;
-               append_curr_char_to_token_and_advance(tok);
-
-               //May have +, ++ or +=
-               if(curr_char() == '+' 
+          }
+          else if(curr_char() == '%'
                   || curr_char() == '=')
-                 append_curr_char_to_token_and_advance(tok);
+            append_curr_char_to_token_and_advance(tok);
+          else if(curr_char() == '<')
+          {
+            append_curr_char_to_token_and_advance(tok);
 
-               mOutput.emit_preprocessing_op_or_punc(tok);
-               break;
-             }
+            if(curr_char() == '=')
+              append_curr_char_to_token_and_advance(tok);
+          }
 
-          case '-':
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case '>':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          //May have >, >>, >>=, or >=
+          if(curr_char() == '>')
+          {
+            append_curr_char_to_token_and_advance(tok);
+
+            if(curr_char() == '=')
+              append_curr_char_to_token_and_advance(tok);
+          }
+          else if(curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
+
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case '%':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          if(curr_char() == ':')
+          {
+            append_curr_char_to_token_and_advance(tok);
+
+            if(curr_char() == '%'
+                && peek_char() == ':')
+              append_chars_to_token_and_advance(tok, 2);
+            else if(header_name_allowed)
             {
-              string tok;
+              mOutput.emit_preprocessing_op_or_punc(tok);
+              maybe_lex_and_emit_header_name();
+              break;
+            }
+          }
+          else if(curr_char() == '>'
+                  || curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
+
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case ':':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          if(curr_char() == '>'
+              || curr_char() == ':')
+            append_curr_char_to_token_and_advance(tok);
+
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case '|':
+        case '&':
+        {
+          //Maybe a op, op op,  or op=
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          if(curr_char() == curr_ch
+              || curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
+
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case '{':
+        case '}':
+        case '[':
+        case ']':
+        case '(':
+        case ')':
+        case ';':
+        case '?':
+        case '~':
+        case ',':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case '^':
+        case '/':
+        case '*':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          //May have op or op=
+          if(curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
+
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case '+':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          //May have +, ++ or +=
+          if(curr_char() == '+'
+              || curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
+
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case '-':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
+
+          //May have -, --, -=, -> or ->*
+          if(curr_char() == '-'
+              || curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
+          else if(curr_char() == '>')
+          {
+            append_curr_char_to_token_and_advance(tok);
+
+            if(curr_char() == '*')
+              append_curr_char_to_token_and_advance(tok);
+          }
+
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
+
+        case ' ':
+        case '\t':
+        case '\v':
+        case '\f':
+        case '\r':
+        {
+          skip_whitespace();
+          mOutput.emit_whitespace_sequence();
+          break;
+        }
+
+        case '\n':
+        {
+          //Only want to skip over the new-line char
+          ++mCurrPosition;
+          mOutput.emit_new_line();
+          break;
+        }
+
+        case '\"':
+        {
+          string lit;
+          bool user_defined_literal = false;
+
+          append_curr_char_to_token_and_advance(lit);
+          lex_string_literal_contents(lit);
+
+          //If we have the start of an identifier adjacent to the end ", we have a user defined
+          //string literal
+          if(is_identifier_non_digit(curr_char())
+              && valid_initial_identifier_char(curr_char()))
+          {
+            user_defined_literal = true;
+            append_curr_char_to_token_and_advance(lit);
+
+            while(!end_of_input()
+                  && valid_identifier_char(curr_char()))
+              append_curr_char_to_token_and_advance(lit);
+          }
+
+          if(user_defined_literal)
+            mOutput.emit_user_defined_string_literal(lit);
+          else
+            mOutput.emit_string_literal(lit);
+          break;
+        }
+
+        case '\'':
+        {
+          lex_and_emit_char_literal(/*wide_literal=*/false);
+          break;
+        }
+
+        case 'R':
+        {
+          if(peek_char() == '\"')
+          {
+            //Raw string
+            string lit;
+
+            append_chars_to_token_and_advance(lit, 2);
+            lex_raw_string_literal_contents(lit);
+
+            mOutput.emit_string_literal(lit);
+          }
+          else
+            lex_and_emit_identifier();
+
+          break;
+        }
+
+        case 'U':
+        case 'u':
+        case 'L':
+        {
+          if(peek_char() == '\'')
+          {
+            lex_and_emit_char_literal(/*wide_literal=*/true);
+            break;
+          }
+          else if(start_of_encoding_prefix())
+          {
+            string prefix = "";
+            lex_encoding_prefix(prefix);
+
+            //Add the opening " and the string contents
+            append_curr_char_to_token_and_advance(prefix);
+
+            if(prefix[prefix.length() - 2] == 'R')
+              lex_raw_string_literal_contents(prefix);
+            else
+              lex_string_literal_contents(prefix);
+
+            mOutput.emit_string_literal(prefix);
+            break;
+          }
+
+          //Fallthru and treat the U, u, L or R as an identifier
+        }
+
+        case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
+        case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
+        case 's': case 't': case 'v': case 'w': case 'x': case 'y': case 'z':
+        case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
+        case 'J': case 'K': case 'M': case 'N': case 'O': case 'P': case 'Q':
+        case 'S': case 'T': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
+        {
+          lex_and_emit_identifier();
+          break;
+        }
+
+        case '.':
+        {
+          if(nth_char(1) == '.'
+              && nth_char(2) == '.')
+          {
+            //We have ...
+            string tok;
+
+            append_chars_to_token_and_advance(tok, 3);
+            mOutput.emit_preprocessing_op_or_punc(tok);
+            break;
+          }
+
+          //Fallthru for single '.' case
+        }
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        {
+          int peeked_ch = peek_char();
+          string tok;
+
+          if(curr_ch == '.'
+              && !isdigit(peeked_ch))
+          {
+            append_curr_char_to_token_and_advance(tok);
+
+            if(curr_char() == '*')
               append_curr_char_to_token_and_advance(tok);
 
-              //May have -, --, -=, -> or ->*
-              if(curr_char() == '-' 
-                 || curr_char() == '=')
-                append_curr_char_to_token_and_advance(tok);
-              else if(curr_char() == '>')
-                {
-                  append_curr_char_to_token_and_advance(tok);
+            mOutput.emit_preprocessing_op_or_punc(tok);
+          }
+          else
+          {
+            string num;
+            append_curr_char_to_token_and_advance(num);
 
-                  if(curr_char() == '*')
-                    append_curr_char_to_token_and_advance(tok);
-                }
+            lex_pp_number(num);
+            mOutput.emit_pp_number(num);
+          }
 
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
+          break;
+        }
 
-          case ' ': case '\t': case '\v': case '\f': case '\r':
-            {
-              skip_whitespace();
-              mOutput.emit_whitespace_sequence();
-              break;
-            }
+        case '!':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
 
-          case '\n':
-            {
-              //Only want to skip over the new-line char
-              ++mCurrPosition;
-              mOutput.emit_new_line();
-              break;
-            }
-            
-          case '\"':
-            {
-              string lit;
-              bool user_defined_literal = false;
+          if(curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
 
-              append_curr_char_to_token_and_advance(lit);
-              lex_string_literal_contents(lit);
-           
-              //If we have the start of an identifier adjacent to the end ", we have a user defined 
-              //string literal
-              if(is_identifier_non_digit(curr_char())
-                 && valid_initial_identifier_char(curr_char()))
-                {
-                  user_defined_literal = true;
-                  append_curr_char_to_token_and_advance(lit);
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
 
-                  while(!end_of_input()
-                        && valid_identifier_char(curr_char()))
-                    append_curr_char_to_token_and_advance(lit);
-                }
+        case '=':
+        {
+          string tok;
+          append_curr_char_to_token_and_advance(tok);
 
-              if(user_defined_literal)
-                mOutput.emit_user_defined_string_literal(lit);
-              else
-                mOutput.emit_string_literal(lit);
-              break;
-            }
+          if(curr_char() == '=')
+            append_curr_char_to_token_and_advance(tok);
 
-          case '\'':
-            {
-              lex_and_emit_char_literal(/*wide_literal=*/false);
-              break;
-            }
+          mOutput.emit_preprocessing_op_or_punc(tok);
+          break;
+        }
 
-          case 'R':
-            {
-              if(peek_char() == '\"')
-                {
-                  //Raw string
-                  string lit;
+        case '\\':
+        {
+          //Consume the '\'
+          next_char();
 
-                  append_chars_to_token_and_advance(lit, 2);
-                  lex_raw_string_literal_contents(lit);
+          //If the next character is a new-line, consume the newline and carry on with the next character
+          if(!end_of_input()
+              && curr_char() == '\n')
+            next_char();
+          else
+          {
+            //Treat it as a non-whitespace char
+            string non_ws_char;
+            non_ws_char.append(1, curr_ch);
+            mOutput.emit_non_whitespace_char(non_ws_char);
+          }
 
-                  mOutput.emit_string_literal(lit);
-                }
-              else
-                lex_and_emit_identifier();
-                  
-              break;
-            }
+          break;
+        }
 
-          case 'U': case 'u': case 'L':
-            {
-              if(peek_char() == '\'')
-                {
-                  lex_and_emit_char_literal(/*wide_literal=*/true);
-                  break;
-                }
-              else if(start_of_encoding_prefix())
-                {
-                  string prefix = "";
-                  lex_encoding_prefix(prefix);
+        default:
 
-                  //Add the opening " and the string contents
-                  append_curr_char_to_token_and_advance(prefix);
+          string tok;
 
-                  if(prefix[prefix.length() - 2] == 'R')
-                    lex_raw_string_literal_contents(prefix);
-                  else
-                    lex_string_literal_contents(prefix);
-
-                  mOutput.emit_string_literal(prefix);
-                  break;
-                }
-                             
-              //Fallthru and treat the U, u, L or R as an identifier
-            }
-
-          case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
-          case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-          case 's': case 't': case 'v': case 'w': case 'x': case 'y': case 'z':
-          case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
-          case 'J': case 'K': case 'M': case 'N': case 'O': case 'P': case 'Q':
-          case 'S': case 'T': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
+          if(curr_ch >= 0
+              && curr_ch <= 127)
+            append_char_to_token(curr_ch, tok);
+          else
+          {
+            //UCNs may start an identifier.
+            if(valid_identifier_char(curr_ch)
+                && valid_initial_identifier_char(curr_ch))
             {
               lex_and_emit_identifier();
               break;
             }
-
-          case '.':
-            {
-              if(nth_char(1) == '.' 
-                 && nth_char(2) == '.')
-                {
-                  //We have ...
-                  string tok;
-
-                  append_chars_to_token_and_advance(tok, 3);
-                  mOutput.emit_preprocessing_op_or_punc(tok);
-                  break;
-                }
-
-                //Fallthru for single '.' case
-            }                                      
-          case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': 
-            {
-              int peeked_ch = peek_char();
-              string tok;
-
-              if(curr_ch == '.'
-                 && !isdigit(peeked_ch))
-                {
-                  append_curr_char_to_token_and_advance(tok);
-
-                  if(curr_char() == '*')
-                    append_curr_char_to_token_and_advance(tok);
-
-                  mOutput.emit_preprocessing_op_or_punc(tok);
-                }
-              else
-                {
-                  string num;
-                  append_curr_char_to_token_and_advance(num);
-
-                  lex_pp_number(num);
-                  mOutput.emit_pp_number(num);
-                }
-
-              break;
-            }
-
-          case '!':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-
-              if(curr_char() == '=')
-                append_curr_char_to_token_and_advance(tok);
-
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
-
-          case '=':
-            {
-              string tok;
-              append_curr_char_to_token_and_advance(tok);
-
-              if(curr_char() == '=')
-                append_curr_char_to_token_and_advance(tok);
-
-              mOutput.emit_preprocessing_op_or_punc(tok);
-              break;
-            }
-
-          case '\\':
-            {
-              //Consume the '\'
-              next_char();
-
-              //If the next character is a new-line, consume the newline and carry on with the next character
-              if(!end_of_input() 
-                 && curr_char() == '\n')
-                next_char();
-              else
-                {
-                  //Treat it as a non-whitespace char
-                  string non_ws_char;
-                  non_ws_char.append(1, curr_ch);
-                  mOutput.emit_non_whitespace_char(non_ws_char);
-                }
-
-              break;
-            }
-
-          default:
-
-            string tok;
-
-            if(curr_ch >= 0 
-               && curr_ch <= 127)
-              append_char_to_token(curr_ch, tok);
             else
-              {
-                //UCNs may start an identifier.
-                if(valid_identifier_char(curr_ch)
-                   && valid_initial_identifier_char(curr_ch))
-                  {
-                    lex_and_emit_identifier();
-                    break;
-                  }
-                else
-                  append_char_to_token(curr_ch, tok);
-              }
-
-            mOutput.emit_non_whitespace_char(tok);
-
-            if(!end_of_input())
-              next_char();
+              append_char_to_token(curr_ch, tok);
           }
+
+          mOutput.emit_non_whitespace_char(tok);
+
+          if(!end_of_input())
+            next_char();
       }
+    }
 
     //If the input is not empty and does not end in a new-line, insert one
-    if(mBuffer != mBufferEnd 
-       && mLastChar != '\n')
+    if(mBuffer != mBufferEnd
+        && mLastChar != '\n')
       mOutput.emit_new_line();
 
     mOutput.emit_eof();
   }
 
   /**
-   * Saves the current position in the input buffer to allow it to 
+   * Saves the current position in the input buffer to allow it to
    * be rewound at a later point.
    */
   void save_current_position()
@@ -636,66 +662,66 @@ public:
    *   h-char
    *   h-char-sequence h-char
    * h-char:
-   *   any member of the source character set except new-line and >  
+   *   any member of the source character set except new-line and >
    */
   bool maybe_lex_and_emit_header_name()
   {
 
     if(valid_identifier_char(curr_char())
        && valid_initial_identifier_char(curr_char()))
+    {
+      if(lex_and_emit_identifier() != "include")
+        return false;
+
+      //Skip any whitespace
+      if(isspace(curr_char()))
       {
-        if(lex_and_emit_identifier() != "include")
-          return false;
-
-        //Skip any whitespace
-        if(isspace(curr_char()))
-          {
-            skip_whitespace();
-            mOutput.emit_whitespace_sequence();
-          }
-
-        //Save the current position of where we are in case this turns out not to be a header name
-        save_current_position();
-
-        if(curr_char() != '<'
-           && curr_char() != '"')
-          {
-            restore_saved_position();
-            return false;
-          }
-
-        //If we have a <, check it's followed by an identifier
-        if(curr_char() == '<')
-          {
-            int peeked_ch = peek_char();
-
-            if(!valid_identifier_char(peeked_ch))
-              {
-                restore_saved_position();
-                return false;
-              }
-          }
-        
-        int term_ch = curr_char() == '<' ? '>' : '"';
-        string header_name;
-        append_curr_char_to_token_and_advance(header_name);
-         
-        //Lex the h-char-sequence
-        while(curr_char() != term_ch)
-          {
-            append_curr_char_to_token_and_advance(header_name);
-
-            if(curr_char() == '\n')
-              throw pptoken_exception("New line in header name");
-          }
-
-        //Append the terminating character
-        append_curr_char_to_token_and_advance(header_name);
-
-        discard_saved_position();
-        mOutput.emit_header_name(header_name);
+        skip_whitespace();
+        mOutput.emit_whitespace_sequence();
       }
-      
+
+      //Save the current position of where we are in case this turns out not to be a header name
+      save_current_position();
+
+      if(curr_char() != '<'
+          && curr_char() != '"')
+      {
+        restore_saved_position();
+        return false;
+      }
+
+      //If we have a <, check it's followed by an identifier
+      if(curr_char() == '<')
+      {
+        int peeked_ch = peek_char();
+
+        if(!valid_identifier_char(peeked_ch))
+        {
+          restore_saved_position();
+          return false;
+        }
+      }
+
+      int term_ch = curr_char() == '<' ? '>' : '"';
+      string header_name;
+      append_curr_char_to_token_and_advance(header_name);
+
+      //Lex the h-char-sequence
+      while(curr_char() != term_ch)
+      {
+        append_curr_char_to_token_and_advance(header_name);
+
+        if(curr_char() == '\n')
+          throw pptoken_exception("New line in header name");
+      }
+
+      //Append the terminating character
+      append_curr_char_to_token_and_advance(header_name);
+
+      discard_saved_position();
+      mOutput.emit_header_name(header_name);
+    }
+
     return true;
   }
 
@@ -709,41 +735,42 @@ public:
     int curr_ch = curr_char();
 
     ++mSuppressTransformations;
-   
+
     switch(curr_ch)
-      {
+    {
       case 'u':
+      {
+        //u, uR, u8, u8R
+        if(peek_char() == '\"')
+          ret = true;
+        else if(peek_char() == '8')
         {
-          //u, uR, u8, u8R
+          //Have u8, check for u8R" and u8"
+          if(nth_char(2) == '\"'
+              || (nth_char(2) == 'R'
+                  && nth_char(3) == '\"'))
+            ret =true;
+
+          break;
+        }
+        else if(peek_char() == 'R'
+                && nth_char(2) == '\"')
+          ret = true;
+
+        case 'U':
+        case 'L':
+        {
+          //Check for (L|U)" and (L|U)R"
           if(peek_char() == '\"')
             ret = true;
-          else if(peek_char() == '8')
-            {
-              //Have u8, check for u8R" and u8"
-              if(nth_char(2) == '\"' 
-                 || (nth_char(2) == 'R'
-                     && nth_char(3) == '\"'))
-                 ret =true;
-
-              break;
-            }
-          else if(peek_char() == 'R'
+          else if(nth_char(1) == 'R'
                   && nth_char(2) == '\"')
             ret = true;
 
-        case 'U': case 'L':
-            {
-              //Check for (L|U)" and (L|U)R"
-              if(peek_char() == '\"')
-                ret = true;
-              else if(nth_char(1) == 'R'
-                      && nth_char(2) == '\"')
-                ret = true;
-
-              break;
-            }
+          break;
         }
       }
+    }
 
     --mSuppressTransformations;
     return ret;
@@ -765,55 +792,56 @@ public:
     int curr_ch = curr_char();
 
     ++mSuppressTransformations;
-   
+
     switch(curr_ch)
-      {
+    {
       case 'u':
+      {
+        //u, uR, u8, u8R
+        if(peek_char() == '\"')
+          append_curr_char_to_token_and_advance(prefix);
+        else if(peek_char() == 'R'
+                && nth_char(2) == '\"')
         {
-          //u, uR, u8, u8R
+          //Append the uR
+          append_chars_to_token_and_advance(prefix, 2);
+        }
+        else if(peek_char() == '8')
+        {
+          //Have u8, check for u8R" and u8"
+          if(nth_char(2) == '\"')
+          {
+            //Append the u8
+            append_chars_to_token_and_advance(prefix, 2);
+          }
+          else if(nth_char(2) == 'R'
+                  && nth_char(3) == '\"')
+          {
+            //Append the u8R
+            append_chars_to_token_and_advance(prefix, 3);
+          }
+        }
+
+        break;
+
+        case 'U':
+        case 'L':
+        {
+          //U, UR, L, LR
           if(peek_char() == '\"')
+          {
+            //Append the U or L
             append_curr_char_to_token_and_advance(prefix);
+          }
           else if(peek_char() == 'R'
                   && nth_char(2) == '\"')
-            {
-              //Append the uR
-              append_chars_to_token_and_advance(prefix, 2);
-            }
-          else if(peek_char() == '8')
-            {
-              //Have u8, check for u8R" and u8"
-              if(nth_char(2) == '\"')
-                {
-                  //Append the u8
-                  append_chars_to_token_and_advance(prefix, 2);
-                }
-              else if(nth_char(2) == 'R'
-                      && nth_char(3) == '\"') 
-                {
-                  //Append the u8R
-                  append_chars_to_token_and_advance(prefix, 3);
-                }
-            }
-
-          break;
-
-        case 'U': case 'L':
-            {
-              //U, UR, L, LR
-              if(peek_char() == '\"')
-                {
-                  //Append the U or L
-                  append_curr_char_to_token_and_advance(prefix);
-                }
-              else if(peek_char() == 'R'
-                      && nth_char(2) == '\"')
-                {
-                  //UR or LR
-                  append_chars_to_token_and_advance(prefix, 2);
-                }
-            }
+          {
+            //UR or LR
+            append_chars_to_token_and_advance(prefix, 2);
+          }
         }
       }
+    }
 
     --mSuppressTransformations;
   }
@@ -855,23 +883,23 @@ public:
 
     //See if the string has a delimiter
     string delimiter;
-   
-    while(curr_char() != '(')
-      {
-        //Check for invalid delimiter characters
-        int curr_ch = curr_char();
 
-        if(curr_ch == ' '
-           || curr_ch == ')'
-           || curr_ch == '\\'
-           || curr_ch == '\t'
-           || curr_ch == '\v'
-           || curr_ch == '\f'
-           || curr_ch == '\n')
-          throw pptoken_exception("invalid characters in raw string delimiter");
-        else
-          append_curr_char_to_token_and_advance(delimiter);
-      }
+    while(curr_char() != '(')
+    {
+      //Check for invalid delimiter characters
+      int curr_ch = curr_char();
+
+      if(curr_ch == ' '
+          || curr_ch == ')'
+          || curr_ch == '\\'
+          || curr_ch == '\t'
+          || curr_ch == '\v'
+          || curr_ch == '\f'
+          || curr_ch == '\n')
+        throw pptoken_exception("invalid characters in raw string delimiter");
+      else
+        append_curr_char_to_token_and_advance(delimiter);
+    }
 
     //Delimiters are limited to 16 chars
     if(delimiter.length() > 16)
@@ -883,33 +911,33 @@ public:
 
     //add the contents
     while(true)
+    {
+      //See if this is the terminating d-char-sequence
+      if(curr_char() == ')')
       {
-        //See if this is the terminating d-char-sequence
-        if(curr_char() == ')')
-          {
+        append_curr_char_to_token_and_advance(literal);
+
+        if(delimiter.length() == 0
+            && curr_char() == '\"')
+        {
+          append_curr_char_to_token_and_advance(literal);
+          break;
+        }
+        else if(delimiter.length() > 0
+                && match_raw_string_delimiter(delimiter)
+                && nth_char(delimiter.length()) == '\"')
+        {
+          while(curr_char() != '\"')
             append_curr_char_to_token_and_advance(literal);
 
-            if(delimiter.length() == 0 
-               && curr_char() == '\"')
-              {
-                append_curr_char_to_token_and_advance(literal);
-                break;
-              }
-            else if(delimiter.length() > 0
-                    && match_raw_string_delimiter(delimiter)
-                    && nth_char(delimiter.length()) == '\"')
-              {
-                while(curr_char() != '\"')
-                  append_curr_char_to_token_and_advance(literal);
-                
-                append_curr_char_to_token_and_advance(literal);
-                break;
-              }
-          }
-        else
           append_curr_char_to_token_and_advance(literal);
+          break;
+        }
       }
-    
+      else
+        append_curr_char_to_token_and_advance(literal);
+    }
+
     --mSuppressTransformations;
   }
 
@@ -934,16 +962,16 @@ public:
   void lex_string_literal_contents(string &literal)
   {
     while(curr_char() != '\"')
-      {
-        if(end_of_input())
-          throw pptoken_exception("Unterminated string literal");
+    {
+      if(end_of_input())
+        throw pptoken_exception("Unterminated string literal");
 
-        if(curr_char() == '\\')
-          append_chars_to_token_and_advance(literal, 2);
-        else
-          append_curr_char_to_token_and_advance(literal);
-      }
-    
+      if(curr_char() == '\\')
+        append_chars_to_token_and_advance(literal, 2);
+      else
+        append_curr_char_to_token_and_advance(literal);
+    }
+
     //add the closing "
     append_curr_char_to_token_and_advance(literal);
   }
@@ -964,29 +992,29 @@ public:
    */
   void append_char_to_token(int ch, string &tok)
   {
-    if(ch < 0 
+    if(ch < 0
        || ch > 127)
-      {
-        //Have a UTF8 decoded character (> 127) or a UTF8 encoded character
-        //that's come from a UCN
-        vector<unsigned char> code_units;
-        unsigned int encoded_ch = ch < 0 ? ch : encode_to_utf8(ch);
+    {
+      //Have a UTF8 decoded character (> 127) or a UTF8 encoded character
+      //that's come from a UCN
+      vector<unsigned char> code_units;
+      unsigned int encoded_ch = ch < 0 ? ch : encode_to_utf8(ch);
 
-        //Convert the code point into it's code units for adding to the token
-        utf8_code_point_to_code_units(encoded_ch, code_units);
-                    
-        for(auto ch : code_units)
-          tok.append(1, (int)ch);
-      }
+      //Convert the code point into it's code units for adding to the token
+      utf8_code_point_to_code_units(encoded_ch, code_units);
+
+      for(auto ch : code_units)
+        tok.append(1, (int)ch);
+    }
     else if(ch > 127)
-      {
-        //Decoded UTF8 character
-        vector<unsigned char> code_units;
-        utf8_code_point_to_code_units(encode_to_utf8(ch), code_units);
+    {
+      //Decoded UTF8 character
+      vector<unsigned char> code_units;
+      utf8_code_point_to_code_units(encode_to_utf8(ch), code_units);
 
-        for(auto ch : code_units)
-          tok.append(1, (int)ch);
-      }
+      for(auto ch : code_units)
+        tok.append(1, (int)ch);
+    }
     else
       tok.append(1, ch);
   }
@@ -995,7 +1023,7 @@ public:
    *   identifier-nondigit
    *   identifier identifier-nondigit
    *   identifier digit
-   *  
+   *
    * identifier-nondigit:
    *   nondigit
    *   universal-character-name
@@ -1005,13 +1033,13 @@ public:
     string identifier;
 
     while(valid_identifier_char(curr_char()))
-      {
-        append_curr_char_to_token_and_advance(identifier);
-        
-        if(end_of_input())
-          break;
-      }
-    
+    {
+      append_curr_char_to_token_and_advance(identifier);
+
+      if(end_of_input())
+        break;
+    }
+
     //Check whether we have an operator before committing to this being an identifier
     auto itr = Digraph_IdentifierLike_Operators.find(identifier);
 
@@ -1042,34 +1070,34 @@ public:
       append_curr_char_to_token_and_advance(char_lit);
 
     while(true)
+    {
+      //If this character is a \, skip over the escape character
+      if(curr_char() == '\\')
       {
-        //If this character is a \, skip over the escape character
-        if(curr_char() == '\\')
-          {
-            append_chars_to_token_and_advance(char_lit, 2);
-            continue;
-          }
-        else
-          append_curr_char_to_token_and_advance(char_lit);
-
-        //See if we've hit the terminating '
-        if(*char_lit.rbegin() == '\'')
-          break;
+        append_chars_to_token_and_advance(char_lit, 2);
+        continue;
       }
-        
-    //If we have the start of an identifier adjacent to the end ", we have a user defined 
+      else
+        append_curr_char_to_token_and_advance(char_lit);
+
+      //See if we've hit the terminating '
+      if(*char_lit.rbegin() == '\'')
+        break;
+    }
+
+    //If we have the start of an identifier adjacent to the end ", we have a user defined
     //character literal
     bool user_defined_literal = false;
 
     if(is_identifier_non_digit(curr_char()))
-      {
-        user_defined_literal = true;
-        append_curr_char_to_token_and_advance(char_lit);
+    {
+      user_defined_literal = true;
+      append_curr_char_to_token_and_advance(char_lit);
 
-        while(!end_of_input()
-              && valid_identifier_char(curr_char()))
-          append_curr_char_to_token_and_advance(char_lit);
-      }
+      while(!end_of_input()
+            && valid_identifier_char(curr_char()))
+        append_curr_char_to_token_and_advance(char_lit);
+    }
 
     if(user_defined_literal)
       mOutput.emit_user_defined_character_literal(char_lit);
@@ -1088,33 +1116,33 @@ public:
    *   pp-number .
    */
   void lex_pp_number(string &num)
-  {  
+  {
     int curr_ch = curr_char();
 
     if(isdigit(curr_ch))
-      {
-        while(isdigit(curr_char()))
-          append_curr_char_to_token_and_advance(num);
+    {
+      while(isdigit(curr_char()))
+        append_curr_char_to_token_and_advance(num);
 
-        lex_pp_number(num);
-      }
-    else if(curr_ch == 'e' 
+      lex_pp_number(num);
+    }
+    else if(curr_ch == 'e'
             || curr_ch == 'E')
-      {
+    {
+      append_curr_char_to_token_and_advance(num);
+
+      if(curr_char() == '+'
+          || curr_char() == '-')
         append_curr_char_to_token_and_advance(num);
 
-        if(curr_char() == '+' 
-           || curr_char() == '-')
-          append_curr_char_to_token_and_advance(num);
-
-        lex_pp_number(num);
-      }
-    else if(curr_ch == '.' 
+      lex_pp_number(num);
+    }
+    else if(curr_ch == '.'
             || is_identifier_non_digit(curr_ch))
-      {
-        append_curr_char_to_token_and_advance(num);
-        lex_pp_number(num);
-      }
+    {
+      append_curr_char_to_token_and_advance(num);
+      lex_pp_number(num);
+    }
   }
 
   /*
@@ -1123,12 +1151,12 @@ public:
   void skip_cpp_comment()
   {
     while(*mCurrPosition != '\n')
-      {
-        if(end_of_input())
-          break;
+    {
+      if(end_of_input())
+        break;
 
-        next_char();
-      }
+      next_char();
+    }
   }
 
   /*
@@ -1137,20 +1165,20 @@ public:
   void skip_c_comment()
   {
     while(true)
+    {
+      if(*mCurrPosition == '*'
+          && peek_char() == '/')
       {
-        if(*mCurrPosition == '*' 
-           && peek_char() == '/')
-          {
-            //Consume the '*/' sequence
-            skip_chars(2);
-            break;
-          }
-        else
-          next_char();
-
-        if(end_of_input())
-          throw pptoken_exception("Unexpected end of file found in comment");
+        //Consume the '*/' sequence
+        skip_chars(2);
+        break;
       }
+      else
+        next_char();
+
+      if(end_of_input())
+        throw pptoken_exception("Unexpected end of file found in comment");
+    }
   }
 
   /*
@@ -1158,25 +1186,25 @@ public:
    */
   bool valid_identifier_char(int ch)
   {
-    return is_identifier_non_digit(ch) 
+    return is_identifier_non_digit(ch)
            || isdigit(ch);
   }
-  
+
   /**
    * Determines whether the specified character is allowed to start an
    * identifier.
    */
   bool valid_initial_identifier_char(int ch)
   {
-    //The initial element shall not be a 
+    //The initial element shall not be a
     //universal-character-name designating a character whose encoding
     //falls into one of the ranges specified in E.2.
     for(auto elem : AnnexE2_DisallowedInitially_RangesSorted)
-      {
-        if(ch >= elem.first
-           && ch <= elem.second)
-          return false;
-      }
+    {
+      if(ch >= elem.first
+          && ch <= elem.second)
+        return false;
+    }
 
     return true;
   }
@@ -1187,7 +1215,7 @@ public:
   bool is_identifier_non_digit(int ch)
   {
     switch(ch)
-      {
+    {
       case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
       case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
       case 's': case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
@@ -1195,24 +1223,24 @@ public:
       case 'J': case 'K': case 'L': case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
       case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
         return true;
-            
+
       default:
 
-        //Each universal-character-name in an identifier shall designate a character whose encoding in 
+        //Each universal-character-name in an identifier shall designate a character whose encoding in
         //ISO 10646 falls into one of the ranges specified in E.1.
         for(auto elem : AnnexE1_Allowed_RangesSorted)
-          {
-            if(ch >= elem.first
-               && ch <= elem.second)
-              return true;
-          }
+        {
+          if(ch >= elem.first
+              && ch <= elem.second)
+            return true;
+        }
 
         return false;
-      }
+    }
   }
 
   /*
-   * Advances the current character position until a non-whitespace character 
+   * Advances the current character position until a non-whitespace character
    * that is not a new-line is found.
    */
   void skip_whitespace()
@@ -1222,13 +1250,13 @@ public:
           || curr_char() == '\v'
           || curr_char() == '\f'
           || curr_char() == '\r')
-      {
-        if(end_of_input())
-          break;
+    {
+      if(end_of_input())
+        break;
 
-        //next_char() will handle skipping over adjacent comments
-       next_char();
-      }
+      //next_char() will handle skipping over adjacent comments
+      next_char();
+    }
   }
 
   /*
@@ -1255,29 +1283,29 @@ public:
   {
     //Remove any buffered char
     if(!mTransformedChars.empty())
+    {
+      mTransformedChars.pop_front();
+
+      //If we've still got something buffered, return the first one
+      if(!mTransformedChars.empty())
+        return mTransformedChars.front();
+      else
       {
-        mTransformedChars.pop_front();
-        
-        //If we've still got something buffered, return the first one
-        if(!mTransformedChars.empty())
-          return mTransformedChars.front();
-        else
-          { 
-            //In the case of buffered characters, the current position in the buffer
-            //will already be pointing at the first character of the next character
-            return curr_char();
-          }
+        //In the case of buffered characters, the current position in the buffer
+        //will already be pointing at the first character of the next character
+        return curr_char();
       }
+    }
     else
+    {
+      if(mCurrPosition == mBufferEnd)
+        return *mBufferEnd;
+      else
       {
-        if(mCurrPosition == mBufferEnd)
-          return *mBufferEnd;
-        else
-          { 
-            ++mCurrPosition;
-            return curr_char();
-          }
+        ++mCurrPosition;
+        return curr_char();
       }
+    }
   }
 
   /**
@@ -1288,55 +1316,55 @@ public:
     if(!mTransformedChars.empty())
       return mTransformedChars.front();
     else
-      {
-        int ch = apply_transformations(*mCurrPosition);
+    {
+      int ch = apply_transformations(*mCurrPosition);
 
-        if(!mTransformedChars.empty())
-          ch = mTransformedChars.front();
+      if(!mTransformedChars.empty())
+        ch = mTransformedChars.front();
 
-        return ch;
-      }
+      return ch;
+    }
   }
 
   /**
    * Accesses the character at the specified distance from the current position.
    */
   int nth_char(unsigned int pos)
-  { 
+  {
     if(mTransformedChars.size() > pos)
       return mTransformedChars[pos];
     else
-      {
-        pos -= mTransformedChars.size();
+    {
+      pos -= mTransformedChars.size();
 
-        if(mCurrPosition + pos > mBufferEnd)
-          throw pptoken_exception("Attempt to access past end of input");
-    
-        return *(mCurrPosition + pos);
-      }
+      if(mCurrPosition + pos > mBufferEnd)
+        throw pptoken_exception("Attempt to access past end of input");
+
+      return *(mCurrPosition + pos);
+    }
   }
 
-  /** 
+  /**
    * Advances the current buffer position by the specified number of characters.
    */
   void skip_chars(unsigned int count)
   {
     if(!mTransformedChars.empty())
+    {
+      for(unsigned int i = 0; i < min(count, (unsigned int)mTransformedChars.size()); i++)
       {
-        for(unsigned int i = 0; i < min(count, (unsigned int)mTransformedChars.size()); i++)
-          {
-            mTransformedChars.pop_front();
-            count -= 1;
-          }
+        mTransformedChars.pop_front();
+        count -= 1;
       }
+    }
 
     for(unsigned int i = 0; i < count; i++)
-      {
-        if(end_of_input())
-          throw pptoken_exception("Attempt to skip past end of input");
-        else
-          next_char();
-      }
+    {
+      if(end_of_input())
+        throw pptoken_exception("Attempt to skip past end of input");
+      else
+        next_char();
+    }
   }
 
   /**
@@ -1357,45 +1385,45 @@ public:
     ++mSuppressTransformations;
 
     //Skip any comemnts
-    if(ch == '/' 
+    if(ch == '/'
        && peek_char() == '/')
-      {
-        skip_cpp_comment();
-        ch = ' ';
-        mTransformedChars.push_back(ch);
-      }
-    else if(ch == '/' 
+    {
+      skip_cpp_comment();
+      ch = ' ';
+      mTransformedChars.push_back(ch);
+    }
+    else if(ch == '/'
             && peek_char() == '*')
+    {
+      skip_c_comment();
+      ch = ' ';
+      mTransformedChars.push_back(ch);
+    }
+    else if(ch < 0)
+    {
+      //Decode any UTF8 code unit sequences
+      vector<unsigned char> code_units;
+      unsigned int num_code_units;
+      unsigned char uch = (unsigned char)ch;
+
+      if(uch <= 0xDF)
+        num_code_units = 2;
+      else if(uch <= 0xEF)
+        num_code_units = 3;
+      else if(uch <= 0xF7)
+        num_code_units = 4;
+      else
+        throw new pptoken_exception("Invalid UTF8 character");
+
+      for(unsigned int i = 0; i < num_code_units; i++)
       {
-        skip_c_comment();
-        ch = ' ';
-        mTransformedChars.push_back(ch);
+        code_units.push_back(curr_char());
+        next_char();
       }
-    else if(ch < 0) 
-      {
-        //Decode any UTF8 code unit sequences        
-        vector<unsigned char> code_units;
-        unsigned int num_code_units;
-        unsigned char uch = (unsigned char)ch;
 
-        if(uch <= 0xDF)
-          num_code_units = 2;
-        else if(uch <= 0xEF)
-          num_code_units = 3;
-        else if(uch <= 0xF7)
-          num_code_units = 4;
-        else
-          throw new pptoken_exception("Invalid UTF8 character");
-
-        for(unsigned int i = 0; i < num_code_units; i++)
-          {
-            code_units.push_back(curr_char());
-            next_char();
-          }
-
-        ch = decode_from_utf8(code_units);
-        mTransformedChars.push_back(ch);
-      }
+      ch = decode_from_utf8(code_units);
+      mTransformedChars.push_back(ch);
+    }
 
     apply_phase_one_transformations(ch);
     apply_phase_two_transformations(ch);
@@ -1404,72 +1432,72 @@ public:
     return ch;
   }
 
-  /** 
+  /**
    * Applies the transformations listed in phase 1 in section 2.2.
    */
   void apply_phase_one_transformations(int &ch)
   {
     //2.2.1 - Trigraph sequences are replaced by corresponding single-character internal representations.
     if(ch == '?')
+    {
+      if(!end_of_input()
+          && peek_char() == '?')
       {
-        if(!end_of_input() 
-           && peek_char() == '?')
-          {
-            //We've got '??' which may be the start of a trigraph or simply two ? characters adjacent
-            //to each other so peek at the third character to see which one it is.
-            int third_ch = nth_char(2);
-            
-            if(third_ch == '=' 
-               || third_ch == '/' 
-               || third_ch == '\'' 
-               || third_ch == ')' 
-               || third_ch == '(' 
-               || third_ch == '!' 
-               || third_ch == '<' 
-               || third_ch == '>' 
-               || third_ch == '-')
-              {
-                //Skip the trigraph sequence and fold it to its corresponding character
-                skip_chars(3);
-                ch = fold_trigraph(third_ch);
-                mTransformedChars.push_back(ch);
-              }           
-          }
+        //We've got '??' which may be the start of a trigraph or simply two ? characters adjacent
+        //to each other so peek at the third character to see which one it is.
+        int third_ch = nth_char(2);
+
+        if(third_ch == '='
+            || third_ch == '/'
+            || third_ch == '\''
+            || third_ch == ')'
+            || third_ch == '('
+            || third_ch == '!'
+            || third_ch == '<'
+            || third_ch == '>'
+            || third_ch == '-')
+        {
+          //Skip the trigraph sequence and fold it to its corresponding character
+          skip_chars(3);
+          ch = fold_trigraph(third_ch);
+          mTransformedChars.push_back(ch);
+        }
       }
+    }
 
     if(ch == '\\')
+    {
+      int peeked_ch = peek_char();
+      unsigned int code_unit = 0;
+
+      //Save the current position in case we find that this is not a UCN
+      const char *save_point = mCurrPosition;
+
+      if(peeked_ch == 'u')
       {
-        int peeked_ch = peek_char();
-        unsigned int code_unit = 0;
+        skip_chars(2);
 
-        //Save the current position in case we find that this is not a UCN
-        const char *save_point = mCurrPosition;
-
-        if(peeked_ch == 'u')
-          {
-            skip_chars(2);
-
-            if(maybe_lex_utf8_code_units(4, code_unit))
-              {
-                ch = code_unit;
-                mTransformedChars.push_back(ch);
-              }
-            else
-              mCurrPosition = save_point;
-          }
-        else if(peeked_ch == 'U')
-          {
-            skip_chars(2);
-
-            if(maybe_lex_utf8_code_units(8, code_unit))
-              {
-                ch = code_unit;
-                mTransformedChars.push_back(ch);
-              }
-            else
-              mCurrPosition = save_point;
-          }
+        if(maybe_lex_utf8_code_units(4, code_unit))
+        {
+          ch = code_unit;
+          mTransformedChars.push_back(ch);
+        }
+        else
+          mCurrPosition = save_point;
       }
+      else if(peeked_ch == 'U')
+      {
+        skip_chars(2);
+
+        if(maybe_lex_utf8_code_units(8, code_unit))
+        {
+          ch = code_unit;
+          mTransformedChars.push_back(ch);
+        }
+        else
+          mCurrPosition = save_point;
+      }
+    }
   }
 
   /**
@@ -1478,51 +1506,51 @@ public:
   bool maybe_lex_utf16_code_unit(unsigned short &code_unit)
   {
     for(int i = 0; i < 4; i++)
+    {
+      if(end_of_input())
       {
-        if(end_of_input())
-          {
-            code_unit = 0;
-            return false;
-          }
-
-        int ch = curr_char();
-
-        if(isxdigit(ch))
-          {
-            switch(i % 4)
-              {
-              case 0:
-                {
-                  code_unit = hex_char_to_int_value(ch) << 12;
-                  break;
-                }
-
-              case 1:
-                {
-                  code_unit |= (hex_char_to_int_value(ch) << 8);
-                  break;
-                }
-
-              case 2:
-                {
-                  code_unit |= (hex_char_to_int_value(ch) << 4);
-                  break;
-                }
-              case 3:
-                {
-                  code_unit |= hex_char_to_int_value(ch);
-                  break;
-                }
-              }
-          }
-        else
-          {
-            code_unit = 0;
-            return false;
-          }
-
-        next_char();
+        code_unit = 0;
+        return false;
       }
+
+      int ch = curr_char();
+
+      if(isxdigit(ch))
+      {
+        switch(i % 4)
+        {
+          case 0:
+          {
+            code_unit = hex_char_to_int_value(ch) << 12;
+            break;
+          }
+
+          case 1:
+          {
+            code_unit |= (hex_char_to_int_value(ch) << 8);
+            break;
+          }
+
+          case 2:
+          {
+            code_unit |= (hex_char_to_int_value(ch) << 4);
+            break;
+          }
+          case 3:
+          {
+            code_unit |= hex_char_to_int_value(ch);
+            break;
+          }
+        }
+      }
+      else
+      {
+        code_unit = 0;
+        return false;
+      }
+
+      next_char();
+    }
 
     return true;
   }
@@ -1545,12 +1573,12 @@ public:
       if(maybe_lex_utf16_code_unit(utf16_unit))
         code_point |= utf16_unit << ((i - 1) * 16);
       else
-        {
-          code_point = 0;
-          return false;
-        }
+      {
+        code_point = 0;
+        return false;
+      }
 
-    } 
+    }
 
     return true;
   }
@@ -1587,28 +1615,28 @@ public:
       default: throw logic_error("hex_char_to_int_value of nonhex char");
       }
   }
-  /** 
+  /**
    * Applies the transformations listed in phase 2 in section 2.2.
    */
   void apply_phase_two_transformations(int &ch)
   {
-    //2.2.1 - Each instance of a backslash character (\) immediately followed by a new-line 
+    //2.2.1 - Each instance of a backslash character (\) immediately followed by a new-line
     //character is deleted.
     if(ch == '\\')
+    {
+      if(!end_of_input()
+          && peek_char() == '\n')
       {
-        if(!end_of_input() 
-           && peek_char() == '\n')
-          {
-            //Skip over the \ and new-line. If we hit the end of the input then clamp
-            //the current char to the final new line
-            skip_chars(2);
-            
-            if(end_of_input())
-              ch = *mBufferEnd;
-            else
-              ch = curr_char();
-          }
+        //Skip over the \ and new-line. If we hit the end of the input then clamp
+        //the current char to the final new line
+        skip_chars(2);
+
+        if(end_of_input())
+          ch = *mBufferEnd;
+        else
+          ch = curr_char();
       }
+    }
   }
 
   /*
@@ -1617,13 +1645,13 @@ public:
   int fold_trigraph(int ch)
   {
     switch(ch)
-      {
+    {
       case '=':
         return '#';
 
       case '/':
         return '\\';
-                
+
       case '\'':
         return '^';
 
@@ -1644,7 +1672,7 @@ public:
 
       case '-':
         return '~';
-      }
+    }
 
     throw pptoken_exception("Invalid trigraph character sequence.");
   }
@@ -1670,9 +1698,9 @@ int main()
     return EXIT_FAILURE;
   }
   catch(...)
-    {
-      cerr << "Exception" << endl;
-      return EXIT_FAILURE;
-    }
+  {
+    cerr << "Exception" << endl;
+    return EXIT_FAILURE;
+  }
 }
 
