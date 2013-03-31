@@ -109,6 +109,11 @@ private:
   //transformations etc..
   deque<int> mTransformedChars;
 
+  //Saved current position/transformed chars to allow the current position
+  //to be rewound at a later point.
+  const char *mSavedCurrPosition;
+  deque<int> mSavedTransformedChars;
+
 public:
 
   /**
@@ -122,7 +127,7 @@ public:
     mBufferEnd = mBuffer + input.length();
     mCurrPosition = mBuffer;
     mSuppressTransformations = 0;
-    mLastChar = 0;
+    mLastChar = -1;
   }
    
   /**
@@ -143,6 +148,7 @@ public:
   {  
     while(!end_of_input())
       {
+        bool header_name_allowed = mLastChar == -1 || mLastChar == '\n';
         int curr_ch = curr_char();
         mLastChar = curr_ch;
 
@@ -150,7 +156,6 @@ public:
           {
           case '#':
             {
-              //TODO: handle includes
               string tok;
               tok.append(1, curr_ch);
 
@@ -160,11 +165,18 @@ public:
                 {
                   skip_chars(2);
                   tok.append(1, peeked_ch);
+                  mOutput.emit_preprocessing_op_or_punc(tok);
                 }
               else
-                next_char();
+                {
+                  //Emit the #
+                  next_char();
+                  mOutput.emit_preprocessing_op_or_punc(tok);
 
-              mOutput.emit_preprocessing_op_or_punc(tok);
+                  if(header_name_allowed)
+                    maybe_lex_and_emit_header_name();
+                }
+
               break;
             }
 
@@ -261,6 +273,12 @@ public:
                   if(curr_char() == '%' 
                      && peek_char() == ':')
                     append_chars_to_token_and_advance(tok, 2);
+                  else if(header_name_allowed)
+                    {
+                      mOutput.emit_preprocessing_op_or_punc(tok);
+                      maybe_lex_and_emit_header_name();
+                      break;
+                    }
                 }
               else if(curr_char() == '>' 
                       || curr_char() == '=')
@@ -399,7 +417,7 @@ public:
 
           case '\'':
             {
-              lex_char_literal(/*wide_literal=*/false);
+              lex_and_emit_char_literal(/*wide_literal=*/false);
               break;
             }
 
@@ -416,7 +434,7 @@ public:
                   mOutput.emit_string_literal(lit);
                 }
               else
-                lex_identifier();
+                lex_and_emit_identifier();
                   
               break;
             }
@@ -425,7 +443,7 @@ public:
             {
               if(peek_char() == '\'')
                 {
-                  lex_char_literal(/*wide_literal=*/true);
+                  lex_and_emit_char_literal(/*wide_literal=*/true);
                   break;
                 }
               else if(start_of_encoding_prefix())
@@ -455,7 +473,7 @@ public:
           case 'J': case 'K': case 'M': case 'N': case 'O': case 'P': case 'Q':
           case 'S': case 'T': case 'V': case 'W': case 'X': case 'Y': case 'Z': case '_':
             {
-              lex_identifier();
+              lex_and_emit_identifier();
               break;
             }
 
@@ -558,7 +576,7 @@ public:
                 if(valid_identifier_char(curr_ch)
                    && valid_initial_identifier_char(curr_ch))
                   {
-                    lex_identifier();
+                    lex_and_emit_identifier();
                     break;
                   }
                 else
@@ -578,6 +596,107 @@ public:
       mOutput.emit_new_line();
 
     mOutput.emit_eof();
+  }
+
+  /**
+   * Saves the current position in the input buffer to allow it to 
+   * be rewound at a later point.
+   */
+  void save_current_position()
+  {
+    mSavedCurrPosition = mCurrPosition;
+    mTransformedChars = mTransformedChars;
+  }
+
+  /**
+   * Restores the current position back to a previously saved state.
+   */
+  void restore_saved_position()
+  {
+    mCurrPosition = mSavedCurrPosition;
+    mTransformedChars = mSavedTransformedChars;
+  }
+
+  /**
+   * Discards any previously saved position state.
+   */
+  void discard_saved_position()
+  {
+    mSavedCurrPosition = 0;
+    mSavedTransformedChars.clear();
+  }
+
+  /**
+   * #include followed by
+
+   * header-name:
+   *   < h-char-sequence >
+   *   " q-char-sequence "
+   * h-char-sequence:
+   *   h-char
+   *   h-char-sequence h-char
+   * h-char:
+   *   any member of the source character set except new-line and >  
+   */
+  bool maybe_lex_and_emit_header_name()
+  {
+
+    if(valid_identifier_char(curr_char())
+       && valid_initial_identifier_char(curr_char()))
+      {
+        if(lex_and_emit_identifier() != "include")
+          return false;
+
+        //Skip any whitespace
+        if(isspace(curr_char()))
+          {
+            skip_whitespace();
+            mOutput.emit_whitespace_sequence();
+          }
+
+        //Save the current position of where we are in case this turns out not to be a header name
+        save_current_position();
+
+        if(curr_char() != '<'
+           && curr_char() != '"')
+          {
+            restore_saved_position();
+            return false;
+          }
+
+        //If we have a <, check it's followed by an identifier
+        if(curr_char() == '<')
+          {
+            int peeked_ch = peek_char();
+
+            if(!valid_identifier_char(peeked_ch))
+              {
+                restore_saved_position();
+                return false;
+              }
+          }
+        
+        int term_ch = curr_char() == '<' ? '>' : '"';
+        string header_name;
+        append_curr_char_to_token_and_advance(header_name);
+         
+        //Lex the h-char-sequence
+        while(curr_char() != term_ch)
+          {
+            append_curr_char_to_token_and_advance(header_name);
+
+            if(curr_char() == '\n')
+              throw pptoken_exception("New line in header name");
+          }
+
+        //Append the terminating character
+        append_curr_char_to_token_and_advance(header_name);
+
+        discard_saved_position();
+        mOutput.emit_header_name(header_name);
+      }
+      
+    return true;
   }
 
   /**
@@ -881,7 +1000,7 @@ public:
    *   nondigit
    *   universal-character-name
    */
- void lex_identifier()
+  string lex_and_emit_identifier()
   {
     string identifier;
 
@@ -900,6 +1019,8 @@ public:
       mOutput.emit_identifier(identifier);
     else
       mOutput.emit_preprocessing_op_or_punc(identifier);
+
+    return identifier;
   }
 
   /**
@@ -912,7 +1033,7 @@ public:
    * user-defined-character-literal:
    *   character-literal ud-suffix
    */
-  void lex_char_literal(bool wide_literal)
+  void lex_and_emit_char_literal(bool wide_literal)
   {
     string char_lit;
     append_curr_char_to_token_and_advance(char_lit);
@@ -1354,7 +1475,7 @@ public:
   /**
    * Lexes a UTF16 code unit.
    */
-  bool lex_utf16_code_unit(unsigned short &code_unit)
+  bool maybe_lex_utf16_code_unit(unsigned short &code_unit)
   {
     for(int i = 0; i < 4; i++)
       {
@@ -1421,7 +1542,7 @@ public:
     {
       unsigned short utf16_unit = 0;
 
-      if(lex_utf16_code_unit(utf16_unit))
+      if(maybe_lex_utf16_code_unit(utf16_unit))
         code_point |= utf16_unit << ((i - 1) * 16);
       else
         {
