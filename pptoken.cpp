@@ -405,28 +405,15 @@ public:
         case '\"':
         {
           string lit;
-          bool user_defined_literal = false;
 
           append_curr_char_to_token_and_advance(lit);
           lex_string_literal_contents(lit);
 
-          //If we have the start of an identifier adjacent to the end ", we have a user defined
-          //string literal
-          if(is_identifier_non_digit(curr_char())
-              && valid_initial_identifier_char(curr_char()))
-          {
-            user_defined_literal = true;
-            append_curr_char_to_token_and_advance(lit);
-
-            while(!end_of_input()
-                  && valid_identifier_char(curr_char()))
-              append_curr_char_to_token_and_advance(lit);
-          }
-
-          if(user_defined_literal)
+          if(lex_user_defined_string_literal_suffix(lit))
             mOutput.emit_user_defined_string_literal(lit);
           else
             mOutput.emit_string_literal(lit);
+
           break;
         }
 
@@ -476,7 +463,11 @@ public:
             else
               lex_string_literal_contents(prefix);
 
-            mOutput.emit_string_literal(prefix);
+            if(lex_user_defined_string_literal_suffix(prefix))
+              mOutput.emit_user_defined_string_literal(prefix);
+            else
+              mOutput.emit_string_literal(prefix);
+
             break;
           }
 
@@ -622,6 +613,28 @@ public:
       mOutput.emit_new_line();
 
     mOutput.emit_eof();
+  }
+
+  /**
+   * Lexes and appends any user defined string literal suffix.
+   */
+  bool lex_user_defined_string_literal_suffix(string &lit)
+  {
+    int curr_ch = curr_char();
+    bool user_defined_literal = false;
+
+    if(is_identifier_non_digit(curr_ch)
+       && valid_initial_identifier_char(curr_ch))
+    {
+      user_defined_literal = true;
+      append_curr_char_to_token_and_advance(lit);
+
+      while(!end_of_input()
+            && valid_identifier_char(curr_char()))
+        append_curr_char_to_token_and_advance(lit);
+    }
+
+    return user_defined_literal;
   }
 
   /**
