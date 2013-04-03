@@ -1,0 +1,51 @@
+string-literal 5 R"()"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 8 "π𝄞"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+string-literal 11 R"(π𝄞)"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 11 R"(a\
+b
+c)"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 14 R"a(
+)\
+a"
+)a"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 7 R"(??)"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 14 R"#(
+)??="
+)#"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 84 R"woah(ouch(aπ𝄞\'\"\?\\\a\b\f\n\r\t\v\u03C0\U0001D11E\x3C0\x1D11E\101)ouch)woah"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+string-literal 86 u8R"woah(ouch(aπ𝄞\'\"\?\\\a\b\f\n\r\t\v\u03C0\U0001D11E\x3C0\x1D11E\101)ouch)woah"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+string-literal 85 uR"woah(ouch(aπ𝄞\'\"\?\\\a\b\f\n\r\t\v\u03C0\U0001D11E\x3C0\x1D11E\101)ouch)woah"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+string-literal 85 UR"woah(ouch(aπ𝄞\'\"\?\\\a\b\f\n\r\t\v\u03C0\U0001D11E\x3C0\x1D11E\101)ouch)woah"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+string-literal 85 LR"woah(ouch(aπ𝄞\'\"\?\\\a\b\f\n\r\t\v\u03C0\U0001D11E\x3C0\x1D11E\101)ouch)woah"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+eof

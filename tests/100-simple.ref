@@ -1,0 +1,304 @@
+whitespace-sequence 0 
+new-line 0 
+preprocessing-op-or-punc 1 {
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 }
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 [
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 ]
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 (
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 )
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 <:
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 :>
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 <%
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 %>
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 :
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 ...
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 ?
+whitespace-sequence 0 
+new-line 0 
+preprocessing-op-or-punc 2 ::
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 .
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 .*
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 +
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 -
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 *
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 /
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 %
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 ^
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 &
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 |
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 ~
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 !
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 =
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 <
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 >
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 +=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 -=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 *=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 /=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 %=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 ^=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 &=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 |=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 <<
+new-line 0 
+preprocessing-op-or-punc 2 >>
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 >>=
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 <<=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 ==
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 !=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 <=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 >=
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 &&
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 ||
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 ++
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 --
+whitespace-sequence 0 
+preprocessing-op-or-punc 1 ,
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 ->*
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 ->
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 and
+whitespace-sequence 0 
+preprocessing-op-or-punc 6 and_eq
+whitespace-sequence 0 
+preprocessing-op-or-punc 6 bitand
+new-line 0 
+preprocessing-op-or-punc 5 bitor
+whitespace-sequence 0 
+preprocessing-op-or-punc 5 compl
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 not
+whitespace-sequence 0 
+preprocessing-op-or-punc 6 not_eq
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 or
+whitespace-sequence 0 
+preprocessing-op-or-punc 5 or_eq
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 xor
+whitespace-sequence 0 
+preprocessing-op-or-punc 6 xor_eq
+new-line 0 
+new-line 0 
+whitespace-sequence 0 
+new-line 0 
+preprocessing-op-or-punc 3 new
+whitespace-sequence 0 
+preprocessing-op-or-punc 6 delete
+whitespace-sequence 0 
+identifier 7 alignas
+whitespace-sequence 0 
+identifier 7 alignof
+whitespace-sequence 0 
+identifier 3 asm
+whitespace-sequence 0 
+identifier 4 auto
+whitespace-sequence 0 
+identifier 4 bool
+whitespace-sequence 0 
+identifier 5 break
+whitespace-sequence 0 
+identifier 4 case
+whitespace-sequence 0 
+identifier 5 catch
+whitespace-sequence 0 
+identifier 4 char
+new-line 0 
+identifier 8 char16_t
+whitespace-sequence 0 
+identifier 8 char32_t
+whitespace-sequence 0 
+identifier 5 class
+whitespace-sequence 0 
+identifier 5 const
+whitespace-sequence 0 
+identifier 9 constexpr
+whitespace-sequence 0 
+identifier 10 const_cast
+whitespace-sequence 0 
+identifier 8 continue
+whitespace-sequence 0 
+identifier 8 decltype
+new-line 0 
+identifier 7 default
+whitespace-sequence 0 
+preprocessing-op-or-punc 6 delete
+whitespace-sequence 0 
+identifier 2 do
+whitespace-sequence 0 
+identifier 6 double
+whitespace-sequence 0 
+identifier 12 dynamic_cast
+whitespace-sequence 0 
+identifier 4 else
+whitespace-sequence 0 
+identifier 4 enum
+whitespace-sequence 0 
+identifier 8 explicit
+whitespace-sequence 0 
+identifier 6 export
+whitespace-sequence 0 
+identifier 6 extern
+new-line 0 
+identifier 5 false
+whitespace-sequence 0 
+identifier 5 float
+whitespace-sequence 0 
+identifier 3 for
+whitespace-sequence 0 
+identifier 6 friend
+whitespace-sequence 0 
+identifier 4 goto
+whitespace-sequence 0 
+identifier 2 if
+whitespace-sequence 0 
+identifier 6 inline
+whitespace-sequence 0 
+identifier 3 int
+whitespace-sequence 0 
+identifier 4 long
+whitespace-sequence 0 
+identifier 7 mutable
+whitespace-sequence 0 
+identifier 9 namespace
+whitespace-sequence 0 
+preprocessing-op-or-punc 3 new
+new-line 0 
+identifier 8 noexcept
+whitespace-sequence 0 
+identifier 7 nullptr
+whitespace-sequence 0 
+identifier 8 operator
+whitespace-sequence 0 
+identifier 7 private
+whitespace-sequence 0 
+identifier 9 protected
+whitespace-sequence 0 
+identifier 6 public
+whitespace-sequence 0 
+identifier 8 register
+whitespace-sequence 0 
+identifier 16 reinterpret_cast
+whitespace-sequence 0 
+new-line 0 
+identifier 6 return
+whitespace-sequence 0 
+identifier 5 short
+whitespace-sequence 0 
+identifier 6 signed
+whitespace-sequence 0 
+identifier 6 sizeof
+whitespace-sequence 0 
+identifier 6 static
+whitespace-sequence 0 
+identifier 13 static_assert
+whitespace-sequence 0 
+identifier 11 static_cast
+whitespace-sequence 0 
+identifier 6 struct
+whitespace-sequence 0 
+identifier 6 switch
+new-line 0 
+identifier 8 template
+whitespace-sequence 0 
+identifier 4 this
+whitespace-sequence 0 
+identifier 12 thread_local
+whitespace-sequence 0 
+identifier 5 throw
+whitespace-sequence 0 
+identifier 4 true
+whitespace-sequence 0 
+identifier 3 try
+whitespace-sequence 0 
+identifier 7 typedef
+whitespace-sequence 0 
+identifier 6 typeid
+whitespace-sequence 0 
+identifier 8 typename
+whitespace-sequence 0 
+identifier 5 union
+new-line 0 
+identifier 8 unsigned
+whitespace-sequence 0 
+identifier 5 using
+whitespace-sequence 0 
+identifier 7 virtual
+whitespace-sequence 0 
+identifier 4 void
+whitespace-sequence 0 
+identifier 8 volatile
+whitespace-sequence 0 
+identifier 7 wchar_t
+whitespace-sequence 0 
+identifier 5 while
+new-line 0 
+new-line 0 
+whitespace-sequence 0 
+new-line 0 
+identifier 4 abcd
+whitespace-sequence 0 
+identifier 7 _foo123
+new-line 0 
+new-line 0 
+preprocessing-op-or-punc 1 #
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 ##
+whitespace-sequence 0 
+preprocessing-op-or-punc 2 %:
+whitespace-sequence 0 
+preprocessing-op-or-punc 4 %:%:
+whitespace-sequence 0 
+new-line 0 
+new-line 0 
+eof

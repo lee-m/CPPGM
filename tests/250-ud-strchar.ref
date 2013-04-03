@@ -1,0 +1,14 @@
+user-defined-character-literal 6 'u'_da
+new-line 0 
+new-line 0 
+user-defined-character-literal 5 'u'da
+new-line 0 
+new-line 0 
+user-defined-string-literal 9 "fsaf"_da
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+user-defined-string-literal 8 "dafa"da
+new-line 0 
+new-line 0 
+eof

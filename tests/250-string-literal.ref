@@ -1,0 +1,337 @@
+string-literal 2 ""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 u8""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 3 u""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 3 U""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 3 L""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+new-line 0 
+new-line 0 
+string-literal 3 "a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 "𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\'"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\?"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\\"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\b"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\f"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\n"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\r"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\t"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 4 "\v"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 4 "π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 "𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 "\x3C0"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 9 "\x1D11E"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 "\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 53 "aπ𝄞\'\"\?\\\a\b\f\n\r\t\vπ𝄞\x3C0\x1D11E\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 5 u8"a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 8 u8"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\'"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\?"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\\"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\b"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\f"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\n"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\r"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\t"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 6 u8"\v"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 6 u8"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 8 u8"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 9 u8"\x3C0"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 11 u8"\x1D11E"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 8 u8"\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 55 u8"aπ𝄞\'\"\?\\\a\b\f\n\r\t\vπ𝄞\x3C0\x1D11E\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 4 u"a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 u"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\'"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\?"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\\"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\b"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\f"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\n"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\r"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\t"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 u"\v"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 5 u"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 u"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 8 u"\x3C0"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 10 u"\x1D11E"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 u"\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 54 u"aπ𝄞\'\"\?\\\a\b\f\n\r\t\vπ𝄞\x3C0\x1D11E\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 4 U"a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 U"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\'"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\?"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\\"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\b"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\f"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\n"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\r"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\t"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 U"\v"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 5 U"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 U"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 8 U"\x3C0"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 10 U"\x1D11E"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 U"\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 54 U"aπ𝄞\'\"\?\\\a\b\f\n\r\t\vπ𝄞\x3C0\x1D11E\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 4 L"a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 L"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\'"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\""
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\?"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\\"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\a"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\b"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\f"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\n"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\r"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\t"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 5 L"\v"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 5 L"π"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 L"𝄞"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 8 L"\x3C0"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 10 L"\x1D11E"
+preprocessing-op-or-punc 1 ;
+whitespace-sequence 0 
+string-literal 7 L"\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 54 L"aπ𝄞\'\"\?\\\a\b\f\n\r\t\vπ𝄞\x3C0\x1D11E\101"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+string-literal 5 "abc"
+preprocessing-op-or-punc 1 ;
+new-line 0 
+new-line 0 
+eof

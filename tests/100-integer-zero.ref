@@ -1,0 +1,9 @@
+pp-number 1 0
+whitespace-sequence 0 
+pp-number 3 0x0
+whitespace-sequence 0 
+pp-number 2 00
+whitespace-sequence 0 
+pp-number 27 000000000000000000000000000
+new-line 0 
+eof

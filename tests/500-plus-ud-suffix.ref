@@ -1,0 +1,8 @@
+pp-number 4 1_e+
+new-line 0 
+pp-number 5 1_e+1
+new-line 0 
+pp-number 7 1.0_e+1
+new-line 0 
+new-line 0 
+eof

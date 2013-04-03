@@ -1,0 +1,164 @@
+character-literal 3 'a'
+whitespace-sequence 0 
+character-literal 4 'π'
+whitespace-sequence 0 
+character-literal 6 '𝄞'
+whitespace-sequence 0 
+character-literal 4 '\''
+whitespace-sequence 0 
+character-literal 4 '\"'
+whitespace-sequence 0 
+character-literal 4 '\?'
+whitespace-sequence 0 
+character-literal 4 '\\'
+whitespace-sequence 0 
+character-literal 4 '\a'
+whitespace-sequence 0 
+character-literal 4 '\b'
+whitespace-sequence 0 
+character-literal 4 '\f'
+whitespace-sequence 0 
+character-literal 4 '\n'
+whitespace-sequence 0 
+character-literal 4 '\r'
+whitespace-sequence 0 
+character-literal 4 '\t'
+whitespace-sequence 0 
+character-literal 4 '\v'
+new-line 0 
+new-line 0 
+character-literal 4 'π'
+whitespace-sequence 0 
+character-literal 6 '𝄞'
+whitespace-sequence 0 
+character-literal 7 '\x3C0'
+whitespace-sequence 0 
+character-literal 9 '\x1D11E'
+whitespace-sequence 0 
+character-literal 6 '\101'
+new-line 0 
+new-line 0 
+character-literal 4 u'a'
+whitespace-sequence 0 
+character-literal 5 u'π'
+whitespace-sequence 0 
+character-literal 7 u'𝄞'
+whitespace-sequence 0 
+character-literal 5 u'\''
+whitespace-sequence 0 
+character-literal 5 u'\"'
+whitespace-sequence 0 
+character-literal 5 u'\?'
+whitespace-sequence 0 
+character-literal 5 u'\\'
+whitespace-sequence 0 
+character-literal 5 u'\a'
+whitespace-sequence 0 
+character-literal 5 u'\b'
+whitespace-sequence 0 
+character-literal 5 u'\f'
+whitespace-sequence 0 
+character-literal 5 u'\n'
+whitespace-sequence 0 
+character-literal 5 u'\r'
+whitespace-sequence 0 
+character-literal 5 u'\t'
+whitespace-sequence 0 
+character-literal 5 u'\v'
+new-line 0 
+new-line 0 
+character-literal 5 u'π'
+whitespace-sequence 0 
+character-literal 7 u'𝄞'
+whitespace-sequence 0 
+character-literal 8 u'\x3C0'
+whitespace-sequence 0 
+character-literal 10 u'\x1D11E'
+whitespace-sequence 0 
+character-literal 7 u'\101'
+new-line 0 
+new-line 0 
+character-literal 4 U'a'
+whitespace-sequence 0 
+character-literal 5 U'π'
+whitespace-sequence 0 
+character-literal 7 U'𝄞'
+whitespace-sequence 0 
+character-literal 5 U'\''
+whitespace-sequence 0 
+character-literal 5 U'\"'
+whitespace-sequence 0 
+character-literal 5 U'\?'
+whitespace-sequence 0 
+character-literal 5 U'\\'
+whitespace-sequence 0 
+character-literal 5 U'\a'
+whitespace-sequence 0 
+character-literal 5 U'\b'
+whitespace-sequence 0 
+character-literal 5 U'\f'
+whitespace-sequence 0 
+character-literal 5 U'\n'
+whitespace-sequence 0 
+character-literal 5 U'\r'
+whitespace-sequence 0 
+character-literal 5 U'\t'
+whitespace-sequence 0 
+character-literal 5 U'\v'
+new-line 0 
+new-line 0 
+character-literal 5 U'π'
+whitespace-sequence 0 
+character-literal 7 U'𝄞'
+whitespace-sequence 0 
+character-literal 8 U'\x3C0'
+whitespace-sequence 0 
+character-literal 10 U'\x1D11E'
+whitespace-sequence 0 
+character-literal 7 U'\101'
+new-line 0 
+new-line 0 
+character-literal 4 L'a'
+whitespace-sequence 0 
+character-literal 5 L'π'
+whitespace-sequence 0 
+character-literal 7 L'𝄞'
+whitespace-sequence 0 
+character-literal 5 L'\''
+whitespace-sequence 0 
+character-literal 5 L'\"'
+whitespace-sequence 0 
+character-literal 5 L'\?'
+whitespace-sequence 0 
+character-literal 5 L'\\'
+whitespace-sequence 0 
+character-literal 5 L'\a'
+whitespace-sequence 0 
+character-literal 5 L'\b'
+whitespace-sequence 0 
+character-literal 5 L'\f'
+whitespace-sequence 0 
+character-literal 5 L'\n'
+whitespace-sequence 0 
+character-literal 5 L'\r'
+whitespace-sequence 0 
+character-literal 5 L'\t'
+whitespace-sequence 0 
+character-literal 5 L'\v'
+new-line 0 
+new-line 0 
+character-literal 5 L'π'
+whitespace-sequence 0 
+character-literal 7 L'𝄞'
+whitespace-sequence 0 
+character-literal 8 L'\x3C0'
+whitespace-sequence 0 
+character-literal 10 L'\x1D11E'
+whitespace-sequence 0 
+character-literal 7 L'\101'
+new-line 0 
+new-line 0 
+character-literal 5 'abc'
+new-line 0 
+new-line 0 
+eof

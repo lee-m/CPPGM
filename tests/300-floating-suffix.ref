@@ -1,0 +1,15 @@
+pp-number 10 42.421e20f
+whitespace-sequence 0 
+pp-number 11 42.525e-20F
+new-line 0 
+pp-number 13 52.521515e300
+whitespace-sequence 0 
+pp-number 14 421.45252e-300
+new-line 0 
+new-line 0 
+pp-number 13 42.421e20_ud1
+whitespace-sequence 0 
+pp-number 14 42.525e-20_ud1
+new-line 0 
+new-line 0 
+eof

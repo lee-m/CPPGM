@@ -1,0 +1,74 @@
+pp-number 3 0.0
+whitespace-sequence 0 
+pp-number 2 0.
+whitespace-sequence 0 
+pp-number 2 .0
+whitespace-sequence 0 
+pp-number 3 0e0
+whitespace-sequence 0 
+pp-number 4 0e+0
+whitespace-sequence 0 
+pp-number 4 0e-0
+whitespace-sequence 0 
+pp-number 5 0.0e0
+whitespace-sequence 0 
+pp-number 6 0.0e+0
+whitespace-sequence 0 
+pp-number 6 0.0e-0
+whitespace-sequence 0 
+pp-number 4 .0e0
+whitespace-sequence 0 
+pp-number 5 .0e+0
+whitespace-sequence 0 
+pp-number 5 .0e-0
+new-line 0 
+pp-number 3 1.0
+whitespace-sequence 0 
+pp-number 2 1.
+whitespace-sequence 0 
+pp-number 2 .1
+whitespace-sequence 0 
+pp-number 3 1E0
+whitespace-sequence 0 
+pp-number 4 1E+0
+whitespace-sequence 0 
+pp-number 4 1E-0
+whitespace-sequence 0 
+pp-number 5 1.0E0
+whitespace-sequence 0 
+pp-number 6 1.0E+0
+whitespace-sequence 0 
+pp-number 6 1.0E-0
+whitespace-sequence 0 
+pp-number 4 .1e0
+whitespace-sequence 0 
+pp-number 5 .1e+0
+whitespace-sequence 0 
+pp-number 5 .1e-0
+new-line 0 
+pp-number 7 123.456
+whitespace-sequence 0 
+pp-number 4 123.
+whitespace-sequence 0 
+pp-number 4 .456
+whitespace-sequence 0 
+pp-number 6 123e78
+whitespace-sequence 0 
+pp-number 7 123E+78
+whitespace-sequence 0 
+pp-number 7 123e-78
+whitespace-sequence 0 
+pp-number 10 123.456E78
+whitespace-sequence 0 
+pp-number 11 123.456E+78
+whitespace-sequence 0 
+pp-number 11 123.456E-78
+whitespace-sequence 0 
+pp-number 7 .456e78
+whitespace-sequence 0 
+pp-number 8 .456E+78
+whitespace-sequence 0 
+pp-number 8 .456E-78
+new-line 0 
+new-line 0 
+eof
