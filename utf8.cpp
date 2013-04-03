@@ -71,7 +71,18 @@ int decode_from_utf8(vector<unsigned char> code_units)
 
     case 3:
     {
-      break;
+      //A three byte UTF8 character is represented as 
+      //1110xxxx 10yyyyyy 10zzzzzz so mask out the upper bits of
+      //each code units to leave the bits we want
+      b1 = code_units[0] & 0xF;
+      b2 = code_units[1] & 0x3F;
+      b3 = code_units[2] & 0x3F;
+
+      //Combine thhe bits from each byte to form a 16-bit number of 
+      //form xxxxyyyy yyzzzzzz whose value is the Unicode character name
+      unsigned char x = (b1 << 4) | ((b2 & 0x3C) >> 2);
+      unsigned char y = (b2 & 0x3) << 6 | b3;
+      return (x << 8) | y;
     }
 
     case 4:
