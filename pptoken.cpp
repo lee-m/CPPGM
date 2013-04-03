@@ -95,9 +95,9 @@ private:
   IPPTokenStream& mOutput;
 
   //Pointers to the current input buffer, the end of the input buffer and the current position within the buffer
-  const char *mBuffer;
-  const char *mBufferEnd;
-  const char *mCurrPosition;
+  string mBuffer;
+  string::const_iterator mBufferEnd;
+  string::const_iterator mCurrPosition;
 
   //Last character that was processed.
   int mLastChar;
@@ -111,7 +111,7 @@ private:
 
   //Saved current position/transformed chars to allow the current position
   //to be rewound at a later point.
-  const char *mSavedCurrPosition;
+  string::const_iterator mSavedCurrPosition;
   deque<int> mSavedTransformedChars;
 
 public:
@@ -123,22 +123,11 @@ public:
   PPTokeniser(IPPTokenStream& output, const string &input)
     : mOutput(output)
   {
-    mBuffer = input.c_str();
-    mBufferEnd = mBuffer + input.length();
-    mCurrPosition = mBuffer;
+    mBuffer = input;
+    mBufferEnd = mBuffer.cend();
+    mCurrPosition = mBuffer.cbegin();
     mSuppressTransformations = 0;
     mLastChar = -1;
-  }
-
-  /**
-   * Destructor.
-   */
-  ~PPTokeniser()
-  {
-    mBuffer = 0;
-    mBuffer = 0;
-    mBufferEnd = 0;
-    mCurrPosition = 0;
   }
 
   /**
@@ -608,7 +597,7 @@ public:
     }
 
     //If the input is not empty and does not end in a new-line, insert one
-    if(mBuffer != mBufferEnd
+    if(mBuffer.length() > 0
         && mLastChar != '\n')
       mOutput.emit_new_line();
 
@@ -661,7 +650,7 @@ public:
    */
   void discard_saved_position()
   {
-    mSavedCurrPosition = 0;
+    mSavedCurrPosition = mBuffer.end();
     mSavedTransformedChars.clear();
   }
 
@@ -965,7 +954,7 @@ public:
     if(remaining_char_count < delimiter.length())
       return false;
 
-    return strncmp(mCurrPosition, delimiter.c_str(), delimiter.length()) == 0;
+    return string(mCurrPosition, mCurrPosition + delimiter.length()) ==  delimiter;
   }
 
   /**
@@ -1482,7 +1471,7 @@ public:
       unsigned int code_unit = 0;
 
       //Save the current position in case we find that this is not a UCN
-      const char *save_point = mCurrPosition;
+      string::const_iterator save_point = mCurrPosition;
 
       if(peeked_ch == 'u')
       {
