@@ -1,0 +1,11 @@
+preprocessing-op-or-punc 2 %:
+identifier 7 include
+whitespace-sequence 0 
+header-name 9 <stdio.h>
+new-line 0 
+preprocessing-op-or-punc 1 #
+identifier 7 include
+whitespace-sequence 0 
+header-name 9 <stdio.h>
+new-line 0 
+eof
