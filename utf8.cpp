@@ -1,9 +1,9 @@
-#include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 #include "utf8.h"
-#include "pptoken_exception.h"
+#include "preprocessor_lexer_error.h"
 
 /**
  * Encodes the specified character number into UTF-8

@@ -1,8 +1,8 @@
 all: pptoken
 
 # build pptoken application
-pptoken: pptoken.cpp utf8.cpp utf8.h pptoken_exception.h IPPTokenStream.h DebugPPTokenStream.h
-	g++ -g -std=gnu++11 -Wall -o pptoken pptoken.cpp utf8.cpp
+pptoken: preprocessor_lexer.cpp preprocessor_lexer.h utf8.cpp utf8.h
+	g++ -g3 -std=gnu++11 -Wall -o pptoken preprocessor_lexer.cpp utf8.cpp main.cpp
 
 # test pptoken application
 test: all

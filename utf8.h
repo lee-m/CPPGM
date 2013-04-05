@@ -1,7 +1,7 @@
 #ifndef UTF8_H
 #define UTF8_H
 
-//utf8.c
+//utf8.cpp
 int encode_to_utf8(unsigned int code_point);
 int decode_from_utf8(vector<unsigned char> code_units);
 
