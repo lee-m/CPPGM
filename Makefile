@@ -1,12 +1,11 @@
 LIB_PATH = -L./compiler
 INC_PATH = -I./compiler/preprocessor/include
-CFLAGS   = -g3 -std=gnu++11 -Wall $(LIB_PATH) $(INC_PATH) -o pptoken
+CFLAGS   = -g3 -std=gnu++11 -Wall $(LIB_PATH) $(INC_PATH) -o posttoken
 OBJLIBS	 = libpreprocessor.a
 
-all: pptoken
+all: posttoken
 
-# build pptoken application
-pptoken: main.cpp $(OBJLIBS)
+posttoken: posttoken.cpp $(OBJLIBS)
 	g++ $(CFLAGS) main.cpp -lpreprocessor
 
 libpreprocessor.a: force_look
