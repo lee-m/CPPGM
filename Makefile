@@ -1,8 +1,19 @@
+LIB_PATH = -L./compiler
+INC_PATH = -I./compiler/preprocessor/include
+CFLAGS   = -g3 -std=gnu++11 -Wall $(LIB_PATH) $(INC_PATH) -o pptoken
+OBJLIBS	 = libpreprocessor.a
+
 all: pptoken
 
 # build pptoken application
-pptoken: preprocessor_lexer.cpp preprocessor_lexer.h utf8.cpp utf8.h
-	g++ -g3 -std=gnu++11 -Wall -o pptoken preprocessor_lexer.cpp utf8.cpp main.cpp
+pptoken: main.cpp $(OBJLIBS)
+	g++ $(CFLAGS) main.cpp -lpreprocessor
+
+libpreprocessor.a: force_look
+	cd ./compiler/preprocessor; $(MAKE)
+
+force_look:
+	true
 
 # test pptoken application
 test: all

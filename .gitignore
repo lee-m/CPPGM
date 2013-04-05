@@ -1,3 +1,4 @@
 *.my.exit_status
 *.my
+compiler/*.a
 
