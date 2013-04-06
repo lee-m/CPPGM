@@ -2,8 +2,7 @@
 #include <string>
 using namespace std;
 
-#include "utf8.h"
-#include "preprocessor_lexer_error.h"
+#include "util/utf8.h"
 
 /**
  * Encodes the specified character number into UTF-8
@@ -103,6 +102,7 @@ int decode_from_utf8(vector<unsigned char> code_units)
       unsigned char z = (b3 & 0x3) << 6 | b4;
       return (x << 16) | (y << 8) | z;
     }
+
     default:
       return 0;
 

@@ -1,25 +1,23 @@
-LIB_PATH = -L./compiler
-INC_PATH = -I./compiler/preprocessor/include
-CFLAGS   = -g3 -std=gnu++11 -Wall $(LIB_PATH) $(INC_PATH) -o posttoken
-OBJLIBS	 = libpreprocessor.a
+CFLAGS   = -g3 -std=gnu++11 -Wall -L./compiler -I./compiler/include -o posttoken
+OBJLIBS	 = libcompiler.a
 
 all: posttoken
 
 posttoken: posttoken.cpp $(OBJLIBS)
-	g++ $(CFLAGS) main.cpp -lpreprocessor
+	g++ $(CFLAGS) main.cpp -lcompiler
 
-libpreprocessor.a: force_look
-	cd ./compiler/preprocessor; $(MAKE)
+libcompiler.a: force_look
+	cd ./compiler; $(MAKE)
 
 force_look:
 	true
 
 # test pptoken application
 test: all
-	scripts/run_all_tests.pl pptoken my
+	scripts/run_all_tests.pl posttoken my
 	scripts/compare_results.pl ref my
 
 # regenerate reference test output
 ref-test:
-	scripts/run_all_tests.pl pptoken-ref ref
+	scripts/run_all_tests.pl posttoken-ref ref
 

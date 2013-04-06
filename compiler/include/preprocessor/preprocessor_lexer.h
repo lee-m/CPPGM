@@ -1,6 +1,11 @@
 #ifndef PREPROCESSOR_LEXER_H
 #define PREPROCESSOR_LEXER_H
 
+#include <string>
+#include <deque>
+using std::string;
+using std::deque;
+
 //Different types of preprocessing tokens
 enum preprocessor_token_type
 {

@@ -1,12 +1,11 @@
 #include <unordered_set>
-#include <deque>
 #include <iostream>
 #include <vector>
 using namespace std;
 
-#include "utf8.h"
-#include "preprocessor_lexer_error.h"
-#include "preprocessor_lexer.h"
+#include "util/utf8.h"
+#include "preprocessor/preprocessor_lexer_error.h"
+#include "preprocessor/preprocessor_lexer.h"
 
 // See C++ standard 2.11 Identifiers and Appendix/Annex E.1
 const vector<pair<int, int>> identifier_char_allowed_ranges =
